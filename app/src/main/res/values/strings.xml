@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Umnozhka</string>
+    <string name="act">*</string>
+    <string name="numberOne">5</string>
+    <string name="numberTwo">5</string>
+    <string name="buttonDigit1">1</string>
+    <string name="buttonDigit2">2</string>
+    <string name="buttonDigit3">3</string>
+    <string name="buttonDigit4">4</string>
+    <string name="buttonDigit5">5</string>
+    <string name="buttonDigit6">6</string>
+    <string name="buttonDigit7">7</string>
+    <string name="buttonDigit8">8</string>
+    <string name="buttonDigit9">9</string>
+    <string name="buttonDigit0">0</string>
+    <string name="buttonEnter">Enter</string>
+    <string name="buttonBackSpace">Back Space</string>
+    <string name="textViewAnswerShow1">1*6=6</string>
+    <string name="textViewAnswerShow2">2*6=12</string>
+    <string name="textViewAnswerShow3">3*6=6</string>
+    <string name="textViewAnswerShow4">4*6=6</string>
+    <string name="textViewAnswerShow5">5*6=6</string>
+    <string name="textViewAnswerShow6">6*6=6</string>
+    <string name="textViewAnswerShow7">7*6=6</string>
+    <string name="textViewAnswerShow8">8*6=6</string>
+    <string name="textViewAnswerShow9">9*6=6</string>
+    <string name="textViewAnswerShow10">10*6=6</string>
+    <string name="textViewAnswerShow11">11*6=6</string>
+    <string name="textViewAnswerShow12">12*6=62</string>
+    <string name="textViewQuestion"> 12 * 6 = ? </string>
+    <string name="str_enter">Введи ответ.</string>
+    <string name="textViewAnswerShowBasic">72</string>
+
+    <string-array name="entries">
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+    </string-array>
+    <string-array name="entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+
+
+    <string name="title_activity_pref">prefActivity</string>
+    <string name="Preferences">Настройки</string>
+    <string name="SettingsMultiplySummaryOn">включено</string>
+    <string name="SettingsMultiplySummaryOff">выключено</string>
+    <string name="SettingsMultiplyTitle">Умножение</string>
+    <string name="SettingsDivideSummaryOff">выключено</string>
+    <string name="SettingsDivideSummaryOn">включено</string>
+    <string name="SettingsDivideTitle">Деление</string>
+    <string name="operationsOn">Действия на ...</string>
+
+</resources>
