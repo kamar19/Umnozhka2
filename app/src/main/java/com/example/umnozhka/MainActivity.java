@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,13 +30,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
     private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
     private static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
-//    private static boolean SETTINGS_MULTIPLY_3; //
-//    private static boolean SETTINGS_MULTIPLY_4; //
-//    private static boolean SETTINGS_MULTIPLY_5; //
-//    private static boolean SETTINGS_MULTIPLY_6; //
-//    private static boolean SETTINGS_MULTIPLY_7; //
-//    private static boolean SETTINGS_MULTIPLY_8; //
-//    private static boolean SETTINGS_MULTIPLY_9; //
+    private static boolean SETTINGS_MULTIPLY_3; //
+    private static boolean SETTINGS_MULTIPLY_4; //
+    private static boolean SETTINGS_MULTIPLY_5; //
+    private static boolean SETTINGS_MULTIPLY_6; //
+    private static boolean SETTINGS_MULTIPLY_7; //
+    private static boolean SETTINGS_MULTIPLY_8; //
+    private static boolean SETTINGS_MULTIPLY_9; //
     private static boolean SETTINGS_MULTIPLY_10;//
     private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
     private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
@@ -71,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /** Called when the activity is first created. */
+
+
+
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -129,63 +134,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = getSharedPreferences(PREFERENCES_SETTINGS_NAME, Context.MODE_PRIVATE);
 
         if(sharedPreferences!= null) {
+            // по умолчанию, если нет настроек создаются
+//            Toast toast = Toast.makeText(getApplicationContext(),
+//                    "Настройки Созданы!", Toast.LENGTH_SHORT);
+//            toast.show();
+            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
+            textViewAnswerShow5.setText(R.string.SettingsLoad);
+            LoadPreferences();
 
-            sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
-            sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
-            sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
-            sharedPreferences.getBoolean("SETTINGS_ADD", false);
-            sharedPreferences.getInt("SETTINGS_ADD_RANGE_MIN", 1);
-            sharedPreferences.getInt("SETTINGS_ADD_RANGE_MAX", 100);
-            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
-            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_2", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_3", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_4", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_5", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_6", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
-//            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
-            sharedPreferences.getBoolean("SETTINGS_MULTIPLY_10", false);
+
+        } else {
+
+//            Toast toast = Toast.makeText(getApplicationContext(),
+//                    "Настройки Загружены!", Toast.LENGTH_SHORT);
+//            toast.show();
+            // устанавливаем значение констант по умолчанию и сохраняем их в настройках
+            SETTINGS_MULTIPLY = true;
+            SETTINGS_DIVIDE = false;
+            SETTINGS_SUBTRAC = false;
+            SETTINGS_ADD = false;
+            SETTINGS_ADD_RANGE_MIN = 1;
+            SETTINGS_ADD_RANGE_MAX = 100;
+            SETTINGS_MULTIPLY_1 = false;
+            SETTINGS_MULTIPLY_2 = true;
+            SETTINGS_MULTIPLY_3 = true;
+            SETTINGS_MULTIPLY_4 = true;
+            SETTINGS_MULTIPLY_5 = true;
+            SETTINGS_MULTIPLY_6 = true;
+            SETTINGS_MULTIPLY_7 = true;
+            SETTINGS_MULTIPLY_8 = true;
+            SETTINGS_MULTIPLY_9 = true;
+            SETTINGS_MULTIPLY_10 = true;
 //            sharedPreferences.getInt("SETTINGS_TIME_BETWEEN_SESSIONS", 100);
 //            sharedPreferences.getInt("SETTINGS_COUNT_TASK", 12);
-            sharedPreferences.getBoolean("SETTINGS_RECORD", true);
+            SETTINGS_RECORD = true;
 //            sharedPreferences.getInt("SETTINGS_TIME_TASK", 30);
 //            sharedPreferences.getInt("SETTINGS_TIME_SESSION", 360);
-        } else {
-            SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
-            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
-            editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
-            editorSharedPreferences.putBoolean("SETTINGS_SUBTRAC", SETTINGS_SUBTRAC);
-            editorSharedPreferences.putBoolean("SETTINGS_ADD", SETTINGS_ADD);
-            editorSharedPreferences.putInt("SETTINGS_ADD_RANGE_MIN", SETTINGS_ADD_RANGE_MIN);
-            editorSharedPreferences.putInt("SETTINGS_ADD_RANGE_MAX", SETTINGS_ADD_RANGE_MAX);
-            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_1", SETTINGS_MULTIPLY_1);
-            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_2", SETTINGS_MULTIPLY_2);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_3", SETTINGS_MULTIPLY_3);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_4", SETTINGS_MULTIPLY_4);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_5", SETTINGS_MULTIPLY_5);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_6", SETTINGS_MULTIPLY_6);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_7", SETTINGS_MULTIPLY_7);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_8", SETTINGS_MULTIPLY_8);
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_9", SETTINGS_MULTIPLY_9);
-            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_10", SETTINGS_MULTIPLY_10);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_BETWEEN_SESSIONS", SETTINGS_TIME_BETWEEN_SESSIONS);
-//            editorSharedPreferences.putBoolean("SETTINGS_COUNT_TASK", SETTINGS_COUNT_TASK);
-            editorSharedPreferences.putBoolean("SETTINGS_RECORD", SETTINGS_RECORD);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_TASK", SETTINGS_TIME_TASK);
-//            editorSharedPreferences.putBoolean("SSETTINGS_TIME_SESSION", SETTINGS_TIME_SESSION);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_SESSION", SETTINGS_MULTIPLY_10);
+            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
+            textViewAnswerShow5.setText(R.string.SettingsSave);
+
+            SavePreferences();
 
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuItem mi = menu.add(0, 1, 0, R.string.menu_Preferences);
 
-
-
+//        menu.add(0, 2, 0, R.string.menu_Exit);
+//
+//        mi.setIntent(new Intent(this, PrefActivity.class));
+//        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.um_menu, menu);
+        return true;
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem mi = menu.add(0, 1, 0, "@string/Preferences");
-        mi.setIntent(new Intent(this, PrefActivity.class));
-        return super.onCreateOptionsMenu(menu);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.menu_Preferences :
+//                item.setIntent(new Intent(this, PrefActivity.class));
+                Intent intent = new Intent(this, PrefActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.save_Exit:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -229,7 +245,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.buttonBackSpace:
             {
-                textViewAnswerShowBasic.setText(tempQuestion.substring(0,tempQuestion.length()-1) );
+                String tempSatring = tempQuestion.substring(0,tempQuestion.length()-2);
+                textViewAnswerShowBasic.setText("1");
 //                android:background="@drawable/baselinebackspaceblack18dp"
                 break;
             }
@@ -238,5 +255,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+    private void SavePreferences() {
+        SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
+        editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
+        editorSharedPreferences.putBoolean("SETTINGS_SUBTRAC", SETTINGS_SUBTRAC);
+        editorSharedPreferences.putBoolean("SETTINGS_ADD", SETTINGS_ADD);
+        editorSharedPreferences.putInt("SETTINGS_ADD_RANGE_MIN", SETTINGS_ADD_RANGE_MIN);
+        editorSharedPreferences.putInt("SETTINGS_ADD_RANGE_MAX", SETTINGS_ADD_RANGE_MAX);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_1", SETTINGS_MULTIPLY_1);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_2", SETTINGS_MULTIPLY_2);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_3", SETTINGS_MULTIPLY_3);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_4", SETTINGS_MULTIPLY_4);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_5", SETTINGS_MULTIPLY_5);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_6", SETTINGS_MULTIPLY_6);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_7", SETTINGS_MULTIPLY_7);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_8", SETTINGS_MULTIPLY_8);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_9", SETTINGS_MULTIPLY_9);
+            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_10", SETTINGS_MULTIPLY_10);
+//            editorSharedPreferences.putBoolean("SETTINGS_TIME_BETWEEN_SESSIONS", SETTINGS_TIME_BETWEEN_SESSIONS);
+//            editorSharedPreferences.putBoolean("SETTINGS_COUNT_TASK", SETTINGS_COUNT_TASK);
+        editorSharedPreferences.putBoolean("SETTINGS_RECORD", SETTINGS_RECORD);
+//            editorSharedPreferences.putBoolean("SETTINGS_TIME_TASK", SETTINGS_TIME_TASK);
+//            editorSharedPreferences.putBoolean("SSETTINGS_TIME_SESSION", SETTINGS_TIME_SESSION);
+//            editorSharedPreferences.putBoolean("SETTINGS_TIME_SESSION", SETTINGS_MULTIPLY_10);
+        editorSharedPreferences.apply();
+
+    }
+    private void LoadPreferences() {
+        // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
+        // Должны сами устанавливаться по значению констант настроек
+
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
+        sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
+        sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
+        sharedPreferences.getBoolean("SETTINGS_ADD", false);
+        sharedPreferences.getInt("SETTINGS_ADD_RANGE_MIN", 1);
+        sharedPreferences.getInt("SETTINGS_ADD_RANGE_MAX", 100);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_2", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_3", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_4", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_5", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_6", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
+        sharedPreferences.getBoolean("SETTINGS_MULTIPLY_10", false);
+//            sharedPreferences.getInt("SETTINGS_TIME_BETWEEN_SESSIONS", 100);
+//            sharedPreferences.getInt("SETTINGS_COUNT_TASK", 12);
+        sharedPreferences.getBoolean("SETTINGS_RECORD", true);
+//            sharedPreferences.getInt("SETTINGS_TIME_TASK", 30);
+//            sharedPreferences.getInt("SETTINGS_TIME_SESSION", 360);
+
+    }
+
+
 }
 

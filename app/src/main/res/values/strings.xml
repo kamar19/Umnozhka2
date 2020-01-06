@@ -27,7 +27,7 @@
     <string name="textViewAnswerShow10">10*6=6</string>
     <string name="textViewAnswerShow11">11*6=6</string>
     <string name="textViewAnswerShow12">12*6=62</string>
-    <string name="textViewQuestion"> 12 * 6 = ? </string>
+    <string name="textViewQuestion"> 12 * 6 = </string>
     <string name="str_enter">Введи ответ.</string>
     <string name="textViewAnswerShowBasic">72</string>
 
@@ -45,7 +45,11 @@
 
 
     <string name="title_activity_pref">prefActivity</string>
-    <string name="Preferences">Настройки</string>
+
+    <string name="menu_Preferences">Настройки</string>
+    <string name="menu_Exit">Выход</string>
+
+
     <string name="SettingsMultiplySummaryOn">включено</string>
     <string name="SettingsMultiplySummaryOff">выключено</string>
     <string name="SettingsMultiplyTitle">Умножение</string>
@@ -53,5 +57,8 @@
     <string name="SettingsDivideSummaryOn">включено</string>
     <string name="SettingsDivideTitle">Деление</string>
     <string name="operationsOn">Действия на ...</string>
+
+    <string name="SettingsLoad">Загружены</string>
+    <string name="SettingsSave">Сохранены</string>
 
 </resources>
