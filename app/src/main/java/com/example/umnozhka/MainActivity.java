@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static  int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
 
     Button buttonDigit1,buttonDigit2,buttonDigit3,buttonDigit4,buttonDigit5,buttonDigit6,buttonDigit7,buttonDigit8,buttonDigit9,
-            buttonDigit0,buttonEnter;
+            buttonDigit0,buttonEnter, buttonBackSpace;
     TextView textViewAnswerShow1,textViewAnswerShow2,textViewAnswerShow3,textViewAnswerShow4,textViewAnswerShow5,textViewAnswerShow6,
             textViewAnswerShow7,textViewAnswerShow8,textViewAnswerShow9,textViewAnswerShow10,textViewAnswerShow11,textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic;
@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDigit9 = findViewById(R.id.buttonDigit9);
         buttonDigit0 = findViewById(R.id.buttonDigit0);
         buttonEnter = findViewById(R.id.buttonEnter);
+        buttonBackSpace = findViewById(R.id.buttonBackSpace);
+
         textViewAnswerShow1 = findViewById(R.id.textViewAnswerShow1);
         textViewAnswerShow1.setText("");
         textViewAnswerShow2 = findViewById(R.id.textViewAnswerShow2);
@@ -130,26 +132,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDigit9.setOnClickListener(this);
         buttonDigit0.setOnClickListener(this);
         buttonEnter.setOnClickListener(this);
+        buttonBackSpace.setOnClickListener(this);
 
         sharedPreferences = getSharedPreferences(PREFERENCES_SETTINGS_NAME, Context.MODE_PRIVATE);
 
-        if(sharedPreferences!= null) {
+        if(sharedPreferences== null) {
             // по умолчанию, если нет настроек создаются
 //            Toast toast = Toast.makeText(getApplicationContext(),
 //                    "Настройки Созданы!", Toast.LENGTH_SHORT);
 //            toast.show();
-            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
+/*            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
             textViewAnswerShow5.setText(R.string.SettingsLoad);
             LoadPreferences();
-
-
+*/
+            LoadPreferences();
         } else {
+
 
 //            Toast toast = Toast.makeText(getApplicationContext(),
 //                    "Настройки Загружены!", Toast.LENGTH_SHORT);
 //            toast.show();
             // устанавливаем значение констант по умолчанию и сохраняем их в настройках
-            SETTINGS_MULTIPLY = true;
+/*            SETTINGS_MULTIPLY = true;
             SETTINGS_DIVIDE = false;
             SETTINGS_SUBTRAC = false;
             SETTINGS_ADD = false;
@@ -172,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            sharedPreferences.getInt("SETTINGS_TIME_SESSION", 360);
             textViewAnswerShow5.setVisibility(View.VISIBLE) ;
             textViewAnswerShow5.setText(R.string.SettingsSave);
-
-            SavePreferences();
+*/
+//            SavePreferences();
 
         }
     }
@@ -238,24 +242,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonDigit0:
                 textViewAnswerShowBasic.setText(tempQuestion+"0");
                 break;
+            case R.id.buttonBackSpace:
+//                String tempSatring = ;
+                textViewAnswerShowBasic.setText(tempQuestion.substring(0,tempQuestion.length()-1));
+//                android:background="@drawable/baselinebackspaceblack18dp"
+                break;
             case R.id.buttonEnter:
                 //выполняется проверка Ответа на математический Вопрос
 
 //                textViewQuestion.setText(textViewQuestion.getText()+"1");
                 break;
-            case R.id.buttonBackSpace:
-            {
-                String tempSatring = tempQuestion.substring(0,tempQuestion.length()-2);
-                textViewAnswerShowBasic.setText("1");
-//                android:background="@drawable/baselinebackspaceblack18dp"
-                break;
-            }
-
-
-
         }
     }
-    private void SavePreferences() {
+/*    private void SavePreferences() {
         SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
         editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
         editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
@@ -282,6 +281,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editorSharedPreferences.apply();
 
     }
+*/
+
     private void LoadPreferences() {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
