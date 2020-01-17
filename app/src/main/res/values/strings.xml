@@ -46,8 +46,10 @@
 
     <string name="title_activity_pref">prefActivity</string>
 
+    <string name="menu_report">Журнал</string>
     <string name="menu_Preferences">Настройки</string>
     <string name="menu_Exit">Выход</string>
+
 
 
     <string name="SettingsMultiplySummaryOn">включено</string>
@@ -60,5 +62,6 @@
 
     <string name="SettingsLoad">Загружены</string>
     <string name="SettingsSave">Сохранены</string>
+    <string name="todo">TODO</string>
 
 </resources>
