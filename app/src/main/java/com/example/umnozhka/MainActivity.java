@@ -20,28 +20,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
     public static int heartLiveCount;
 
-    private static boolean SETTINGS_SUBTRAC;    // Сложение
-    private static boolean SETTINGS_ADD;        // Вычитание
-    private static boolean SETTINGS_MULTIPLY;   // Умножение
-    private static boolean SETTINGS_DIVIDE;     // Деление
-    private static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
-    private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
-    private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
-    private static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
-    private static boolean SETTINGS_MULTIPLY_3; //
-    private static boolean SETTINGS_MULTIPLY_4; //
-    private static boolean SETTINGS_MULTIPLY_5; //
-    private static boolean SETTINGS_MULTIPLY_6; //
-    private static boolean SETTINGS_MULTIPLY_7; //
-    private static boolean SETTINGS_MULTIPLY_8; //
-    private static boolean SETTINGS_MULTIPLY_9; //
-    private static boolean SETTINGS_MULTIPLY_10;//
-    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
-    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
-    private static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
-    private static int SETTINGS_TIME_TASK;         // Время на одну задачу
-    private static int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
-    private static int PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
+    public static boolean SETTINGS_SUBTRAC;    // Сложение
+    public static boolean SETTINGS_ADD;        // Вычитание
+    public static boolean SETTINGS_MULTIPLY;   // Умножение
+    public static boolean SETTINGS_DIVIDE;     // Деление
+    public static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
+    public static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
+    public static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
+    public static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
+    public static boolean SETTINGS_MULTIPLY_3; //
+    public static boolean SETTINGS_MULTIPLY_4; //
+    public static boolean SETTINGS_MULTIPLY_5; //
+    public static boolean SETTINGS_MULTIPLY_6; //
+    public static boolean SETTINGS_MULTIPLY_7; //
+    public static boolean SETTINGS_MULTIPLY_8; //
+    public static boolean SETTINGS_MULTIPLY_9; //
+    public static boolean SETTINGS_MULTIPLY_10;//
+    public static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
+    public static int SETTINGS_COUNT_TASK;            // Задач в сеанс
+    public static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
+    public static int SETTINGS_TIME_TASK;         // Время на одну задачу
+    public static int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
+    public static int PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
 
     Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
             buttonDigit0, buttonEnter, buttonBackSpace;
@@ -135,16 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         sharedPreferences = getSharedPreferences( PREFERENCES_SETTINGS_NAME, Context.MODE_PRIVATE);
 
-//        if (sharedPreferences != null) {
-            // по умолчанию, если нет настроек создаются
-//            Toast toast = Toast.makeText(getApplicationContext(),
-//                    "Настройки Созданы!", Toast.LENGTH_SHORT);
-//            toast.show();
-/*            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
-            textViewAnswerShow5.setText(R.string.SettingsLoad);
-            LoadPreferences();
-*/
-            loadPreferences();
+        getPreferences();
 //        } else {
 //            SETTINGS_MULTIPLY = true;
 //            SETTINGS_DIVIDE = false;
@@ -406,8 +397,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 // s6  Конец диапоз
 //    Randomize;
         int countValue = SETTINGS_ADD_RANGE_MAX - SETTINGS_ADD_RANGE_MIN;
-        int numberOne = SETTINGS_ADD_RANGE_MIN + (int) Math.random() * countValue;//0..9, 10..50 = 10-0, 50-10=40
-        int numberTwo = SETTINGS_ADD_RANGE_MIN + (int) Math.random() * countValue;//0..9, 10..50 = 10-0, 50-10=40
+        int numberOne = SETTINGS_ADD_RANGE_MIN + (int) (Math.random() * countValue);//0..9, 10..50 = 10-0, 50-10=40
+        int numberTwo = SETTINGS_ADD_RANGE_MIN + (int) (Math.random() * countValue);//0..9, 10..50 = 10-0, 50-10=40
         String currentAcString;
         switch (currentAct) {
             case 1:
@@ -441,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 };
 
 
-    private void loadPreferences() {
+    private void getPreferences() {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
 //        if (sharedPreferences.contains("SETTINGS_MULTIPLY")) {
@@ -554,7 +545,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        loadPreferences();
+        getPreferences();
 
     }
 
