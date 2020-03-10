@@ -53,30 +53,34 @@
         android:key="SETTINGS_ADD"
         android:summaryOff="выключено"
         android:summaryOn="включено"
-        android:title="Сложение"/>
+        android:title="Сложение">
+    </CheckBoxPreference>
 
     <CheckBoxPreference
         android:key="SETTINGS_SUBTRAC"
         android:summaryOff="выключено"
         android:summaryOn="включено"
-        android:title="Вычитание"/>
+        android:title="Вычитание">
+    </CheckBoxPreference>
 
     <EditTextPreference
         android:dependency="SETTINGS_ADD"
         android:key="SETTINGS_ADD_RANGE_MIN"
-        android:summary="введите первое число"
-        android:title="Начало диапазона сложения" />
+        android:title="Начало диапозона сложения"
+        android:summary="выбери первое число"/>
     <EditTextPreference
         android:dependency="SETTINGS_ADD"
         android:key="SETTINGS_ADD_RANGE_MAX"
-        android:summary="введите второе число"
-        android:title="Конец диапазона сложения" />
+        android:title="Конец диапозона сложения"
+        android:summary="выбери второе число"/>
+
 
     <SwitchPreference
         android:key="SETTINGS_RECORD"
         android:summaryOff="Игра на рекорд?"
         android:summaryOn="ограничение количества задач и веремени?"
         android:title="Игра на рекорд"
+
         android:switchTextOff="Нет"
         android:switchTextOn="Да" />
-    </PreferenceScreen>
+</PreferenceScreen>

@@ -26,11 +26,12 @@ public class PrefActivity extends PreferenceActivity {
     CheckBoxPreference checkBoxPreference_SETTINGS_MULTIPLY_8;
     CheckBoxPreference checkBoxPreference_SETTINGS_MULTIPLY_9;
     CheckBoxPreference checkBoxPreference_SETTINGS_MULTIPLY_10;
-    CheckBoxPreference checkBoxPreference_SETTINGS_TIME_BETWEEN_SESSIONS;
-    CheckBoxPreference checkBoxPreference_SETTINGS_COUNT_TASK;
-    CheckBoxPreference checkBoxPreference_SETTINGS_TIME_TASK;
-    CheckBoxPreference checkBoxPreference_SETTINGS_TIME_SESSION;
-    CheckBoxPreference checkBoxPreference_PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
+
+//    CheckBoxPreference checkBoxPreference_SETTINGS_TIME_BETWEEN_SESSIONS;
+//    CheckBoxPreference checkBoxPreference_SETTINGS_COUNT_TASK;
+//    CheckBoxPreference checkBoxPreference_SETTINGS_TIME_TASK;
+//    CheckBoxPreference checkBoxPreference_SETTINGS_TIME_SESSION;
+//    CheckBoxPreference checkBoxPreference_PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
     EditTextPreference editTextPreference_SETTINGS_ADD_RANGE_MIN;
     EditTextPreference editTextPreference_SETTINGS_ADD_RANGE_MAX;
     SwitchPreference switchPreference_SETTINGS_RECORD;
@@ -42,29 +43,48 @@ public class PrefActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref);
 
 //        sharedPreferences = getSharedPreferences( MainActivity.PREFERENCES_SETTINGS_NAME, Context.MODE_PRIVATE);
-//        loadPreferences();
+//        loadPreferences();                                                             SETTINGS_MULTIPLY
         checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
-        checkBoxPreference_SETTINGS_DIVIDE = (CheckBoxPreference) findPreference("SETTINGS_DIVIDE");
-        checkBoxPreference_SETTINGS_ADD = (CheckBoxPreference) findPreference("SETTINGS_ADD");
-        checkBoxPreference_SETTINGS_SUBTRAC = (CheckBoxPreference) findPreference("SETTINGS_SUBTRAC");
-        checkBoxPreference_SETTINGS_MULTIPLY_1 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_1");
-        checkBoxPreference_SETTINGS_MULTIPLY_2 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_2");
-        checkBoxPreference_SETTINGS_MULTIPLY_3 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_3");
-        checkBoxPreference_SETTINGS_MULTIPLY_4 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_4");
-        checkBoxPreference_SETTINGS_MULTIPLY_5 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_5");
-        checkBoxPreference_SETTINGS_MULTIPLY_6 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_6");
-        checkBoxPreference_SETTINGS_MULTIPLY_7 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_7");
-        checkBoxPreference_SETTINGS_MULTIPLY_8 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_8");
-        checkBoxPreference_SETTINGS_MULTIPLY_9 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_9");
+        checkBoxPreference_SETTINGS_DIVIDE   = (CheckBoxPreference) findPreference("SETTINGS_DIVIDE");
+        checkBoxPreference_SETTINGS_ADD      = (CheckBoxPreference) findPreference("SETTINGS_ADD");
+        checkBoxPreference_SETTINGS_SUBTRAC  = (CheckBoxPreference) findPreference("SETTINGS_SUBTRAC");
+
+        checkBoxPreference_SETTINGS_MULTIPLY_1  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_1");
+        checkBoxPreference_SETTINGS_MULTIPLY_2  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_2");
+        checkBoxPreference_SETTINGS_MULTIPLY_3  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_3");
+        checkBoxPreference_SETTINGS_MULTIPLY_4  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_4");
+        checkBoxPreference_SETTINGS_MULTIPLY_5  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_5");
+        checkBoxPreference_SETTINGS_MULTIPLY_6  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_6");
+        checkBoxPreference_SETTINGS_MULTIPLY_7  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_7");
+        checkBoxPreference_SETTINGS_MULTIPLY_8  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_8");
+        checkBoxPreference_SETTINGS_MULTIPLY_9  = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_9");
         checkBoxPreference_SETTINGS_MULTIPLY_10 = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY_10");
-        checkBoxPreference_SETTINGS_TIME_BETWEEN_SESSIONS = (CheckBoxPreference) findPreference("SETTINGS_TIME_BETWEEN_SESSIONS");
-        checkBoxPreference_SETTINGS_COUNT_TASK = (CheckBoxPreference) findPreference("SETTINGS_COUNT_TASK");
-        checkBoxPreference_SETTINGS_TIME_TASK = (CheckBoxPreference) findPreference("SETTINGS_TIME_TASK");
-        checkBoxPreference_SETTINGS_TIME_SESSION = (CheckBoxPreference) findPreference("SETTINGS_TIME_SESSION");
-        checkBoxPreference_PREFERENCES_SETTINGS_HEARTSLIVECOUNT = (CheckBoxPreference) findPreference("PREFERENCES_SETTINGS_HEARTSLIVECOUNT");
-        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
-        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
-        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
+//        checkBoxPreference_SETTINGS_TIME_BETWEEN_SESSIONS = (CheckBoxPreference) findPreference("SETTINGS_TIME_BETWEEN_SESSIONS");
+//        checkBoxPreference_SETTINGS_COUNT_TASK = (CheckBoxPreference) findPreference("SETTINGS_COUNT_TASK");
+//        checkBoxPreference_SETTINGS_TIME_TASK = (CheckBoxPreference) findPreference("SETTINGS_TIME_TASK");
+//        checkBoxPreference_SETTINGS_TIME_SESSION = (CheckBoxPreference) findPreference("SETTINGS_TIME_SESSION");
+//        checkBoxPreference_PREFERENCES_SETTINGS_HEARTSLIVECOUNT = (CheckBoxPreference) findPreference("PREFERENCES_SETTINGS_HEARTSLIVECOUNT");
+        editTextPreference_SETTINGS_ADD_RANGE_MIN = (EditTextPreference) findPreference("SETTINGS_ADD_RANGE_MIN");
+
+
+//        int inputType = editTextPreference_SETTINGS_ADD_RANGE_MIN.getEditText().getInputType();
+//        if (editTextPreference_SETTINGS_ADD_RANGE_MIN != null) {
+//            int inputType = editTextPreference_SETTINGS_ADD_RANGE_MIN.getEditText().getInputType();
+//            // do something with inputType
+//        }
+        editTextPreference_SETTINGS_ADD_RANGE_MAX = (EditTextPreference) findPreference("SETTINGS_ADD_RANGE_MAX");
+
+//        editTextPreference_SETTINGS_ADD_RANGE_MAX = (EditTextPreference) findPreference("SETTINGS_ADD_RANGE_MAX");
+//        if (editTextPreference_SETTINGS_ADD_RANGE_MAX != null) {
+//            int inputType = editTextPreference_SETTINGS_ADD_RANGE_MAX.getEditText().getInputType();
+//            // do something with inputType
+//        }
+//        android:inputType="phone"
+        switchPreference_SETTINGS_RECORD          = (SwitchPreference)   findPreference("SETTINGS_RECORD");
+
+//        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
+//        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
+//        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
 
 //        PreferenceActivity
 //                SETTINGS_SUBTRAC = findViewById(R.id. .string.S .textViewAnswerShow7);
