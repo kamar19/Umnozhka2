@@ -35,6 +35,7 @@ public class PrefActivity extends PreferenceActivity {
     EditTextPreference editTextPreference_SETTINGS_ADD_RANGE_MIN;
     EditTextPreference editTextPreference_SETTINGS_ADD_RANGE_MAX;
     SwitchPreference switchPreference_SETTINGS_RECORD;
+    EditTextPreference editTextPreference_SETTINGS_COUNT_TASK;
 
 
     @Override
@@ -65,6 +66,7 @@ public class PrefActivity extends PreferenceActivity {
 //        checkBoxPreference_SETTINGS_TIME_SESSION = (CheckBoxPreference) findPreference("SETTINGS_TIME_SESSION");
 //        checkBoxPreference_PREFERENCES_SETTINGS_HEARTSLIVECOUNT = (CheckBoxPreference) findPreference("PREFERENCES_SETTINGS_HEARTSLIVECOUNT");
         editTextPreference_SETTINGS_ADD_RANGE_MIN = (EditTextPreference) findPreference("SETTINGS_ADD_RANGE_MIN");
+        editTextPreference_SETTINGS_COUNT_TASK = (EditTextPreference) findPreference("SETTINGS_COUNT_TASK");
 
 
 //        int inputType = editTextPreference_SETTINGS_ADD_RANGE_MIN.getEditText().getInputType();

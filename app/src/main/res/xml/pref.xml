@@ -79,4 +79,8 @@
         android:title="Игра на рекорд"
         android:switchTextOff="Нет"
         android:switchTextOn="Да" />
+    <EditTextPreference
+        android:key="SETTINGS_COUNT_TASK"
+        android:summary="введите количество задач"
+        android:title="Количество задач" />
     </PreferenceScreen>

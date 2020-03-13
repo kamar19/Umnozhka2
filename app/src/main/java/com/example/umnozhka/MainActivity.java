@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,11 +46,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
     private static int PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
 
+    final static String name_value_textViewAnswerShow1 = "value_textViewAnswerShow1";
+    final static String name_value_textViewAnswerShow2 = "value_textViewAnswerShow2";
+    final static String name_value_textViewAnswerShow3 = "value_textViewAnswerShow3";
+    final static String name_value_textViewAnswerShow4 = "value_textViewAnswerShow4";
+    final static String name_value_textViewAnswerShow5 = "value_textViewAnswerShow5";
+    final static String name_value_textViewAnswerShow6 = "value_textViewAnswerShow6";
+    final static String name_value_textViewAnswerShow7 = "value_textViewAnswerShow7";
+    final static String name_value_textViewAnswerShow8 = "value_textViewAnswerShow8";
+    final static String name_value_textViewAnswerShow9 = "value_textViewAnswerShow9";
+    final static String name_value_textViewAnswerShow10 = "value_textViewAnswerShow10";
+    final static String name_value_textViewAnswerShow11 = "value_textViewAnswerShow11";
+    final static String name_value_textViewAnswerShow12 = "value_textViewAnswerShow12";
+    final static String name_value_textViewAnswerShowBasic = "value_textViewAnswerShowBasic";
+
     Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
             buttonDigit0, buttonEnter, buttonBackSpace;
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic;
+    ProgressBar progressBar;
     private int currentOneUnit, currentTwoUnit;
     private int currentAct=1, countPrimerov=1;
     private String stringCurrentAct="*";
@@ -122,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewAnswerShow12.setText("");
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
 
+        textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
+        progressBar = findViewById(R.id.progressBar);
+
         textViewQuestion = findViewById(R.id.textViewQuestion);
 
         buttonDigit1.setOnClickListener(this);
@@ -141,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (sharedPreferences != null) {
             // по умолчанию, если настроеки есть загружаются, иначе создаются
+
             loadPreferences();
 //            Toast toast = Toast.makeText(getApplicationContext(),
 //                    "Настройки загруженны!", Toast.LENGTH_SHORT);
@@ -166,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SETTINGS_MULTIPLY_10 = true;
             heartLiveCount = 0;
             PREFERENCES_SETTINGS_HEARTSLIVECOUNT = 5;
+            SETTINGS_COUNT_TASK = 10;
 
             savePreferences();
 
@@ -176,6 +197,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Настройки приходят пустые, все значения по нулям
 
         }
+        progressBar.setMax(SETTINGS_COUNT_TASK);
+
     }
 
 
@@ -261,11 +284,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // обновляется значения действий и значения операторов
                 // и значения передаеются в EditText
                 refrishDate();
+                textViewAnswerShowBasic.setText("");
                 break;
         }
     }
-    private String getStringCurrentAct(){
-        switch (currentAct){
+    private String getStringCurrentAct(int currentActTemp ){
+        switch (currentActTemp){
             case 1: return "*";
             case 2: return "/";
             case 3: return "+";
@@ -278,26 +302,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int intAnswer = Integer.parseInt(textViewAnswerShowBasic.getText().toString());
         switch (currentAct) {
             case 1: { if (currentOneUnit*currentTwoUnit==intAnswer)                 // размещаем ответ
-                           showViewAnswerShow(String.valueOf(currentAct),"Верно");
-                      else showViewAnswerShow(String.valueOf(currentAct),"Ошибка");
+                           showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
+                      else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
+
                       break; }
             case 2: { if (currentOneUnit/currentTwoUnit==intAnswer)                 // размещаем ответ
-                           showViewAnswerShow(String.valueOf(currentAct),"Верно");
-                      else showViewAnswerShow(String.valueOf(currentAct),"Ошибка");
+                           showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
+                      else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
                       break;
             }
             case 3: { if (currentOneUnit+currentTwoUnit==intAnswer)                 // размещаем ответ
-                showViewAnswerShow(String.valueOf(currentAct),"Верно");
-            else showViewAnswerShow(String.valueOf(currentAct),"Ошибка");
+                showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
+            else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
                 break;
             }
             case 4: { if (currentOneUnit-currentTwoUnit==intAnswer)                 // размещаем ответ
-                showViewAnswerShow(String.valueOf(currentAct),"Верно");
-            else showViewAnswerShow(String.valueOf(currentAct),"Ошибка");
+                showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
+            else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
                 break;
             }
         }
         countPrimerov ++;
+        progressBar.setProgress(countPrimerov);
     }
    private void showViewAnswerShow(String deist,String prav) {
 //    textViewAnswerShow1
@@ -315,11 +341,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                textViewAnswerShow10.setVisibility(View.INVISIBLE);
                textViewAnswerShow11.setVisibility(View.INVISIBLE);
                textViewAnswerShow12.setVisibility(View.INVISIBLE);
-               textViewAnswerShow1.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow1.setText(String.valueOf(currentOneUnit) + " " + deist +  " " + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
                break;
            }
            case 2: {
+//               textViewAnswerShow2.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow3.setVisibility(View.INVISIBLE);
                textViewAnswerShow4.setVisibility(View.VISIBLE);
+//               textViewAnswerShow5.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow6.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow7.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow8.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow9.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow10.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow11.setVisibility(View.INVISIBLE);
+//               textViewAnswerShow12.setVisibility(View.INVISIBLE);
                textViewAnswerShow4.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
                break;
            }
@@ -371,6 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            case 12: {
                textViewAnswerShow12.setVisibility(View.VISIBLE);
                textViewAnswerShow12.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               countPrimerov=1;
                break;
            }
        }
@@ -647,7 +684,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MAX", "100"));
         //значения загружаются
 
+
         SETTINGS_RECORD = sharedPreferences.getBoolean("SETTINGS_RECORD", true);
+        SETTINGS_COUNT_TASK = Integer.valueOf(sharedPreferences.getString("SETTINGS_COUNT_TASK", "10"));
 //            sharedPreferences.getInt("SETTINGS_TIME_TASK", 30);
 //            sharedPreferences.getInt("SETTINGS_TIME_SESSION", 360);
 //            sharedPreferences.getInt("PREFERENCES_SETTINGS_HEARTSLIVECOUNT", 5);
@@ -712,6 +751,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editorSharedPreferences.apply();
 
     }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putString(name_value_textViewAnswerShow1, textViewAnswerShow1.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow2, textViewAnswerShow2.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow3, textViewAnswerShow3.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow4, textViewAnswerShow4.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow5, textViewAnswerShow5.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow6, textViewAnswerShow6.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow7, textViewAnswerShow7.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow8, textViewAnswerShow8.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow9, textViewAnswerShow9.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow10, textViewAnswerShow10.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow11, textViewAnswerShow11.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow12, textViewAnswerShow12.getText().toString() );
+        outState.putString(name_value_textViewAnswerShowBasic, textViewAnswerShowBasic.getText().toString() );
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        textViewAnswerShow1.setText(savedInstanceState.getString(name_value_textViewAnswerShow1));
+        textViewAnswerShow2.setText(savedInstanceState.getString(name_value_textViewAnswerShow2));
+        textViewAnswerShow3.setText(savedInstanceState.getString(name_value_textViewAnswerShow3));
+        textViewAnswerShow4.setText(savedInstanceState.getString(name_value_textViewAnswerShow4));
+        textViewAnswerShow5.setText(savedInstanceState.getString(name_value_textViewAnswerShow5));
+        textViewAnswerShow6.setText(savedInstanceState.getString(name_value_textViewAnswerShow6));
+        textViewAnswerShow6.setText(savedInstanceState.getString(name_value_textViewAnswerShow7));
+        textViewAnswerShow7.setText(savedInstanceState.getString(name_value_textViewAnswerShow8));
+        textViewAnswerShow8.setText(savedInstanceState.getString(name_value_textViewAnswerShow9));
+        textViewAnswerShow9.setText(savedInstanceState.getString(name_value_textViewAnswerShow10));
+        textViewAnswerShow10.setText(savedInstanceState.getString(name_value_textViewAnswerShow11));
+        textViewAnswerShow11.setText(savedInstanceState.getString(name_value_textViewAnswerShow12));
+        textViewAnswerShowBasic.setText(savedInstanceState.getString(name_value_textViewAnswerShowBasic));
+    }
+//    private void saveTextViewAnswerShow(){
+////         textViewAnswerShow7
+//    }
+
     @Override
     protected void onPause() {
 //        savePreferences();
