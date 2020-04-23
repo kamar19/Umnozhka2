@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static SharedPreferences sharedPreferences;
     public static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
-    public static int heartLiveCount;
-    public static int countAllPrimerov;
-    public static int countRightTask,countWrongTask;
+    public static int countHeartLive=0;
+    public static int countAllPrimerov=0;
+    public static int countRightTask=0,countWrongTask=0;
+    public static int countCurrentRightTask=0, countCurrentWrongTask=0;
 
     private static boolean SETTINGS_SUBTRAC;    // Сложение
     private static boolean SETTINGS_ADD;        // Вычитание
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic,textViewAnswerCount;
+    ImageView view1, view2, view3, view4, view5;
     ProgressBar progressBar;
     private int currentOneUnit, currentTwoUnit;
     private int currentAct=1, countPrimerov=1;
@@ -113,6 +116,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDigit0 = findViewById(R.id.buttonDigit0);
         buttonEnter = findViewById(R.id.buttonEnter);
         buttonBackSpace = findViewById(R.id.buttonBackSpace);
+
+
+        view1 = findViewById(R.id.imageView1);
+//        view1.setVisibility(View.VISIBLE);
+        view1.setImageResource(R.drawable.heart);
+//        view1.setBackgroundResource(R.color.trans);
+
+        view2 = findViewById(R.id.imageView2);
+//        view2.setVisibility(View.VISIBLE);
+        view2.setImageResource(R.drawable.heart);
+
+        view3 = findViewById(R.id.imageView3);
+//        view3.setVisibility(View.VISIBLE);
+        view3.setImageResource(R.drawable.heart);
+
+        view4 = findViewById(R.id.imageView4);
+//        view4.setVisibility(View.VISIBLE);
+        view4.setImageResource(R.drawable.heart);
+
+        view5 = findViewById(R.id.imageView5);
+//        view5.setVisibility(View.VISIBLE);
+        view5.setImageResource(R.drawable.heart);
 
         textViewAnswerShow1 = findViewById(R.id.textViewAnswerShow1);
         textViewAnswerShow1.setText("");
@@ -188,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SETTINGS_MULTIPLY_8 = true;
             SETTINGS_MULTIPLY_9 = true;
             SETTINGS_MULTIPLY_10 = true;
-            heartLiveCount = 0;
+            countHeartLive = 0;
             PREFERENCES_SETTINGS_HEARTSLIVECOUNT = 5;
             SETTINGS_COUNT_TASK = 10;
 
@@ -203,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         progressBar.setMax(SETTINGS_COUNT_TASK);
         refrishDate();
+        refrishIconLive();
     }
 
 
@@ -210,12 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuItem mi = menu.add(0, 1, 0, R.string.menu_Preferences);
-
-//        menu.add(0, 2, 0, R.string.menu_Exit);
-//
-//        mi.setIntent(new Intent(this, PrefActivity.class));
-//        return super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.um_menu, menu);
         return true;
     }
@@ -280,20 +300,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonEnter:
                 //выполняется проверка Ответа на математический Вопрос
                 showAnswer();
-
-//                String
-//                textViewQuestion.
-//                if ()
-//textViewQuestion.setText(Integer.toString(numberOne) + currentAcString + Integer.toString(numberTwo) + " = ");
-                // обновляется значения действий и значения операторов
-                // и значения передаеются в EditText
                 refrishDate();
                 textViewAnswerShowBasic.setText("");
                 break;
         }
     }
-    private String getStringCurrentAct(int currentActTemp ){
-        switch (currentActTemp){
+    private String getStringCurrentAct(){
+        switch (currentAct){
             case 1: return "*";
             case 2: return "/";
             case 3: return "+";
@@ -302,11 +315,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     private String setRightTask(){
+        // Если правельных ответов в подряд 5, то дается одна жизнь.
         countRightTask++;
+        countCurrentRightTask++;
+        if (countCurrentRightTask>4) {
+            if (countHeartLive<5) {
+                countHeartLive++;
+                countCurrentRightTask = 0;
+                refrishIconLive();
+            }
+        }
         return getString(R.string.textRightTask);
     }
     private String setWrongTask(){
+        // Если неправельных ответов в подряд 3, то отнимается одна жизнь.
         countWrongTask++;
+        countCurrentWrongTask++;
+        if (countCurrentWrongTask>2) {
+            if (countHeartLive>0) {
+                countHeartLive--;
+                countCurrentWrongTask = 0;
+                refrishIconLive();
+            }
+        }
+
         return getString(R.string.textWrongTask);
     }
     private void showAnswer(){
@@ -351,95 +383,94 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else
              answer = setWrongTask();
-             showViewAnswerShow(getStringCurrentAct(currentAct), answer);
-            textViewAnswerCount.setText(getString(R.string.titleAllTask)+countAllPrimerov+getString(R.string.titleRightTask)
-                    +countRightTask+getString(R.string.titleWrongTask)+countWrongTask);
+             showViewAnswerShow(answer,intAnswer);
+            textViewAnswerCount.setText(getString(R.string.titleAllTask)+" "+countAllPrimerov+getString(R.string.titleRightTask)+" "
+                    +countRightTask+getString(R.string.titleWrongTask)+" "+countWrongTask+"    ");
             progressBar.setProgress(countPrimerov);
             countPrimerov++;
             countAllPrimerov++;
 }
-   private void showViewAnswerShow(String deist,String prav) {
-//    textViewAnswerShow1
+
+   private void invisibleTextViewAnswer(){
+       // первичная установка textViewAnswerShow, 1-й делаем видимым, остальные textViewAnswerShow делаем невидимыми
+       textViewAnswerShow1.setVisibility(View.VISIBLE);
+       textViewAnswerShow2.setVisibility(View.INVISIBLE);
+       textViewAnswerShow3.setVisibility(View.INVISIBLE);
+       textViewAnswerShow4.setVisibility(View.INVISIBLE);
+       textViewAnswerShow5.setVisibility(View.INVISIBLE);
+       textViewAnswerShow6.setVisibility(View.INVISIBLE);
+       textViewAnswerShow7.setVisibility(View.INVISIBLE);
+       textViewAnswerShow8.setVisibility(View.INVISIBLE);
+       textViewAnswerShow9.setVisibility(View.INVISIBLE);
+       textViewAnswerShow10.setVisibility(View.INVISIBLE);
+       textViewAnswerShow11.setVisibility(View.INVISIBLE);
+       textViewAnswerShow12.setVisibility(View.INVISIBLE);
+   }
+   private void showViewAnswerShow(String prav,int intAnswer) {
+       // Делаем видимым соответствующий textViewAnswerShow
+       // и показываем в нем результат
+       // String prav - текстовая оценка результата, ошибка или верно.
+       // int intAnswer - числое значение результата
+       String deist = getStringCurrentAct();
        switch (countPrimerov) {
            case 1: {
-               textViewAnswerShow1.setVisibility(View.VISIBLE);
-               textViewAnswerShow2.setVisibility(View.INVISIBLE);
-               textViewAnswerShow3.setVisibility(View.INVISIBLE);
-               textViewAnswerShow4.setVisibility(View.INVISIBLE);
-               textViewAnswerShow5.setVisibility(View.INVISIBLE);
-               textViewAnswerShow6.setVisibility(View.INVISIBLE);
-               textViewAnswerShow7.setVisibility(View.INVISIBLE);
-               textViewAnswerShow8.setVisibility(View.INVISIBLE);
-               textViewAnswerShow9.setVisibility(View.INVISIBLE);
-               textViewAnswerShow10.setVisibility(View.INVISIBLE);
-               textViewAnswerShow11.setVisibility(View.INVISIBLE);
-               textViewAnswerShow12.setVisibility(View.INVISIBLE);
-               textViewAnswerShow1.setText(String.valueOf(currentOneUnit) + " " + deist +  " " + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               invisibleTextViewAnswer();
+               textViewAnswerShow1.setText(String.valueOf(currentOneUnit) + " " + deist +  " " + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 2: {
-//               textViewAnswerShow2.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow3.setVisibility(View.INVISIBLE);
                textViewAnswerShow4.setVisibility(View.VISIBLE);
-//               textViewAnswerShow5.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow6.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow7.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow8.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow9.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow10.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow11.setVisibility(View.INVISIBLE);
-//               textViewAnswerShow12.setVisibility(View.INVISIBLE);
-               textViewAnswerShow4.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow4.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 3: {
                textViewAnswerShow7.setVisibility(View.VISIBLE);
-               textViewAnswerShow7.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow7.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 4: {
                textViewAnswerShow10.setVisibility(View.VISIBLE);
-               textViewAnswerShow10.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow10.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 5: {
                textViewAnswerShow2.setVisibility(View.VISIBLE);
-               textViewAnswerShow2.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow2.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 6: {
                textViewAnswerShow5.setVisibility(View.VISIBLE);
-               textViewAnswerShow5.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow5.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 7: {
                textViewAnswerShow8.setVisibility(View.VISIBLE);
-               textViewAnswerShow8.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow8.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 8: {
                textViewAnswerShow11.setVisibility(View.VISIBLE);
-               textViewAnswerShow11.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow11.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 9: {
                textViewAnswerShow3.setVisibility(View.VISIBLE);
-               textViewAnswerShow3.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow3.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 10: {
                textViewAnswerShow6.setVisibility(View.VISIBLE);
-               textViewAnswerShow6.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow6.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 11: {
                textViewAnswerShow9.setVisibility(View.VISIBLE);
-               textViewAnswerShow9.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow9.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 12: {
                textViewAnswerShow12.setVisibility(View.VISIBLE);
-               textViewAnswerShow12.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
+               textViewAnswerShow12.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
                countPrimerov=0;
                break;
            }
@@ -447,17 +478,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
    }
 
     private void refrishIconLive() {
-        View view1, view2, view3, view4, view5;
-        view1 = findViewById(R.id.imageView1);
-        view2 = findViewById(R.id.imageView2);
-        view3 = findViewById(R.id.imageView3);
-        view4 = findViewById(R.id.imageView4);
-        view5 = findViewById(R.id.imageView5);
-        if (heartLiveCount > 5) heartLiveCount = 5;
-        if (heartLiveCount < 0) heartLiveCount = 0;
+
+        if (countHeartLive > 5) countHeartLive = 5;
+        if (countHeartLive < 0) countHeartLive = 0;
 
 
-        switch (heartLiveCount) {
+        switch (countHeartLive) {
             case 0:
                 view1.setVisibility(View.INVISIBLE);
                 view2.setVisibility(View.INVISIBLE);
@@ -591,16 +617,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 // DIVIDE   - Deistvie = 2;
 // ADD      - Deistvie = 3;
 // SUBTRAC  - Deistvie = 4;
-
-///int a = 0; // Начальное значение диапазона - "от"
-////      int b = 10; // Конечное значение диапазона - "до"
-////
-////      int random_number1 = a + (int) (Math.random() * b); // Генерация 1-го числа
-
-//    double Deistvie = Math.random()*3;
-
-//    int Deistvie;
-
         currentAct = getAct();
         int countValue;
 // Определяем значения выражения
