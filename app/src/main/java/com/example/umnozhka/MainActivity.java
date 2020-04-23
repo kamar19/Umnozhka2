@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static SharedPreferences sharedPreferences;
     public static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
     public static int heartLiveCount;
+    public static int countAllPrimerov;
+    public static int countRightTask,countWrongTask;
 
     private static boolean SETTINGS_SUBTRAC;    // Сложение
     private static boolean SETTINGS_ADD;        // Вычитание
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonDigit0, buttonEnter, buttonBackSpace;
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
-            textViewQuestion, textViewAnswerShowBasic;
+            textViewQuestion, textViewAnswerShowBasic,textViewAnswerCount;
     ProgressBar progressBar;
     private int currentOneUnit, currentTwoUnit;
     private int currentAct=1, countPrimerov=1;
@@ -135,7 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewAnswerShow11 = findViewById(R.id.textViewAnswerShow11);
         textViewAnswerShow11.setText("");
         textViewAnswerShow12 = findViewById(R.id.textViewAnswerShow12);
-        textViewAnswerShow12.setText("");
+        textViewAnswerShow12.setText("1");
+        textViewAnswerCount = findViewById(R.id.textViewAnswerCount);
+        textViewAnswerCount.setText(String.valueOf(countPrimerov));
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
 
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
@@ -198,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         progressBar.setMax(SETTINGS_COUNT_TASK);
-
+        refrishDate();
     }
 
 
@@ -297,34 +301,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:return "*";
         }
     }
-
+    private String setRightTask(){
+        countRightTask++;
+        return getString(R.string.textRightTask);
+    }
+    private String setWrongTask(){
+        countWrongTask++;
+        return getString(R.string.textWrongTask);
+    }
     private void showAnswer(){
-        int intAnswer = Integer.parseInt(textViewAnswerShowBasic.getText().toString());
-        switch (currentAct) {
-            case 1: { if (currentOneUnit*currentTwoUnit==intAnswer)                 // размещаем ответ
-                           showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
-                      else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
-
-                      break; }
-            case 2: { if (currentOneUnit/currentTwoUnit==intAnswer)                 // размещаем ответ
-                           showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
-                      else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
-                      break;
-            }
-            case 3: { if (currentOneUnit+currentTwoUnit==intAnswer)                 // размещаем ответ
-                showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
-            else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
-                break;
-            }
-            case 4: { if (currentOneUnit-currentTwoUnit==intAnswer)                 // размещаем ответ
-                showViewAnswerShow(getStringCurrentAct(currentAct),"Верно");
-            else showViewAnswerShow(getStringCurrentAct(currentAct),"Ошибка");
-                break;
+        int intAnswer;
+        String answer="";
+        try
+        {
+            intAnswer = Integer.parseInt(textViewAnswerShowBasic.getText().toString());
+        }
+        catch (NumberFormatException nfe)
+        {
+            intAnswer=0;
+        };
+        if (intAnswer!=0) {
+            switch (currentAct) {
+                case 1: {
+                    if (currentOneUnit * currentTwoUnit == intAnswer) answer = setRightTask();
+                    else answer = setWrongTask();
+                    break; }
+                case 2: {
+                    if (currentOneUnit / currentTwoUnit == intAnswer)                 // размещаем ответ
+                        answer = setRightTask();
+                    else
+                        answer = setWrongTask();
+                    break;
+                }
+                case 3: {
+                    if (currentOneUnit + currentTwoUnit == intAnswer)                 // размещаем ответ
+                        answer = setRightTask();
+                    else
+                        answer = setWrongTask();
+                    break;
+                }
+                case 4: {
+                    if (currentOneUnit - currentTwoUnit == intAnswer)                 // размещаем ответ
+                        answer = setRightTask();
+                    else
+                        answer = setWrongTask();
+                    break;
+                }
             }
         }
-        countPrimerov ++;
-        progressBar.setProgress(countPrimerov);
-    }
+        else
+             answer = setWrongTask();
+             showViewAnswerShow(getStringCurrentAct(currentAct), answer);
+            textViewAnswerCount.setText(getString(R.string.titleAllTask)+countAllPrimerov+getString(R.string.titleRightTask)
+                    +countRightTask+getString(R.string.titleWrongTask)+countWrongTask);
+            progressBar.setProgress(countPrimerov);
+            countPrimerov++;
+            countAllPrimerov++;
+}
    private void showViewAnswerShow(String deist,String prav) {
 //    textViewAnswerShow1
        switch (countPrimerov) {
@@ -407,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            case 12: {
                textViewAnswerShow12.setVisibility(View.VISIBLE);
                textViewAnswerShow12.setText(String.valueOf(currentOneUnit) + deist + currentTwoUnit + '=' + textViewAnswerShowBasic.getText() + " " + prav);
-               countPrimerov=1;
+               countPrimerov=0;
                break;
            }
        }
