@@ -60,10 +60,48 @@
     <string name="SettingsMultiplySummaryOn">включено</string>
     <string name="SettingsMultiplySummaryOff">выключено</string>
     <string name="SettingsMultiplyTitle">Умножение</string>
+
+    <string name="SettingsMultiply_PreferenceScreen">Действия</string>
+
+
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_1">на 1</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_2">на 2</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_3">на 3</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_4">на 4</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_5">на 5</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_6">на 6</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_7">на 7</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_8">на 8</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_9">на 9</string>
+    <string name="SettingsMultiply_SETTINGS_MULTIPLY_10">на 10</string>
+
+
+    SETTINGS_ADD
+
     <string name="SettingsDivideSummaryOff">выключено</string>
     <string name="SettingsDivideSummaryOn">включено</string>
     <string name="SettingsDivideTitle">Деление</string>
     <string name="operationsOn">Действия на ...</string>
+
+    <string name="SETTINGS_ADD_Title">Сложение</string>
+    <string name="SETTINGS_ADD_summaryOff">выключено</string>
+    <string name="SETTINGS_ADD_summaryOn">включено</string>
+
+    <string name="SETTINGS_SUBTRAC_Title">Вычитание</string>
+    <string name="SETTINGS_SUBTRAC_summaryOff">выключено</string>
+    <string name="SETTINGS_SUBTRAC_summaryOn">включено</string>
+
+    <string name="SETTINGS_ADD_RANGE_MIN_title">Начало диапазона сложения</string>
+    <string name="SETTINGS_ADD_RANGE_MIN_summary">введите первое число</string>
+    <string name="SETTINGS_ADD_RANGE_MAX_title">Конец диапазона сложения</string>
+    <string name="SETTINGS_ADD_RANGE_MAX_summary">введите второе число</string>
+
+    <string name="SETTINGS_RECORD_summaryOff">Без ограничений на время?</string>
+    <string name="SETTINGS_RECORD_summaryOn">Игра на время?</string>
+    <string name="SETTINGS_RECORD_title">Игра на рекорд</string>
+    <string name="SETTINGS_RECORD_switchTextOff">Нет?</string>
+    <string name="SETTINGS_RECORD_switchTextOn">Да?</string>
+
 
     <string name="SettingsLoad">Загружены</string>
     <string name="SettingsSave">Сохранены</string>

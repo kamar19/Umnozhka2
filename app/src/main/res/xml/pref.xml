@@ -16,71 +16,68 @@
     <PreferenceScreen
         android:dependency="SETTINGS_MULTIPLY"
         android:summary="@string/operationsOn"
-        android:title="Действия">
+        android:title="@string/SettingsMultiply_PreferenceScreen">
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_1"
-            android:title="на 1" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_1" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_2"
-            android:title="на 2" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_2" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_3"
-            android:title="на 3" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_3" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_4"
-            android:title="на 4" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_4" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_5"
-            android:title="на 5" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_5" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_6"
-            android:title="на 6" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_6" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_7"
-            android:title="на 7" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_7" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_8"
-            android:title="на 8" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_8" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_9"
-            android:title="на 9" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_9" />
         <CheckBoxPreference
             android:key="SETTINGS_MULTIPLY_10"
-            android:title="на 0" />
+            android:title="@string/SettingsMultiply_SETTINGS_MULTIPLY_10" />
     </PreferenceScreen>
 
     <CheckBoxPreference
         android:key="SETTINGS_ADD"
-        android:summaryOff="выключено"
-        android:summaryOn="включено"
-        android:title="Сложение"/>
+        android:summaryOff="@string/SETTINGS_ADD_summaryOff"
+        android:summaryOn="@string/SETTINGS_ADD_summaryOn"
+        android:title="@string/SETTINGS_ADD_Title"/>
 
     <CheckBoxPreference
         android:key="SETTINGS_SUBTRAC"
-        android:summaryOff="выключено"
-        android:summaryOn="включено"
-        android:title="Вычитание"/>
+        android:summaryOff="@string/SETTINGS_SUBTRAC_summaryOff"
+        android:summaryOn="@string/SETTINGS_SUBTRAC_summaryOn"
+        android:title="@string/SETTINGS_SUBTRAC_Title"/>
 
     <EditTextPreference
         android:dependency="SETTINGS_ADD"
         android:key="SETTINGS_ADD_RANGE_MIN"
-        android:summary="введите первое число"
-        android:title="Начало диапазона сложения" />
+        android:summary="@string/SETTINGS_ADD_RANGE_MIN_summary"
+        android:title="@string/SETTINGS_ADD_RANGE_MIN_title" />
+
     <EditTextPreference
         android:dependency="SETTINGS_ADD"
         android:key="SETTINGS_ADD_RANGE_MAX"
-        android:summary="введите второе число"
-        android:title="Конец диапазона сложения" />
+        android:summary="@string/SETTINGS_ADD_RANGE_MAX_summary"
+        android:title="@string/SETTINGS_ADD_RANGE_MAX_title" />
 
     <SwitchPreference
         android:key="SETTINGS_RECORD"
-        android:summaryOff="Игра на рекорд?"
-        android:summaryOn="ограничение количества задач и веремени?"
-        android:title="Игра на рекорд"
+        android:summaryOff="Игра без времени?"
+        android:summaryOn="Ограничение времени?"
+        android:title="С учетом времени"
         android:switchTextOff="Нет"
         android:switchTextOn="Да" />
-    <EditTextPreference
-        android:key="SETTINGS_COUNT_TASK"
-        android:summary="введите количество задач"
-        android:title="Количество задач" />
     </PreferenceScreen>
