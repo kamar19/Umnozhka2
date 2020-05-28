@@ -1,12 +1,10 @@
 package com.example.umnozhka;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -76,29 +73,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView view1, view2, view3, view4, view5;
     ProgressBar progressBar;
     private int progressBarTime=300;
-    private int currentOneUnit, currentTwoUnit, countPrimerov=1;
-    public Act currentAct =  Act.MULTIPLY;
+    private int countPrimerov=1;
     private String stringCurrentAct="*";
     private boolean endGame=false;
+    private   MyTask currentTask;
 
 //    PrefActivity prefActivity = new PrefActivity();
 
+//    public MyNumber getCurrentOneUnit() {
+//        return currentOneUnit;
+//    }
 
-    public int getCurrentOneUnit() {
-        return currentOneUnit;
-    }
+//    public void setCurrentOneUnit(int currentOneUnit) {
+//        this.currentOneUnit = currentOneUnit;
+//    }
 
-    public void setCurrentOneUnit(int currentOneUnit) {
-        this.currentOneUnit = currentOneUnit;
-    }
+//    public MyNumber getCurrentTwoUnit() {
+//        return currentTwoUnit;
+//    }
 
-    public int getCurrentTwoUnit() {
-        return currentTwoUnit;
-    }
-
-    public void setCurrentTwoUnit(int currentTwoUnit) {
-        this.currentTwoUnit = currentTwoUnit;
-    }
+//    public void setCurrentTwoUnit(int currentTwoUnit) {
+//        this.currentTwoUnit = currentTwoUnit;
+//    }
 
 
     /**
@@ -256,7 +252,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
-        refrishDate();
+
+        currentTask = new MyTask(SETTINGS_MULTIPLY,SETTINGS_DIVIDE,SETTINGS_ADD, SETTINGS_SUBTRAC);
+        if ((currentTask.getCurrentAct()==Act.ADD)|(currentTask.getCurrentAct()==Act.SUBTRAC))
+            currentTask.generateNumbers(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX);
+        else
+            currentTask.generateNumbers(getMaxValue_SETTINGS_MULTIPLY(), getMinValue_SETTINGS_MULTIPLY());
+        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+
         refrishIconLive();
     }
 
@@ -331,7 +334,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.buttonEnter:
                     //выполняется проверка Ответа на математический Вопрос
                     showAnswer();
-                    refrishDate();
+                    //refrishDate();
+                    currentTask = new MyTask(SETTINGS_MULTIPLY,SETTINGS_DIVIDE,SETTINGS_ADD, SETTINGS_SUBTRAC);
+                    if ((currentTask.getCurrentAct()==Act.ADD)|(currentTask.getCurrentAct()==Act.SUBTRAC))
+                        currentTask.generateNumbers(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX);
+                    else
+                        currentTask.generateNumbers(getMaxValue_SETTINGS_MULTIPLY(), getMinValue_SETTINGS_MULTIPLY());
+                    textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
                     break;
             }
@@ -353,20 +362,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return getString(R.string.textRightTask);
     }
     private String setWrongTask(){
+        // Установка ошибки
         // Если неправельных ответов в подряд 3, то отнимается одна жизнь.
         countWrongTask++;
         countCurrentWrongTask++;
+        countCurrentRightTask = 0;
         if (countCurrentWrongTask>2) {
             if (countHeartLive>0) {
                 countHeartLive--;
                 countCurrentWrongTask = 0;
-                countCurrentRightTask = 0;
                 refrishIconLive();
             }
         }
 
         return getString(R.string.textWrongTask);
     }
+
     private void showAnswer(){
         int intAnswer;
         String answer="";
@@ -379,27 +390,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intAnswer=0;
         };
         if (intAnswer!=0) {
-            switch (currentAct) {
+            switch (currentTask.getCurrentAct()) {
                 case MULTIPLY: {
-                    if (currentOneUnit * currentTwoUnit == intAnswer) answer = setRightTask();
+                    if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer) answer = setRightTask();
                     else answer = setWrongTask();
                     break; }
                 case DIVIDE: {
-                    if (currentOneUnit / currentTwoUnit == intAnswer)                 // размещаем ответ
+                    if (currentTask.getCurrentOneUnit().getValue()  / currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
                         answer = setRightTask();
                     else
                         answer = setWrongTask();
                     break;
                 }
                 case ADD: {
-                    if (currentOneUnit + currentTwoUnit == intAnswer)                 // размещаем ответ
+                    if (currentTask.getCurrentOneUnit().getValue()   + currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
                         answer = setRightTask();
                     else
                         answer = setWrongTask();
                     break;
                 }
                 case SUBTRAC: {
-                    if (currentOneUnit - currentTwoUnit == intAnswer)                 // размещаем ответ
+                    if (currentTask.getCurrentOneUnit().getValue()  - currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
                         answer = setRightTask();
                     else
                         answer = setWrongTask();
@@ -409,9 +420,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else
              answer = setWrongTask();
-             showViewAnswerShow(answer,intAnswer);
-            textViewAnswerCount.setText(getString(R.string.titleAllTask)+" "+countAllPrimerov+getString(R.string.titleRightTask)+" "
-                    +countRightTask+getString(R.string.titleWrongTask)+" "+countWrongTask+"    ");
+        showViewAnswerShow(answer,intAnswer);
+        textViewAnswerCount.setText(getString(R.string.titleAllTask)+" "+countAllPrimerov+getString(R.string.titleRightTask)+" "
+                  +countRightTask+getString(R.string.titleWrongTask)+" "+countWrongTask+"    ");
 
 //            progressBar.setProgress(countPrimerov);
 
@@ -442,66 +453,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // и показываем в нем результат
        // String prav - текстовая оценка результата, ошибка или верно.
        // int intAnswer - числое значение результата
-       Act deist = currentAct;
+       Act deist = currentTask.getCurrentAct();
        switch (countPrimerov) {
            case 1: {
                invisibleTextViewAnswer();
-               textViewAnswerShow1.setText(String.valueOf(currentOneUnit) + " " + deist.getAct() +  " " + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow1.setText(currentTask.getCurrentOneUnit().toString() + deist.getAct() +  currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 2: {
                textViewAnswerShow4.setVisibility(View.VISIBLE);
-               textViewAnswerShow4.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow4.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 3: {
                textViewAnswerShow7.setVisibility(View.VISIBLE);
-               textViewAnswerShow7.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow7.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 4: {
                textViewAnswerShow10.setVisibility(View.VISIBLE);
-               textViewAnswerShow10.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow10.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 5: {
                textViewAnswerShow2.setVisibility(View.VISIBLE);
-               textViewAnswerShow2.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow2.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 6: {
                textViewAnswerShow5.setVisibility(View.VISIBLE);
-               textViewAnswerShow5.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow5.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 7: {
                textViewAnswerShow8.setVisibility(View.VISIBLE);
-               textViewAnswerShow8.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow8.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 8: {
                textViewAnswerShow11.setVisibility(View.VISIBLE);
-               textViewAnswerShow11.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow11.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 9: {
                textViewAnswerShow3.setVisibility(View.VISIBLE);
-               textViewAnswerShow3.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow3.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 10: {
                textViewAnswerShow6.setVisibility(View.VISIBLE);
-               textViewAnswerShow6.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow6.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 11: {
                textViewAnswerShow9.setVisibility(View.VISIBLE);
-               textViewAnswerShow9.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow9.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                break;
            }
            case 12: {
                textViewAnswerShow12.setVisibility(View.VISIBLE);
-               textViewAnswerShow12.setText(String.valueOf(currentOneUnit) +  deist.getAct() + currentTwoUnit + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow12.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
                countPrimerov=0;
                break;
            }
@@ -510,8 +521,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void refrishIconLive() {
 
-        if (countHeartLive > 5) countHeartLive = 5;
-        if (countHeartLive < 0) countHeartLive = 0;
+   if (countHeartLive > 5) countHeartLive = 5;
+   if (countHeartLive < 0) countHeartLive = 0;
 
     if (SETTINGS_RECORD) {
         switch (countHeartLive) {
@@ -567,122 +578,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     }
 
-    private Act getAct() {
-//int a = 0; // Начальное значение диапазона - "от"
-//      int b = 10; // Конечное значение диапазона - "до"
-//
-//      int random_number1 = a + (int) (Math.random() * b); // Генерация 1-го числа
-        int Variants = 0;
-        Act resultAct = Act.MULTIPLY;
-        int tempResultAct=0;
-
-        if (SETTINGS_MULTIPLY) Variants++;
-        if (SETTINGS_DIVIDE) Variants++;
-        if (SETTINGS_ADD) Variants++;
-        if (SETTINGS_SUBTRAC) Variants++;
-        switch (Variants) {
-            case 0:
-                Variants++;
-            case 1:
-                if (SETTINGS_MULTIPLY)  resultAct = Act.MULTIPLY;
-                if (SETTINGS_DIVIDE)  resultAct = Act.DIVIDE;
-                if (SETTINGS_ADD)  resultAct = Act.ADD;
-                if (SETTINGS_SUBTRAC)  resultAct = Act.SUBTRAC;
-                break;
-            case 2:
-                tempResultAct = (int) (Math.random() * 2);
-                if (tempResultAct == 0) {
-                    if (SETTINGS_MULTIPLY) {
-                        resultAct = Act.MULTIPLY;
-                    } else if (SETTINGS_DIVIDE) {
-                        resultAct = Act.DIVIDE;
-                    } else
-                        resultAct = Act.ADD;
-                }
-                if (tempResultAct == 1) {
-                    if (SETTINGS_SUBTRAC) {
-                        resultAct = Act.SUBTRAC;
-                    } else if (SETTINGS_ADD) {
-                        resultAct = Act.ADD;
-                    } else
-                        resultAct = Act.DIVIDE;
-                }
-                break;
-            case 3:
-                tempResultAct = (int) (Math.random() * 3);
-                // из каких трей действий?
-                switch (tempResultAct){
-                    case 0:  if (!SETTINGS_MULTIPLY) resultAct = Act.SUBTRAC;
-                                // Пропускаем 1-е действие, т.е если не используется умножение, то
-                                // включены 2,3,4 действия, и 1-е действие деление
-                             else resultAct = Act.MULTIPLY;
-                             break;
-                    case 1:  if (SETTINGS_MULTIPLY) {
-                                 if (SETTINGS_DIVIDE) resultAct = Act.DIVIDE;
-                                       else resultAct = Act.ADD;
-                             } else resultAct = Act.ADD;
-                             break;
-                    case 2: if (SETTINGS_ADD)  resultAct = Act.ADD ;
-                               else resultAct = Act.SUBTRAC ;
-                            break;
-
-                }
-                break;
-            case 4:
-                tempResultAct = (int) (Math.random() * 4);
-                // все Действия
-                switch (tempResultAct) {
-                    case 0: resultAct = Act.MULTIPLY;
-                            break;
-                    case 1: resultAct = Act.DIVIDE;
-                        break;
-                    case 2: resultAct = Act.ADD;
-                        break;
-                    case 3: resultAct = Act.SUBTRAC;
-                        break;
-                }
-                break;
-            default:
-
-                resultAct = Act.MULTIPLY;
-        }
-
-        return resultAct;
-    }
-
-    private void refrishDate() {
-// Определяем действие
-// MULTIPLY - Deistvie = 1;
-// DIVIDE   - Deistvie = 2;
-// ADD      - Deistvie = 3;
-// SUBTRAC  - Deistvie = 4;
-        currentAct = getAct();
-        int countValue;
-// Определяем значения выражения
-// s5  Начало диапо
-// s6  Конец диапоз
-//    Randomize;
-        if ((currentAct==Act.ADD)|(currentAct==Act.SUBTRAC))
-           countValue = SETTINGS_ADD_RANGE_MAX;
-        else
-        {
-            countValue = getMaxValue_SETTINGS_MULTIPLY();
-        }
-        currentOneUnit = SETTINGS_ADD_RANGE_MIN + (int) (Math.random() * countValue);//0..9, 10..50 = 10-0, 50-10=40
-        currentTwoUnit = SETTINGS_ADD_RANGE_MIN + (int) (Math.random() * countValue);//0..9, 10..50 = 10-0, 50-10=40
-        if (currentAct==Act.DIVIDE) {
-                currentOneUnit = currentOneUnit * currentTwoUnit;
-        }
-        if (currentAct==Act.SUBTRAC) {
-                if (currentOneUnit < currentTwoUnit) {
-                    int tempInt = currentOneUnit;
-                    currentOneUnit = currentTwoUnit;
-                    currentTwoUnit = tempInt;
-                }
-        } ;
-        textViewQuestion.setText(Integer.toString(currentOneUnit) + currentAct.getAct() + Integer.toString(currentTwoUnit) + " = ");
-    };
-
     private int getMaxValue_SETTINGS_MULTIPLY(){
         if (SETTINGS_MULTIPLY_10) { return 10;}
         else if (SETTINGS_MULTIPLY_9) { return 9;}
@@ -696,32 +591,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else return 1;
     }
 
+    private int getMinValue_SETTINGS_MULTIPLY(){
+        if (SETTINGS_MULTIPLY_1) { return 1;}
+        else if (SETTINGS_MULTIPLY_2) { return 2;}
+        else if (SETTINGS_MULTIPLY_3) { return 3;}
+        else if (SETTINGS_MULTIPLY_4) { return 4;}
+        else if (SETTINGS_MULTIPLY_5) { return 5;}
+        else if (SETTINGS_MULTIPLY_6) { return 6;}
+        else if (SETTINGS_MULTIPLY_7) { return 7;}
+        else if (SETTINGS_MULTIPLY_8) { return 8;}
+        else if (SETTINGS_MULTIPLY_9) { return 9;}
+        else return 10;
+    }
+
 
     private void loadPreferences() {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
-//        if (sharedPreferences.contains("SETTINGS_MULTIPLY")) {
-////            sharedPreferences.contains(key);
-//            SETTINGS_MULTIPLY = sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
-//        } else {
-//            SETTINGS_MULTIPLY = true;
-//            SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
-//            editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
-//            editorSharedPreferences.apply();
-//
-//        }
-//        if (sharedPreferences.contains("SETTINGS_DIVIDE")) {
-////            sharedPreferences.contains(key);
-//            SETTINGS_DIVIDE = sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
-//        } else {
-//            SETTINGS_DIVIDE = false;
-//            SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
-//            editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
-//            editorSharedPreferences.apply();
-//
-//        }
-//        checkBoxPreference_SETTINGS_MULTIPLY = (CheckBoxPreference) findPreference("SETTINGS_MULTIPLY");
-
         SETTINGS_MULTIPLY = sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
         SETTINGS_DIVIDE= sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
         SETTINGS_SUBTRAC = sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
@@ -735,20 +621,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SETTINGS_MULTIPLY_7 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
         SETTINGS_MULTIPLY_8 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
         SETTINGS_MULTIPLY_9 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
-        SETTINGS_MULTIPLY_10 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_10", false);
-    //            sharedPreferences.getInt("SETTINGS_TIME_BETWEEN_SESSIONS", 100);
-    //            sharedPreferences.getInt("SETTINGS_COUNT_TASK", 12);
         // НУЖНА проверка на сисловое или строковое значение
         // была ошибка когда значение было по по умолчанию = "0"
         // я поставил преобразование из троки в число
         // потом поменял значение на другое и ошибка вышла
         // на попытку преобразования числа в число, ну или я так понял
-
-//        String tempStr = sharedPreferences.getString("SETTINGS_ADD_RANGE_MIN", "1");
-//        if (TextUtils.isDigitsOnly(tempStr))
-//           SETTINGS_ADD_RANGE_MIN = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MIN", "1"));
-//        else  SETTINGS_ADD_RANGE_MIN = 1;
-//        SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MAX", "100"));
 
         SETTINGS_ADD_RANGE_MIN = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MIN", "1"));
         SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MAX", "100"));
@@ -756,11 +633,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SETTINGS_RECORD = sharedPreferences.getBoolean("SETTINGS_RECORD", true);
         if (SETTINGS_RECORD)
             progressBar.setVisibility(ProgressBar.VISIBLE);
-////            sharedPreferences.getInt("SETTINGS_TIME_TASK", 30);
-////            sharedPreferences.getInt("SETTINGS_TIME_SESSION", 360);
-//        PREFERENCES_SETTINGS_HEARTSLIVECOUNT = sharedPreferences.getInt("PREFERENCES_SETTINGS_HEARTSLIVECOUNT", 5);
-//        heartLiveCount = sharedPreferences.getInt("heartLiveCount", 0);
-
         }
 
 
@@ -793,7 +665,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        editorSharedPreferences.putInt("PREFERENCES_SETTINGS_HEARTSLIVECOUNT", PREFERENCES_SETTINGS_HEARTSLIVECOUNT);
 //        editorSharedPreferences.putInt("CURRENT_HEARTSLIVECOUNT", heartLiveCount);
 
-        editorSharedPreferences.apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editorSharedPreferences.apply();
+        } else editorSharedPreferences.commit();
 
     }
     @Override
