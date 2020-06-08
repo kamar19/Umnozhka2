@@ -2,12 +2,22 @@ package com.example.umnozhka;
 
 public class MyNumber {
     private int value;
-    private int minValue,MaxValue;
+    private int minValue,maxValue;
 
     public MyNumber(int minValue, int maxValue) {
+        // при создании объекта генерируется его значение.
+        // правильно ли это?
+        // Наверное не правильно, нужно отделить генерацию значени и консуруктор.
+
         this.minValue = minValue;
-        MaxValue = maxValue;
-        value =minValue + (int) (Math.random() * maxValue);//0..9, 10..50 = 10-0, 50-10=40
+        this.maxValue = maxValue;
+        value = getRandomValue();//0..9, 10..50 = 10-0, 50-10=40
+    }
+
+    public int getRandomValue(){
+        // Что бы не только при создании объекта можно было генерировать новое значение
+        // Может этого и не нужно
+        return this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
     }
 
     public int getValue() {
@@ -32,11 +42,11 @@ public class MyNumber {
     }
 
     public int getMaxValue() {
-        return MaxValue;
+        return maxValue;
     }
 
     public void setMaxValue(int maxValue) {
-        MaxValue = maxValue;
+        maxValue = maxValue;
     }
 
 
