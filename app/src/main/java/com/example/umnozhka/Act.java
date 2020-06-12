@@ -12,13 +12,8 @@ public enum Act {
     Act(String act){
             this.act = act;
         }
-        public String getAct(){ return act;}
 
-
-
-
-
-
+    public String getAct(){ return act;}
 
 
     }

@@ -252,17 +252,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
-
-        currentTask = new MyTask(SETTINGS_MULTIPLY,SETTINGS_DIVIDE,SETTINGS_ADD, SETTINGS_SUBTRAC);
-        if ((currentTask.getCurrentAct()==Act.ADD)|(currentTask.getCurrentAct()==Act.SUBTRAC))
-            currentTask.generateNumbers(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX);
-        else
-            currentTask.generateNumbers(getMaxValue_SETTINGS_MULTIPLY(), getMinValue_SETTINGS_MULTIPLY());
+        act_to_currentTask();
         textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
-
         refrishIconLive();
     }
 
+    public void act_to_currentTask() {
+        MyAct currentAct = new MyAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
+        if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
+            this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct);
+        else
+            this.currentTask = new MyTask(getMaxValue_SETTINGS_MULTIPLY(), getMinValue_SETTINGS_MULTIPLY(), currentAct);
+    }
 
 
 
@@ -335,11 +336,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //выполняется проверка Ответа на математический Вопрос
                     showAnswer();
                     //refrishDate();
-                    currentTask = new MyTask(SETTINGS_MULTIPLY,SETTINGS_DIVIDE,SETTINGS_ADD, SETTINGS_SUBTRAC);
-                    if ((currentTask.getCurrentAct()==Act.ADD)|(currentTask.getCurrentAct()==Act.SUBTRAC))
-                        currentTask.generateNumbers(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX);
-                    else
-                        currentTask.generateNumbers(getMaxValue_SETTINGS_MULTIPLY(), getMinValue_SETTINGS_MULTIPLY());
+                    act_to_currentTask();
                     textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
                     break;
@@ -390,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intAnswer=0;
         };
         if (intAnswer!=0) {
-            switch (currentTask.getCurrentAct()) {
+            switch (currentTask.getCurrentAct().getMyAct()) {
                 case MULTIPLY: {
                     if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer) answer = setRightTask();
                     else answer = setWrongTask();
@@ -453,7 +450,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // и показываем в нем результат
        // String prav - текстовая оценка результата, ошибка или верно.
        // int intAnswer - числое значение результата
-       Act deist = currentTask.getCurrentAct();
+       Act deist = currentTask.getCurrentAct().getMyAct();
        switch (countPrimerov) {
            case 1: {
                invisibleTextViewAnswer();

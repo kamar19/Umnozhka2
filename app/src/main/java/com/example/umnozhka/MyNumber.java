@@ -8,17 +8,19 @@ public class MyNumber {
         // при создании объекта генерируется его значение.
         // правильно ли это?
         // Наверное не правильно, нужно отделить генерацию значени и консуруктор.
+        if (minValue<1) minValue=0;
+        if (maxValue<1) maxValue=10;
 
         this.minValue = minValue;
         this.maxValue = maxValue;
-        value = getRandomValue();//0..9, 10..50 = 10-0, 50-10=40
+        this.value = this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
     }
 
-    public int getRandomValue(){
-        // Что бы не только при создании объекта можно было генерировать новое значение
-        // Может этого и не нужно
-        return this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
-    }
+//    private int getRandomValue(){
+//        // Что бы не только при создании объекта можно было генерировать новое значение
+//        // Может этого и не нужно
+//        return this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
+//    }
 
     public int getValue() {
         return value;
