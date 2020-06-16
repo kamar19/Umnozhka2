@@ -260,9 +260,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void act_to_currentTask() {
         MyAct currentAct = new MyAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
+            // Если Сложение или Вычитание
             this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct);
         else
-            this.currentTask = new MyTask(getMaxValue_SETTINGS_MULTIPLY(), getMinValue_SETTINGS_MULTIPLY(), currentAct);
+            // Если Умножение или деление
+            this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct);
     }
 
 
@@ -576,19 +578,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int getMaxValue_SETTINGS_MULTIPLY(){
-        if (SETTINGS_MULTIPLY_10) { return 10;}
-        else if (SETTINGS_MULTIPLY_9) { return 9;}
-        else if (SETTINGS_MULTIPLY_8) { return 8;}
-        else if (SETTINGS_MULTIPLY_7) { return 7;}
-        else if (SETTINGS_MULTIPLY_6) { return 6;}
-        else if (SETTINGS_MULTIPLY_5) { return 5;}
-        else if (SETTINGS_MULTIPLY_4) { return 4;}
-        else if (SETTINGS_MULTIPLY_3) { return 3;}
-        else if (SETTINGS_MULTIPLY_2) { return 2;}
-        else return 1;
+        // Пусть нижняя граница имеет придел, тогда
+        // верхняя, должна вычисляться по количеству игровых чисел
+        int countMaxValue=0, maxValue=0;
+        // Считаем коилчество значений.
+        if  (SETTINGS_MULTIPLY_10) { countMaxValue++;maxValue=10;}
+        else if  (SETTINGS_MULTIPLY_9) { countMaxValue++;maxValue=9;}
+        else if  (SETTINGS_MULTIPLY_8) { countMaxValue++;maxValue=8;}
+        else if  (SETTINGS_MULTIPLY_7) { countMaxValue++;maxValue=7;}
+        else if  (SETTINGS_MULTIPLY_6) { countMaxValue++;maxValue=6;}
+        else if  (SETTINGS_MULTIPLY_5){ countMaxValue++;maxValue=5;}
+        else if  (SETTINGS_MULTIPLY_4){ countMaxValue++;maxValue=4;}
+        else if  (SETTINGS_MULTIPLY_3) { countMaxValue++;maxValue=3;}
+        else if  (SETTINGS_MULTIPLY_2) { countMaxValue++;maxValue=2;}
+        else if  (SETTINGS_MULTIPLY_1) { countMaxValue++;maxValue=1;}
+        // Если количесмтво значений равно с максимальным значением,
+        // то возвращаем результат, иначе
+        // нужен пересчет
+        if (countMaxValue==maxValue) return maxValue; else {
+            return countMaxValue;
+            //MyNumberOneTen myNumberOneTen = new MyNumberOneTen(min )
+        }
     }
 
     private int getMinValue_SETTINGS_MULTIPLY(){
+        // Пусть нижняя граница имеет придел, тогда
+        // верхняя, должна вычисляться по количеству игровых чисел
+        //
         if (SETTINGS_MULTIPLY_1) { return 1;}
         else if (SETTINGS_MULTIPLY_2) { return 2;}
         else if (SETTINGS_MULTIPLY_3) { return 3;}

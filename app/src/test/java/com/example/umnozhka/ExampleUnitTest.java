@@ -94,7 +94,88 @@ public class ExampleUnitTest {
         System.out.println(myNumber10);
 
     }
+    @Test
+    public void MyNumberOneten_All_True_10tests (  ) {
+        boolean [] myBoolArray = { true,true,true,true,true,true,true,true,true,true};
+        System.out.println("(All_True) 1 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 2 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 3 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 4 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 5 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 6 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 7 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 8 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 9 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_True) 10 test:" + new MyNumberOneTen(1,10,myBoolArray));
 
+    }
+    @Test
+    public void MyNumberOneten_All_False_10tests (  ) {
+        boolean [] myBoolArray = { false,false,false,false,false,false,false,false,false,false};
+        System.out.println("(All_False) 1 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 2 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 3 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 4 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 5 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 6 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 7 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 8 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 9 test:" + new MyNumberOneTen(1,10,myBoolArray));
+        System.out.println("(All_False) 10 test:" + new MyNumberOneTen(1,10,myBoolArray));
+    }
+    @Test
+    public void MyNumberOneten_7_True_10tests (  ) {
+        boolean[] myBoolArray31 = {false, false, false, false, false, false, true, false, false, false};
+        System.out.println("(7) 1 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 2 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 3 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 4 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 5 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 6 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 7 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 8 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 9 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+        System.out.println("(7) 10 test:" + new MyNumberOneTen(1, 10, myBoolArray31));
+    }
+    @Test
+    public void MyNumberOneten_2_3_10_True_10tests (  ) {
+        boolean [] myBoolArray3 = { false,true,true,false,false,false,false,false,false,true};
+        System.out.println("(2,3,10) 1 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 2 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 3 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 4 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 5 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 6 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 7 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 8 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 9 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+        System.out.println("(2,3,10) 10 test:"+new MyNumberOneTen(1,10,myBoolArray3));
+
+    }
+    @Test
+    public void MyNumberOneten_1_2_9_10_True_10tests (  ) {
+        boolean [] myBoolArray4= { true,true,false,false,false,false,false,false,true,true};
+        System.out.println("(1,2,9,,10) 1 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 2 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 3 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 4 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 5 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 6 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 7 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 8 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 9 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+        System.out.println("(1,2,9,,10) 10 test:"+new MyNumberOneTen(1,10,myBoolArray4));
+    }
+        @Test
+    public void MyNumberOneten_10_test (  ) {
+//        сгенерируем 10 объектов
+        MyNumberOneten_All_True_10tests ();
+        MyNumberOneten_All_False_10tests();
+        MyNumberOneten_7_True_10tests();
+        MyNumberOneten_2_3_10_True_10tests();
+        MyNumberOneten_1_2_9_10_True_10tests();
+
+    }
 
 
 }
