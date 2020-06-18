@@ -16,10 +16,20 @@ public class MyNumberOneTen extends MyNumber {
 //    private boolean SETTINGS_MULTIPLY_10=false;//
 
 //
+
+
+
 //    @Override
 //    public String toString() {
-//        return String.valueOf(value);
+//        return String.valueOf(this.getValue());
+////        return super.toString() ;
 //    }
+    @Override
+    public String toString() {
+        return Integer.toString(this.getValue()) ;
+
+    }
+
 
     public MyNumberOneTen(int minValue, int maxValue, boolean SETTINGS_MULTIPLYS []) {
 //            SETTINGS_MULTIPLY_1, boolean SETTINGS_MULTIPLY_2,

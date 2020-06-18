@@ -34,16 +34,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static boolean SETTINGS_DIVIDE;     // Деление
     private static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
     private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
-    private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
-    private static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
-    private static boolean SETTINGS_MULTIPLY_3; //
-    private static boolean SETTINGS_MULTIPLY_4; //
-    private static boolean SETTINGS_MULTIPLY_5; //
-    private static boolean SETTINGS_MULTIPLY_6; //
-    private static boolean SETTINGS_MULTIPLY_7; //
-    private static boolean SETTINGS_MULTIPLY_8; //
-    private static boolean SETTINGS_MULTIPLY_9; //
-    private static boolean SETTINGS_MULTIPLY_10;//
+
+    private static boolean [] SETTINGS_MULTIPLYS={false,false,false,false,false,false,false,false,false,false};
+//    private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
+//    private static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
+//    private static boolean SETTINGS_MULTIPLY_3; //
+//    private static boolean SETTINGS_MULTIPLY_4; //
+//    private static boolean SETTINGS_MULTIPLY_5; //
+//    private static boolean SETTINGS_MULTIPLY_6; //
+//    private static boolean SETTINGS_MULTIPLY_7; //
+//    private static boolean SETTINGS_MULTIPLY_8; //
+//    private static boolean SETTINGS_MULTIPLY_9; //
+//    private static boolean SETTINGS_MULTIPLY_10;//
 //    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
 //    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
     private static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
@@ -207,16 +209,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SETTINGS_ADD = false;
             SETTINGS_ADD_RANGE_MIN = 1;
             SETTINGS_ADD_RANGE_MAX = 100;
-            SETTINGS_MULTIPLY_1 = false;
-            SETTINGS_MULTIPLY_2 = true;
-            SETTINGS_MULTIPLY_3 = true;
-            SETTINGS_MULTIPLY_4 = true;
-            SETTINGS_MULTIPLY_5 = true;
-            SETTINGS_MULTIPLY_6 = true;
-            SETTINGS_MULTIPLY_7 = true;
-            SETTINGS_MULTIPLY_8 = true;
-            SETTINGS_MULTIPLY_9 = true;
-            SETTINGS_MULTIPLY_10 = true;
+            SETTINGS_MULTIPLYS[0] = false;
+            SETTINGS_MULTIPLYS[1] = true;
+            SETTINGS_MULTIPLYS[2] = true;
+            SETTINGS_MULTIPLYS[3] = true;
+            SETTINGS_MULTIPLYS[4] = true;
+            SETTINGS_MULTIPLYS[5] = true;
+            SETTINGS_MULTIPLYS[6] = true;
+            SETTINGS_MULTIPLYS[7] = true;
+            SETTINGS_MULTIPLYS[8] = true;
+            SETTINGS_MULTIPLYS[9] = true;
             countHeartLive = 0;
 //            PREFERENCES_SETTINGS_HEARTSLIVECOUNT = 5;
 //            SETTINGS_COUNT_TASK = 10;
@@ -253,18 +255,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
         act_to_currentTask();
-        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+//        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+        textViewQuestion.setText(currentTask.getCurrentAct().toString()  );
+
+        //        textViewQuestion.setText("99");
+
         refrishIconLive();
+
+
     }
 
     public void act_to_currentTask() {
         MyAct currentAct = new MyAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
+
+
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
             // Если Сложение или Вычитание
-            this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct);
+            this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct, SETTINGS_MULTIPLYS );
         else
             // Если Умножение или деление
-            this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct);
+            this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct,SETTINGS_MULTIPLYS);
     }
 
 
@@ -582,16 +592,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // верхняя, должна вычисляться по количеству игровых чисел
         int countMaxValue=0, maxValue=0;
         // Считаем коилчество значений.
-        if  (SETTINGS_MULTIPLY_10) { countMaxValue++;maxValue=10;}
-        else if  (SETTINGS_MULTIPLY_9) { countMaxValue++;maxValue=9;}
-        else if  (SETTINGS_MULTIPLY_8) { countMaxValue++;maxValue=8;}
-        else if  (SETTINGS_MULTIPLY_7) { countMaxValue++;maxValue=7;}
-        else if  (SETTINGS_MULTIPLY_6) { countMaxValue++;maxValue=6;}
-        else if  (SETTINGS_MULTIPLY_5){ countMaxValue++;maxValue=5;}
-        else if  (SETTINGS_MULTIPLY_4){ countMaxValue++;maxValue=4;}
-        else if  (SETTINGS_MULTIPLY_3) { countMaxValue++;maxValue=3;}
-        else if  (SETTINGS_MULTIPLY_2) { countMaxValue++;maxValue=2;}
-        else if  (SETTINGS_MULTIPLY_1) { countMaxValue++;maxValue=1;}
+        if  (SETTINGS_MULTIPLYS[9]) { countMaxValue++;maxValue=10;}
+        else if  (SETTINGS_MULTIPLYS[8]) { countMaxValue++;maxValue=9;}
+        else if  (SETTINGS_MULTIPLYS[7]) { countMaxValue++;maxValue=8;}
+        else if  (SETTINGS_MULTIPLYS[6]) { countMaxValue++;maxValue=7;}
+        else if  (SETTINGS_MULTIPLYS[5]) { countMaxValue++;maxValue=6;}
+        else if  (SETTINGS_MULTIPLYS[4]){ countMaxValue++;maxValue=5;}
+        else if  (SETTINGS_MULTIPLYS[3]){ countMaxValue++;maxValue=4;}
+        else if  (SETTINGS_MULTIPLYS[2]) { countMaxValue++;maxValue=3;}
+        else if  (SETTINGS_MULTIPLYS[1]) { countMaxValue++;maxValue=2;}
+        else if  (SETTINGS_MULTIPLYS[0]) { countMaxValue++;maxValue=1;}
         // Если количесмтво значений равно с максимальным значением,
         // то возвращаем результат, иначе
         // нужен пересчет
@@ -605,15 +615,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Пусть нижняя граница имеет придел, тогда
         // верхняя, должна вычисляться по количеству игровых чисел
         //
-        if (SETTINGS_MULTIPLY_1) { return 1;}
-        else if (SETTINGS_MULTIPLY_2) { return 2;}
-        else if (SETTINGS_MULTIPLY_3) { return 3;}
-        else if (SETTINGS_MULTIPLY_4) { return 4;}
-        else if (SETTINGS_MULTIPLY_5) { return 5;}
-        else if (SETTINGS_MULTIPLY_6) { return 6;}
-        else if (SETTINGS_MULTIPLY_7) { return 7;}
-        else if (SETTINGS_MULTIPLY_8) { return 8;}
-        else if (SETTINGS_MULTIPLY_9) { return 9;}
+        if (SETTINGS_MULTIPLYS[0]) { return 1;}
+        else if (SETTINGS_MULTIPLYS[1]) { return 2;}
+        else if (SETTINGS_MULTIPLYS[2]) { return 3;}
+        else if (SETTINGS_MULTIPLYS[3]) { return 4;}
+        else if (SETTINGS_MULTIPLYS[4]) { return 5;}
+        else if (SETTINGS_MULTIPLYS[5]) { return 6;}
+        else if (SETTINGS_MULTIPLYS[6]) { return 7;}
+        else if (SETTINGS_MULTIPLYS[7]) { return 8;}
+        else if (SETTINGS_MULTIPLYS[8]) { return 9;}
         else return 10;
     }
 
@@ -625,15 +635,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SETTINGS_DIVIDE= sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
         SETTINGS_SUBTRAC = sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
         SETTINGS_ADD = sharedPreferences.getBoolean("SETTINGS_ADD", false);
-        SETTINGS_MULTIPLY_1 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
-        SETTINGS_MULTIPLY_2 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_2", true);
-        SETTINGS_MULTIPLY_3 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_3", true);
-        SETTINGS_MULTIPLY_4 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_4", true);
-        SETTINGS_MULTIPLY_5 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_5", true);
-        SETTINGS_MULTIPLY_6 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_6", true);
-        SETTINGS_MULTIPLY_7 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
-        SETTINGS_MULTIPLY_8 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
-        SETTINGS_MULTIPLY_9 = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
+        SETTINGS_MULTIPLYS[0] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
+        SETTINGS_MULTIPLYS[1] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_2", true);
+        SETTINGS_MULTIPLYS[2] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_3", true);
+        SETTINGS_MULTIPLYS[3] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_4", true);
+        SETTINGS_MULTIPLYS[4] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_5", true);
+        SETTINGS_MULTIPLYS[5] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_6", true);
+        SETTINGS_MULTIPLYS[6] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
+        SETTINGS_MULTIPLYS[7] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
+        SETTINGS_MULTIPLYS[8] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
+        SETTINGS_MULTIPLYS[9] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_10", true);
+
         // НУЖНА проверка на сисловое или строковое значение
         // была ошибка когда значение было по по умолчанию = "0"
         // я поставил преобразование из троки в число
@@ -659,16 +671,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editorSharedPreferences.putBoolean("SETTINGS_ADD", SETTINGS_ADD);
         editorSharedPreferences.putString("SETTINGS_ADD_RANGE_MIN", String.valueOf(SETTINGS_ADD_RANGE_MIN));
         editorSharedPreferences.putString("SETTINGS_ADD_RANGE_MAX", String.valueOf(SETTINGS_ADD_RANGE_MAX));
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_1", SETTINGS_MULTIPLY_1);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_2", SETTINGS_MULTIPLY_2);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_3", SETTINGS_MULTIPLY_3);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_4", SETTINGS_MULTIPLY_4);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_5", SETTINGS_MULTIPLY_5);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_6", SETTINGS_MULTIPLY_6);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_7", SETTINGS_MULTIPLY_7);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_8", SETTINGS_MULTIPLY_8);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_9", SETTINGS_MULTIPLY_9);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_10", SETTINGS_MULTIPLY_10);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_1", SETTINGS_MULTIPLYS[0]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_2", SETTINGS_MULTIPLYS[1]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_3", SETTINGS_MULTIPLYS[2]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_4", SETTINGS_MULTIPLYS[3]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_5", SETTINGS_MULTIPLYS[4]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_6", SETTINGS_MULTIPLYS[5]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_7", SETTINGS_MULTIPLYS[6]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_8", SETTINGS_MULTIPLYS[7]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_9", SETTINGS_MULTIPLYS[8]);
+        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_10", SETTINGS_MULTIPLYS[9]);
 //            editorSharedPreferences.putBoolean("SETTINGS_TIME_BETWEEN_SESSIONS", SETTINGS_TIME_BETWEEN_SESSIONS);
 //            editorSharedPreferences.putBoolean("SETTINGS_COUNT_TASK", SETTINGS_COUNT_TASK);
         editorSharedPreferences.putBoolean("SETTINGS_RECORD", SETTINGS_RECORD);

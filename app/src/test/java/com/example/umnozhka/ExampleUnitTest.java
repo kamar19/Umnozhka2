@@ -18,19 +18,24 @@ public class ExampleUnitTest {
 
 
     @Test
-    public void MyTask_tttt(){
+    public void MyTask_false_false_false_false_All_True(){
         //все ошибочные
-        MyTask currentTask1 = new MyTask(0,0, new MyAct(false,false,false,false));
+        boolean [] myBoolArray = { true,true,true,true,true,true,true,true,true,true};
         //ошибочные
-        System.out.println("test_MyTask_tttt (0,0, new MyAct(f,f,f,f)): CurrentAct = "+currentTask1.getCurrentAct().getMyAct()+","+ " CurrentOneUnit = " + currentTask1.getCurrentOneUnit() + " CurrentTwoUnit = "+ currentTask1.getCurrentTwoUnit());
-        MyTask currentTask2 = new MyTask(0,0, new MyAct(true,false,false,false));
+        MyTask currentTask1 = new MyTask(0,0, new MyAct(false,false,false,false),myBoolArray);
+        System.out.println("MyTask_false_false_false_false_All_True = "+currentTask1.getCurrentAct().getMyAct()+","+ " CurrentOneUnit = " + currentTask1.getCurrentOneUnit() + " CurrentTwoUnit = "+ currentTask1.getCurrentTwoUnit());
 
+        MyTask currentTask2 = new MyTask(0,0, new MyAct(true,false,false,false),myBoolArray);
+        System.out.println("test_MyTask_All_True CurrentAct = "+currentTask1.getCurrentAct().getMyAct()+","+ " CurrentOneUnit = " + currentTask1.getCurrentOneUnit() + " CurrentTwoUnit = "+ currentTask1.getCurrentTwoUnit());
+        MyTask currentTask3 = new MyTask(1,100, new MyAct(true,false,false,false),myBoolArray);
+        System.out.println("test_MyTask_All_True CurrentAct = "+currentTask1.getCurrentAct().getMyAct()+","+ " CurrentOneUnit = " + currentTask1.getCurrentOneUnit() + " CurrentTwoUnit = "+ currentTask1.getCurrentTwoUnit());
+        MyTask currentTask4 = new MyTask(1,100, new MyAct(true,false,false,false),myBoolArray);
+        System.out.println("test_MyTask_All_True CurrentAct = "+currentTask1.getCurrentAct().getMyAct()+","+ " CurrentOneUnit = " + currentTask1.getCurrentOneUnit() + " CurrentTwoUnit = "+ currentTask1.getCurrentTwoUnit());
 
+        MyTask currentTask5 = new MyTask(1,100, new MyAct(true,false,false,false),myBoolArray);
+        System.out.println("test_MyTask_All_True CurrentAct = "+currentTask1.getCurrentAct().getMyAct()+","+ " CurrentOneUnit = " + currentTask1.getCurrentOneUnit() + " CurrentTwoUnit = "+ currentTask1.getCurrentTwoUnit());
 
-        MyTask currentTask3 = new MyTask(1,100, new MyAct(true,false,false,false));
-        MyTask currentTask4 = new MyTask(1,100, new MyAct(true,false,false,false));
-        MyTask currentTask5 = new MyTask(1,100, new MyAct(true,false,false,false));
-        MyTask currentTask6 = new MyTask(1,100, new MyAct(true,false,false,false));
+        MyTask currentTask6 = new MyTask(1,100, new MyAct(true,false,false,false),myBoolArray);
 
     }
 

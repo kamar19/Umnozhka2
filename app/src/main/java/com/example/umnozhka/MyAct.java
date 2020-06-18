@@ -7,6 +7,11 @@ public class MyAct {
         this.myAct = myAct;
     }
 
+    @Override
+    public String toString() {
+        return myAct.toString();
+    }
+
     public Act getMyAct() {
         return myAct;
     }
