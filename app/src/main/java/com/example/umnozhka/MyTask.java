@@ -43,8 +43,8 @@ public class MyTask {
             }
         } else {
             //
-            this.currentOneUnit = new MyNumber(currentOneUnitMin, currentOneUnitMax);//Значения чисел 0..9, 10..50 = 10-0, 50-10=40
-            this.currentTwoUnit = new MyNumber(currentOneUnitMin, currentOneUnitMax);
+            this.currentOneUnit = new MyNumberAddSub(currentOneUnitMin, currentOneUnitMax);//Значения чисел 0..9, 10..50 = 10-0, 50-10=40
+            this.currentTwoUnit = new MyNumberAddSub(currentOneUnitMin, currentOneUnitMax);
 
             if (currentAct.getMyAct() == Act.SUBTRAC) { // Если Действие - вычитание, то чье значение больше тот будет первым значением
                 if (currentOneUnit.getValue() < currentTwoUnit.getValue()) {

@@ -1,10 +1,21 @@
 package com.example.umnozhka;
 
-public class MyNumber {
-    private int value;
-    private int minValue,maxValue;
+public abstract class MyNumber {
+    int value;
+    int minValue,maxValue;
 
     public MyNumber(int minValue, int maxValue) {
+        // здесь была генерация
+        // при создании объекта генерируется его значение.
+        // правильно ли это?
+        // Наверное не правильно, нужно отделить генерацию значени и консуруктор.
+        if (minValue<1) minValue=0;
+        if (maxValue<1) maxValue=10;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+        // а генерацию оставим в подклассах
+//        this.value = this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
+
     }
 
 //    private int getRandomValue(){
