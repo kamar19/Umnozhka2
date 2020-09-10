@@ -254,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
+
         act_to_currentTask();
 //        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
         textViewQuestion.setText(currentTask.getCurrentAct().toString()  );
@@ -267,6 +268,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void act_to_currentTask() {
         MyAct currentAct = new MyAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
+        //временный currentAct, созданый что бы получить значение действия - getMyAct()
+        // а потом уже изходя из действия создать currentTask
 
 
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
@@ -590,25 +593,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int getMaxValue_SETTINGS_MULTIPLY(){
         // Пусть нижняя граница имеет придел, тогда
         // верхняя, должна вычисляться по количеству игровых чисел
-        int countMaxValue=0, maxValue=0;
+        int maxValue=0;
         // Считаем коилчество значений.
-        if  (SETTINGS_MULTIPLYS[9]) { countMaxValue++;maxValue=10;}
-        else if  (SETTINGS_MULTIPLYS[8]) { countMaxValue++;maxValue=9;}
-        else if  (SETTINGS_MULTIPLYS[7]) { countMaxValue++;maxValue=8;}
-        else if  (SETTINGS_MULTIPLYS[6]) { countMaxValue++;maxValue=7;}
-        else if  (SETTINGS_MULTIPLYS[5]) { countMaxValue++;maxValue=6;}
-        else if  (SETTINGS_MULTIPLYS[4]){ countMaxValue++;maxValue=5;}
-        else if  (SETTINGS_MULTIPLYS[3]){ countMaxValue++;maxValue=4;}
-        else if  (SETTINGS_MULTIPLYS[2]) { countMaxValue++;maxValue=3;}
-        else if  (SETTINGS_MULTIPLYS[1]) { countMaxValue++;maxValue=2;}
-        else if  (SETTINGS_MULTIPLYS[0]) { countMaxValue++;maxValue=1;}
+        if  (SETTINGS_MULTIPLYS[9]) maxValue=10;
+        else if  (SETTINGS_MULTIPLYS[8]) maxValue=9;
+        else if  (SETTINGS_MULTIPLYS[7]) maxValue=8;
+        else if  (SETTINGS_MULTIPLYS[6]) maxValue=7;
+        else if  (SETTINGS_MULTIPLYS[5]) maxValue=6;
+        else if  (SETTINGS_MULTIPLYS[4]) maxValue=5;
+        else if  (SETTINGS_MULTIPLYS[3]) maxValue=4;
+        else if  (SETTINGS_MULTIPLYS[2]) maxValue=3;
+        else if  (SETTINGS_MULTIPLYS[1]) maxValue=2;
+        else if  (SETTINGS_MULTIPLYS[0]) maxValue=1;
+//        int countMaxValue=0, maxValue=0;
+//        // Считаем коилчество значений.
+//        if  (SETTINGS_MULTIPLYS[9]) { countMaxValue++;maxValue=10;}
+//        else if  (SETTINGS_MULTIPLYS[8]) { countMaxValue++;maxValue=9;}
+//        else if  (SETTINGS_MULTIPLYS[7]) { countMaxValue++;maxValue=8;}
+//        else if  (SETTINGS_MULTIPLYS[6]) { countMaxValue++;maxValue=7;}
+//        else if  (SETTINGS_MULTIPLYS[5]) { countMaxValue++;maxValue=6;}
+//        else if  (SETTINGS_MULTIPLYS[4]){ countMaxValue++;maxValue=5;}
+//        else if  (SETTINGS_MULTIPLYS[3]){ countMaxValue++;maxValue=4;}
+//        else if  (SETTINGS_MULTIPLYS[2]) { countMaxValue++;maxValue=3;}
+//        else if  (SETTINGS_MULTIPLYS[1]) { countMaxValue++;maxValue=2;}
+//        else if  (SETTINGS_MULTIPLYS[0]) { countMaxValue++;maxValue=1;}
         // Если количесмтво значений равно с максимальным значением,
         // то возвращаем результат, иначе
         // нужен пересчет
-        if (countMaxValue==maxValue) return maxValue; else {
-            return countMaxValue;
+//        if (countMaxValue==maxValue)
+            return maxValue;
+//        else {
+//            return countMaxValue;
             //MyNumberOneTen myNumberOneTen = new MyNumberOneTen(min )
-        }
+//        }
     }
 
     private int getMinValue_SETTINGS_MULTIPLY(){

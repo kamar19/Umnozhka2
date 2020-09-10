@@ -181,6 +181,15 @@ public class ExampleUnitTest {
         MyNumberOneten_1_2_9_10_True_10tests();
 
     }
+    @Test
+    public void Act_10_test (  ) {
+//        сгенерируем 10 объектов
+        MyNumberOneten_All_True_10tests ();
+        MyNumberOneten_All_False_10tests();
+        MyNumberOneten_7_True_10tests();
+        MyNumberOneten_2_3_10_True_10tests();
+        MyNumberOneten_1_2_9_10_True_10tests();
 
+    }
 
 }
