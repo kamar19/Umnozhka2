@@ -6,7 +6,7 @@ public class MyNumberAddSub extends MyNumber {
         super(minValue, maxValue);
         // оставляем только генерацию
 
-        this.value = this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
+        setValue(getMinValue() + (int) (Math.random() * getMaxValue()));//0..9, 10..50 = 10-0, 50-10=40
 
     }
 

@@ -1,14 +1,14 @@
 package com.example.umnozhka;
 
 public abstract class MyNumber {
-    int value;
-    int minValue,maxValue;
+    private int value;
+    private int minValue,maxValue;
 
     public MyNumber(int minValue, int maxValue) {
         // здесь была генерация
         // при создании объекта генерируется его значение.
         // правильно ли это?
-        // Наверное не правильно, нужно отделить генерацию значени и консуруктор.
+        // Наверное не правильно, нужно отделить генерацию значения и консуруктор.
         if (minValue<1) minValue=0;
         if (maxValue<1) maxValue=10;
         this.minValue = minValue;
@@ -42,17 +42,19 @@ public abstract class MyNumber {
         return minValue;
     }
 
-    public void setMinValue(int minValue) {
-        this.minValue = minValue;
-    }
-
     public int getMaxValue() {
         return maxValue;
     }
 
+/*    public void setMinValue(int minValue) {
+        this.minValue = minValue;
+    }
     public void setMaxValue(int maxValue) {
         maxValue = maxValue;
     }
+
+*/
+
 
 
 }

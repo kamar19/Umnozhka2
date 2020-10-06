@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int countPrimerov=1;
     private String stringCurrentAct="*";
     private boolean endGame=false;
+    private boolean lastGame=false;
+
     private   MyTask currentTask;
 
 //    PrefActivity prefActivity = new PrefActivity();
@@ -235,6 +238,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        progressBar.setMax(SETTINGS_COUNT_TASK);
 
         if (SETTINGS_RECORD) {
+            // создается таймер, нужно ли его переносить из конструктора?
+//            наверное
+
             progressBar.setVisibility(ProgressBar.VISIBLE);
 
             Timer timer = new Timer();
@@ -243,9 +249,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void run() {
                     // TODO Auto-generated method stub
 //                    while (progressBar.getProgress() < progressBar.getProgress()) {
-                        progressBar.incrementProgressBy(2);
-                        if (progressBar.getProgress()>=progressBarTime)
-                            endGame=true;
+                        if (progressBar.getProgress()<progressBarTime-2) // по умолчанию 300
+                                progressBar.incrementProgressBy(2);
+                        if (progressBar.getProgress()>=progressBarTime) {
+                            // Сюда нужно встаивть вызов окна завершения игры
+                            lastGame = true;
+                            // нужно вставить логирование, так как вылетает ошибка
+                            // подозреваю, что progressBar счетчик переклинивает
+                            progressBar.incrementProgressBy(-2);
+                            // не помогло, где то ошибка
+                            Toast.makeText(getApplicationContext(), "timer", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
 //                    }
                 }
             }, 1000, 1000);//progressBarTime
@@ -256,22 +271,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         act_to_currentTask();
-//        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
-        textViewQuestion.setText(currentTask.getCurrentAct().toString()  );
+        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+//        textViewQuestion.setText(currentTask.getCurrentAct().toString()  );
 
         //        textViewQuestion.setText("99");
-
         refrishIconLive();
-
-
     }
 
     public void act_to_currentTask() {
         MyAct currentAct = new MyAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
         //временный currentAct, созданый что бы получить значение действия - getMyAct()
         // а потом уже изходя из действия создать currentTask
-
-
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
             // Если Сложение или Вычитание
             this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct, SETTINGS_MULTIPLYS );
@@ -279,9 +289,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Если Умножение или деление
             this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct,SETTINGS_MULTIPLYS);
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -354,6 +361,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     act_to_currentTask();
                     textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
+                    if (lastGame)
+                        endGame=true;
                     break;
             }
         }
@@ -404,7 +413,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (intAnswer!=0) {
             switch (currentTask.getCurrentAct().getMyAct()) {
                 case MULTIPLY: {
-                    if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer) answer = setRightTask();
+                    if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer)
+                        answer = setRightTask();
                     else answer = setWrongTask();
                     break; }
                 case DIVIDE: {
@@ -466,65 +476,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // String prav - текстовая оценка результата, ошибка или верно.
        // int intAnswer - числое значение результата
        Act deist = currentTask.getCurrentAct().getMyAct();
+       String tempText = currentTask.getCurrentOneUnit().toString() + deist.getAct() +  currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav;
        switch (countPrimerov) {
+           // можно попробовать убрать громоздкую конгструкцию из 12 textViewAnswerShow1
+           // и сделать массив из textViewAnswerShow, но это усложнит их наименование через string.xml
            case 1: {
                invisibleTextViewAnswer();
-               textViewAnswerShow1.setText(currentTask.getCurrentOneUnit().toString() + deist.getAct() +  currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow1.setText(tempText);
                break;
            }
            case 2: {
                textViewAnswerShow4.setVisibility(View.VISIBLE);
-               textViewAnswerShow4.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow4.setText(tempText);
                break;
            }
            case 3: {
                textViewAnswerShow7.setVisibility(View.VISIBLE);
-               textViewAnswerShow7.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow7.setText(tempText);
                break;
            }
            case 4: {
                textViewAnswerShow10.setVisibility(View.VISIBLE);
-               textViewAnswerShow10.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow10.setText(tempText);
                break;
            }
            case 5: {
                textViewAnswerShow2.setVisibility(View.VISIBLE);
-               textViewAnswerShow2.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow2.setText(tempText);
                break;
            }
            case 6: {
                textViewAnswerShow5.setVisibility(View.VISIBLE);
-               textViewAnswerShow5.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow5.setText(tempText);
                break;
            }
            case 7: {
                textViewAnswerShow8.setVisibility(View.VISIBLE);
-               textViewAnswerShow8.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow8.setText(tempText);
                break;
            }
            case 8: {
                textViewAnswerShow11.setVisibility(View.VISIBLE);
-               textViewAnswerShow11.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow11.setText(tempText);;
                break;
            }
            case 9: {
                textViewAnswerShow3.setVisibility(View.VISIBLE);
-               textViewAnswerShow3.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow3.setText(tempText);
                break;
            }
            case 10: {
                textViewAnswerShow6.setVisibility(View.VISIBLE);
-               textViewAnswerShow6.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow6.setText(tempText);
                break;
            }
            case 11: {
                textViewAnswerShow9.setVisibility(View.VISIBLE);
-               textViewAnswerShow9.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow9.setText(tempText);
                break;
            }
            case 12: {
                textViewAnswerShow12.setVisibility(View.VISIBLE);
-               textViewAnswerShow12.setText(currentTask.getCurrentOneUnit().toString()  +  deist.getAct() + currentTask.getCurrentTwoUnit().toString()  + '=' + String.valueOf(intAnswer) + " " + prav);
+               textViewAnswerShow12.setText(tempText);
                countPrimerov=0;
                break;
            }

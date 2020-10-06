@@ -29,15 +29,17 @@ public class MyAct {
 //      int random_number1 = a + (int) (Math.random() * b); // Генерация 1-го числа
         int Variants = 0;
         Act resultAct = Act.MULTIPLY;
-        int tempResultAct=0;
 
         if (SETTINGS_MULTIPLY) Variants++;
         if (SETTINGS_DIVIDE) Variants++;
         if (SETTINGS_ADD) Variants++;
         if (SETTINGS_SUBTRAC) Variants++;
+        // Узнаем сколько разрешено действий
+
         switch (Variants) {
+
             case 0:
-                Variants++;
+                Variants=1;
             case 1:
                 if (SETTINGS_MULTIPLY)  resultAct = Act.MULTIPLY;
                 if (SETTINGS_DIVIDE)  resultAct = Act.DIVIDE;
@@ -45,7 +47,7 @@ public class MyAct {
                 if (SETTINGS_SUBTRAC)  resultAct = Act.SUBTRAC;
                 break;
             case 2:
-                tempResultAct = (int) (Math.random() * 2);
+                int tempResultAct = (int) (Math.random() * 2);
                 if (tempResultAct == 0) {
                     if (SETTINGS_MULTIPLY) {
                         resultAct = Act.MULTIPLY;
@@ -64,9 +66,8 @@ public class MyAct {
                 }
                 break;
             case 3:
-                tempResultAct = (int) (Math.random() * 3);
                 // из каких трей действий?
-                switch (tempResultAct){
+                switch ((int) (Math.random() * 3)){
                     case 0:  if (!SETTINGS_MULTIPLY) resultAct = Act.SUBTRAC;
                         // Пропускаем 1-е действие, т.е если не используется умножение, то
                         // включены 2,3,4 действия, и 1-е действие деление
@@ -84,9 +85,8 @@ public class MyAct {
                 }
                 break;
             case 4:
-                tempResultAct = (int) (Math.random() * 4);
                 // все Действия
-                switch (tempResultAct) {
+                switch ((int) (Math.random() * 4)) {
                     case 0: resultAct = Act.MULTIPLY;
                         break;
                     case 1: resultAct = Act.DIVIDE;
@@ -101,7 +101,7 @@ public class MyAct {
 
                 resultAct = Act.MULTIPLY;
         }
-
+        setMyAct(resultAct);
         return resultAct;
     }
 
