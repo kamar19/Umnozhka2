@@ -9,7 +9,7 @@ public class MyTask {
     }
 
     public MyNumber getCurrentOneUnit() {
-         return currentOneUnit;
+        return currentOneUnit;
     }
 
     public MyNumber getCurrentTwoUnit() {
@@ -20,7 +20,7 @@ public class MyTask {
         return currentAct;
     }
 
-    public MyTask(int currentOneUnitMin,int currentOneUnitMax,MyAct currentAct,boolean SETTINGS_MULTIPLYS []) {
+    public MyTask(int currentOneUnitMin, int currentOneUnitMax, MyAct currentAct, boolean SETTINGS_MULTIPLYS[]) {
         // В конструктор получем currentAct
         setCurrentAct(currentAct);
         // Присваеваем его значение для this.currentAc
@@ -28,8 +28,8 @@ public class MyTask {
         if (this.currentAct.getMyAct() == Act.MULTIPLY | this.currentAct.getMyAct() == Act.DIVIDE) {
             // Если операция умножения или деления, то нужно сгенерировать сисла от 1 до 10,
             // с учетом включенных значений чисел
-            currentOneUnit = new MyNumberOneTen(currentOneUnitMin, currentOneUnitMax, SETTINGS_MULTIPLYS );//Значения чисел 0..9, 10..50 = 10-0, 50-10=40
-            currentTwoUnit = new MyNumberOneTen(currentOneUnitMin, currentOneUnitMax, SETTINGS_MULTIPLYS );
+            currentOneUnit = new MyNumberOneTen(currentOneUnitMin, currentOneUnitMax, SETTINGS_MULTIPLYS);//Значения чисел 0..9, 10..50 = 10-0, 50-10=40
+            currentTwoUnit = new MyNumberOneTen(currentOneUnitMin, currentOneUnitMax, SETTINGS_MULTIPLYS);
 
             //// Если Действие - деление, то Первое число произведения двух чисел.
             if (this.currentAct.getMyAct() == Act.DIVIDE) {
@@ -47,7 +47,9 @@ public class MyTask {
                     currentOneUnit.setValue(currentTwoUnit.getValue());
                     currentTwoUnit.setValue(tempInt);
                 }
-            } ;
-        } ;
+            }
+            ;
+        }
+        ;
     }
 }

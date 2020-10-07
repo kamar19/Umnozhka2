@@ -57,6 +57,9 @@ public class ExampleUnitTest {
     @Test
     public void MyNumber_constructor_10_test (  ){
 //        сгенерируем 10 объектов
+        if (minValue<1) minValue=1;
+        if (maxValue<1) maxValue=1;
+
         MyNumber myNumber1 = new MyNumberAddSub(minValue,maxValue);
         System.out.println(myNumber1);
         assertThat(myNumber1.getValue()).isGreaterThan(minValue-1) ;

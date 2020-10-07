@@ -2,17 +2,17 @@ package com.example.umnozhka;
 
 public abstract class MyNumber {
     private int value;
-    private int minValue,maxValue;
+    private int minValue, maxValue;
 
     public MyNumber(int minValue, int maxValue) {
         // здесь была генерация
         // при создании объекта генерируется его значение.
         // правильно ли это?
         // Наверное не правильно, нужно отделить генерацию значения и консуруктор.
-        if (minValue<1) minValue=0;
-        if (maxValue<1) maxValue=10;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+        if (minValue < 1) this.minValue = 1;
+        else this.minValue = minValue;
+        if (maxValue < 1) this.maxValue = 1;
+        else this.maxValue = maxValue;
         // а генерацию оставим в подклассах
 //        this.value = this.minValue + (int) (Math.random() * this.maxValue);//0..9, 10..50 = 10-0, 50-10=40
 
@@ -34,7 +34,7 @@ public abstract class MyNumber {
 
     @Override
     public String toString() {
-        return Integer.toString(this.value) ;
+        return Integer.toString(this.value);
 
     }
 
@@ -46,15 +46,11 @@ public abstract class MyNumber {
         return maxValue;
     }
 
-/*    public void setMinValue(int minValue) {
+    public void setMinValue(int minValue) {
         this.minValue = minValue;
     }
     public void setMaxValue(int maxValue) {
-        maxValue = maxValue;
+        this.maxValue = maxValue;
     }
-
-*/
-
-
 
 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +25,10 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static SharedPreferences sharedPreferences;
     public static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
-    public static int countHeartLive=0;
-    public static int countAllPrimerov=0;
-    public static int countRightTask=0,countWrongTask=0;
-    public static int countCurrentRightTask=0, countCurrentWrongTask=0;
+    public static int countHeartLive = 0;
+    public static int countAllPrimerov = 0;
+    public static int countRightTask = 0, countWrongTask = 0;
+    public static int countCurrentRightTask = 0, countCurrentWrongTask = 0;
 
 
     private static boolean SETTINGS_SUBTRAC;    // Сложение
@@ -36,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
     private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
 
-    private static boolean [] SETTINGS_MULTIPLYS={false,false,false,false,false,false,false,false,false,false};
-//    private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
+    private static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
+    //    private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
 //    private static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
 //    private static boolean SETTINGS_MULTIPLY_3; //
 //    private static boolean SETTINGS_MULTIPLY_4; //
@@ -72,16 +74,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonDigit0, buttonEnter, buttonBackSpace;
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
-            textViewQuestion, textViewAnswerShowBasic,textViewAnswerCount;
+            textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount;
     ImageView view1, view2, view3, view4, view5;
     ProgressBar progressBar;
-    private int progressBarTime=300;
-    private int countPrimerov=1;
-    private String stringCurrentAct="*";
-    private boolean endGame=false;
-    private boolean lastGame=false;
+    private int progressBarTime = 300;
+    private int progressBarCount;
+    private int countPrimerov = 1;
+    private int progressBarSpeed = 1;
 
-    private   MyTask currentTask;
+    private String stringCurrentAct = "*";
+    private boolean endGame = false;
+    private boolean lastGame = false;
+
+    private MyTask currentTask;
 
 //    PrefActivity prefActivity = new PrefActivity();
 
@@ -223,58 +228,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SETTINGS_MULTIPLYS[8] = true;
             SETTINGS_MULTIPLYS[9] = true;
             countHeartLive = 0;
-//            PREFERENCES_SETTINGS_HEARTSLIVECOUNT = 5;
-//            SETTINGS_COUNT_TASK = 10;
-
             savePreferences();
-
-//            if (sharedPreferences.contains(PREFERENCES_SETTINGS_HEARTSLIVECOUNT)) {
-//                // Получаем число из настроек
-//                heartLiveCount = sharedPreferences.getInt(PREFERENCES_SETTINGS_HEARTSLIVECOUNT, 0);
-
-            // Настройки приходят пустые, все значения по нулям
-
         }
-//        progressBar.setMax(SETTINGS_COUNT_TASK);
 
         if (SETTINGS_RECORD) {
             // создается таймер, нужно ли его переносить из конструктора?
-//            наверное
+            // наверное.... Создал класс MyService туда вставил Timer
+            // пример взял из https://startandroid.ru/ru/uroki/vse-uroki-spiskom/163-urok-98-service-lokalnyj-binding.html
+            // убрал из класса, так как не увидел смысла в нем.
 
             progressBar.setVisibility(ProgressBar.VISIBLE);
+            new Thread(myThread).start();
 
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-//                    while (progressBar.getProgress() < progressBar.getProgress()) {
-                        if (progressBar.getProgress()<progressBarTime-2) // по умолчанию 300
-                                progressBar.incrementProgressBy(2);
-                        if (progressBar.getProgress()>=progressBarTime) {
-                            // Сюда нужно встаивть вызов окна завершения игры
-                            lastGame = true;
-                            // нужно вставить логирование, так как вылетает ошибка
-                            // подозреваю, что progressBar счетчик переклинивает
-                            progressBar.incrementProgressBy(-2);
-                            // не помогло, где то ошибка
-                            Toast.makeText(getApplicationContext(), "timer", Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-//                    }
-                }
-            }, 1000, 1000);//progressBarTime
-
-        }
-        else {
+        } else {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
-
         act_to_currentTask();
         textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
-//        textViewQuestion.setText(currentTask.getCurrentAct().toString()  );
-
-        //        textViewQuestion.setText("99");
         refrishIconLive();
     }
 
@@ -284,10 +254,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // а потом уже изходя из действия создать currentTask
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
             // Если Сложение или Вычитание
-            this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct, SETTINGS_MULTIPLYS );
+            this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct, SETTINGS_MULTIPLYS);
         else
             // Если Умножение или деление
-            this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct,SETTINGS_MULTIPLYS);
+            this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct, SETTINGS_MULTIPLYS);
     }
 
     @Override
@@ -362,299 +332,332 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
                     if (lastGame)
-                        endGame=true;
+                        endGame = true;
                     break;
             }
         }
     }
 
-    private String setRightTask(){
+    private String setRightTask() {
         // Если правельных ответов в подряд 5, то дается одна жизнь.
         countRightTask++;
         countCurrentRightTask++;
-        if (countCurrentRightTask>4) {
-            if (countHeartLive<5) {
+        if (countCurrentRightTask > 4) {
+            if (countHeartLive < 5) {
                 countHeartLive++;
                 countCurrentRightTask = 0;
                 countCurrentWrongTask = 0;
                 refrishIconLive();
             }
+            progressBarSpeed = progressBarSpeed * 2;
         }
         return getString(R.string.textRightTask);
     }
-    private String setWrongTask(){
+
+    private String setWrongTask() {
         // Установка ошибки
         // Если неправельных ответов в подряд 3, то отнимается одна жизнь.
         countWrongTask++;
         countCurrentWrongTask++;
         countCurrentRightTask = 0;
-        if (countCurrentWrongTask>2) {
-            if (countHeartLive>0) {
+        if (countCurrentWrongTask > 2) {
+            if (countHeartLive > 0) {
                 countHeartLive--;
                 countCurrentWrongTask = 0;
                 refrishIconLive();
+            }
+            if (countCurrentWrongTask > 5) {
+                if (progressBarSpeed>2) progressBarSpeed = (int) progressBarSpeed / 2;
             }
         }
 
         return getString(R.string.textWrongTask);
     }
 
-    private void showAnswer(){
+    private void showAnswer() {
         int intAnswer;
-        String answer="";
-        try
-        {
+        String answer = "";
+        try {
             intAnswer = Integer.parseInt(textViewAnswerShowBasic.getText().toString());
+        } catch (NumberFormatException nfe) {
+            intAnswer = 0;
         }
-        catch (NumberFormatException nfe)
-        {
-            intAnswer=0;
-        };
-        if (intAnswer!=0) {
+        ;
+        if (intAnswer != 0) {
             switch (currentTask.getCurrentAct().getMyAct()) {
                 case MULTIPLY: {
                     if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer)
                         answer = setRightTask();
                     else answer = setWrongTask();
-                    break; }
+                    break;
+                }
                 case DIVIDE: {
-                    if (currentTask.getCurrentOneUnit().getValue()  / currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
+                    if (currentTask.getCurrentOneUnit().getValue() / currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
                         answer = setRightTask();
                     else
                         answer = setWrongTask();
                     break;
                 }
                 case ADD: {
-                    if (currentTask.getCurrentOneUnit().getValue()   + currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
+                    if (currentTask.getCurrentOneUnit().getValue() + currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
                         answer = setRightTask();
                     else
                         answer = setWrongTask();
                     break;
                 }
                 case SUBTRAC: {
-                    if (currentTask.getCurrentOneUnit().getValue()  - currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
+                    if (currentTask.getCurrentOneUnit().getValue() - currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
                         answer = setRightTask();
                     else
                         answer = setWrongTask();
                     break;
                 }
             }
-        }
-        else
-             answer = setWrongTask();
-        showViewAnswerShow(answer,intAnswer);
-        textViewAnswerCount.setText(getString(R.string.titleAllTask)+" "+countAllPrimerov+getString(R.string.titleRightTask)+" "
-                  +countRightTask+getString(R.string.titleWrongTask)+" "+countWrongTask+"    ");
+        } else
+            answer = setWrongTask();
+        showViewAnswerShow(answer, intAnswer);
+        textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + countAllPrimerov + getString(R.string.titleRightTask) + " "
+                + countRightTask + getString(R.string.titleWrongTask) + " " + countWrongTask + "    ");
 
 //            progressBar.setProgress(countPrimerov);
 
-            countPrimerov++;
-            countAllPrimerov++;
-}
+        countPrimerov++;
+        countAllPrimerov++;
+    }
 
-   private void invisibleTextViewAnswer(){
-       // первичная установка textViewAnswerShow, 1-й делаем видимым, остальные textViewAnswerShow делаем невидимыми
-       textViewAnswerShow1.setVisibility(View.VISIBLE);
-       textViewAnswerShow2.setVisibility(View.INVISIBLE);
-       textViewAnswerShow3.setVisibility(View.INVISIBLE);
-       textViewAnswerShow4.setVisibility(View.INVISIBLE);
-       textViewAnswerShow5.setVisibility(View.INVISIBLE);
-       textViewAnswerShow6.setVisibility(View.INVISIBLE);
-       textViewAnswerShow7.setVisibility(View.INVISIBLE);
-       textViewAnswerShow8.setVisibility(View.INVISIBLE);
-       textViewAnswerShow9.setVisibility(View.INVISIBLE);
-       textViewAnswerShow10.setVisibility(View.INVISIBLE);
-       textViewAnswerShow11.setVisibility(View.INVISIBLE);
-       textViewAnswerShow12.setVisibility(View.INVISIBLE);
-   }
+    private void invisibleTextViewAnswer() {
+        // первичная установка textViewAnswerShow, 1-й делаем видимым, остальные textViewAnswerShow делаем невидимыми
+        textViewAnswerShow1.setVisibility(View.VISIBLE);
+        textViewAnswerShow2.setVisibility(View.INVISIBLE);
+        textViewAnswerShow3.setVisibility(View.INVISIBLE);
+        textViewAnswerShow4.setVisibility(View.INVISIBLE);
+        textViewAnswerShow5.setVisibility(View.INVISIBLE);
+        textViewAnswerShow6.setVisibility(View.INVISIBLE);
+        textViewAnswerShow7.setVisibility(View.INVISIBLE);
+        textViewAnswerShow8.setVisibility(View.INVISIBLE);
+        textViewAnswerShow9.setVisibility(View.INVISIBLE);
+        textViewAnswerShow10.setVisibility(View.INVISIBLE);
+        textViewAnswerShow11.setVisibility(View.INVISIBLE);
+        textViewAnswerShow12.setVisibility(View.INVISIBLE);
+    }
 
 
-
-   private void showViewAnswerShow(String prav,int intAnswer) {
-       // Делаем видимым соответствующий textViewAnswerShow
-       // и показываем в нем результат
-       // String prav - текстовая оценка результата, ошибка или верно.
-       // int intAnswer - числое значение результата
-       Act deist = currentTask.getCurrentAct().getMyAct();
-       String tempText = currentTask.getCurrentOneUnit().toString() + deist.getAct() +  currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav;
-       switch (countPrimerov) {
-           // можно попробовать убрать громоздкую конгструкцию из 12 textViewAnswerShow1
-           // и сделать массив из textViewAnswerShow, но это усложнит их наименование через string.xml
-           case 1: {
-               invisibleTextViewAnswer();
-               textViewAnswerShow1.setText(tempText);
-               break;
-           }
-           case 2: {
-               textViewAnswerShow4.setVisibility(View.VISIBLE);
-               textViewAnswerShow4.setText(tempText);
-               break;
-           }
-           case 3: {
-               textViewAnswerShow7.setVisibility(View.VISIBLE);
-               textViewAnswerShow7.setText(tempText);
-               break;
-           }
-           case 4: {
-               textViewAnswerShow10.setVisibility(View.VISIBLE);
-               textViewAnswerShow10.setText(tempText);
-               break;
-           }
-           case 5: {
-               textViewAnswerShow2.setVisibility(View.VISIBLE);
-               textViewAnswerShow2.setText(tempText);
-               break;
-           }
-           case 6: {
-               textViewAnswerShow5.setVisibility(View.VISIBLE);
-               textViewAnswerShow5.setText(tempText);
-               break;
-           }
-           case 7: {
-               textViewAnswerShow8.setVisibility(View.VISIBLE);
-               textViewAnswerShow8.setText(tempText);
-               break;
-           }
-           case 8: {
-               textViewAnswerShow11.setVisibility(View.VISIBLE);
-               textViewAnswerShow11.setText(tempText);;
-               break;
-           }
-           case 9: {
-               textViewAnswerShow3.setVisibility(View.VISIBLE);
-               textViewAnswerShow3.setText(tempText);
-               break;
-           }
-           case 10: {
-               textViewAnswerShow6.setVisibility(View.VISIBLE);
-               textViewAnswerShow6.setText(tempText);
-               break;
-           }
-           case 11: {
-               textViewAnswerShow9.setVisibility(View.VISIBLE);
-               textViewAnswerShow9.setText(tempText);
-               break;
-           }
-           case 12: {
-               textViewAnswerShow12.setVisibility(View.VISIBLE);
-               textViewAnswerShow12.setText(tempText);
-               countPrimerov=0;
-               break;
-           }
-       }
-   }
+    private void showViewAnswerShow(String prav, int intAnswer) {
+        // Делаем видимым соответствующий textViewAnswerShow
+        // и показываем в нем результат
+        // String prav - текстовая оценка результата, ошибка или верно.
+        // int intAnswer - числое значение результата
+        Act deist = currentTask.getCurrentAct().getMyAct();
+        String tempText = currentTask.getCurrentOneUnit().toString() + deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav;
+        switch (countPrimerov) {
+            // можно попробовать убрать громоздкую конгструкцию из 12 textViewAnswerShow1
+            // и сделать массив из textViewAnswerShow, но это усложнит их наименование через string.xml
+            case 1: {
+                invisibleTextViewAnswer();
+                textViewAnswerShow1.setText(tempText);
+                break;
+            }
+            case 2: {
+                textViewAnswerShow4.setVisibility(View.VISIBLE);
+                textViewAnswerShow4.setText(tempText);
+                break;
+            }
+            case 3: {
+                textViewAnswerShow7.setVisibility(View.VISIBLE);
+                textViewAnswerShow7.setText(tempText);
+                break;
+            }
+            case 4: {
+                textViewAnswerShow10.setVisibility(View.VISIBLE);
+                textViewAnswerShow10.setText(tempText);
+                break;
+            }
+            case 5: {
+                textViewAnswerShow2.setVisibility(View.VISIBLE);
+                textViewAnswerShow2.setText(tempText);
+                break;
+            }
+            case 6: {
+                textViewAnswerShow5.setVisibility(View.VISIBLE);
+                textViewAnswerShow5.setText(tempText);
+                break;
+            }
+            case 7: {
+                textViewAnswerShow8.setVisibility(View.VISIBLE);
+                textViewAnswerShow8.setText(tempText);
+                break;
+            }
+            case 8: {
+                textViewAnswerShow11.setVisibility(View.VISIBLE);
+                textViewAnswerShow11.setText(tempText);
+                ;
+                break;
+            }
+            case 9: {
+                textViewAnswerShow3.setVisibility(View.VISIBLE);
+                textViewAnswerShow3.setText(tempText);
+                break;
+            }
+            case 10: {
+                textViewAnswerShow6.setVisibility(View.VISIBLE);
+                textViewAnswerShow6.setText(tempText);
+                break;
+            }
+            case 11: {
+                textViewAnswerShow9.setVisibility(View.VISIBLE);
+                textViewAnswerShow9.setText(tempText);
+                break;
+            }
+            case 12: {
+                textViewAnswerShow12.setVisibility(View.VISIBLE);
+                textViewAnswerShow12.setText(tempText);
+                countPrimerov = 0;
+                break;
+            }
+        }
+    }
 
     private void refrishIconLive() {
 
-   if (countHeartLive > 5) countHeartLive = 5;
-   if (countHeartLive < 0) countHeartLive = 0;
+        if (countHeartLive > 5) countHeartLive = 5;
+        if (countHeartLive < 0) countHeartLive = 0;
 
-    if (SETTINGS_RECORD) {
-        switch (countHeartLive) {
-            case 0:
-                view1.setVisibility(View.INVISIBLE);
-                view2.setVisibility(View.INVISIBLE);
-                view3.setVisibility(View.INVISIBLE);
-                view4.setVisibility(View.INVISIBLE);
-                view5.setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                view1.setVisibility(View.VISIBLE);
-                view2.setVisibility(View.INVISIBLE);
-                view3.setVisibility(View.INVISIBLE);
-                view4.setVisibility(View.INVISIBLE);
-                view5.setVisibility(View.INVISIBLE);
-                break;
-            case 2:
-                view1.setVisibility(View.VISIBLE);
-                view2.setVisibility(View.VISIBLE);
-                view3.setVisibility(View.INVISIBLE);
-                view4.setVisibility(View.INVISIBLE);
-                view5.setVisibility(View.INVISIBLE);
-                break;
-            case 3:
-                view1.setVisibility(View.VISIBLE);
-                view2.setVisibility(View.VISIBLE);
-                view3.setVisibility(View.VISIBLE);
-                view4.setVisibility(View.INVISIBLE);
-                view5.setVisibility(View.INVISIBLE);
-                break;
-            case 4:
-                view1.setVisibility(View.VISIBLE);
-                view2.setVisibility(View.VISIBLE);
-                view3.setVisibility(View.VISIBLE);
-                view4.setVisibility(View.VISIBLE);
-                view5.setVisibility(View.INVISIBLE);
-                break;
-            case 5:
-                view1.setVisibility(View.VISIBLE);
-                view2.setVisibility(View.VISIBLE);
-                view3.setVisibility(View.VISIBLE);
-                view4.setVisibility(View.VISIBLE);
-                view5.setVisibility(View.VISIBLE);
-                break;
+        if (SETTINGS_RECORD) {
+            switch (countHeartLive) {
+                case 0:
+                    view1.setVisibility(View.INVISIBLE);
+                    view2.setVisibility(View.INVISIBLE);
+                    view3.setVisibility(View.INVISIBLE);
+                    view4.setVisibility(View.INVISIBLE);
+                    view5.setVisibility(View.INVISIBLE);
+                    break;
+                case 1:
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.INVISIBLE);
+                    view3.setVisibility(View.INVISIBLE);
+                    view4.setVisibility(View.INVISIBLE);
+                    view5.setVisibility(View.INVISIBLE);
+                    break;
+                case 2:
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.VISIBLE);
+                    view3.setVisibility(View.INVISIBLE);
+                    view4.setVisibility(View.INVISIBLE);
+                    view5.setVisibility(View.INVISIBLE);
+                    break;
+                case 3:
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.VISIBLE);
+                    view3.setVisibility(View.VISIBLE);
+                    view4.setVisibility(View.INVISIBLE);
+                    view5.setVisibility(View.INVISIBLE);
+                    break;
+                case 4:
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.VISIBLE);
+                    view3.setVisibility(View.VISIBLE);
+                    view4.setVisibility(View.VISIBLE);
+                    view5.setVisibility(View.INVISIBLE);
+                    break;
+                case 5:
+                    view1.setVisibility(View.VISIBLE);
+                    view2.setVisibility(View.VISIBLE);
+                    view3.setVisibility(View.VISIBLE);
+                    view4.setVisibility(View.VISIBLE);
+                    view5.setVisibility(View.VISIBLE);
+                    break;
+            }
+        } else {
+            view1.setVisibility(View.INVISIBLE);
+            view2.setVisibility(View.INVISIBLE);
+            view3.setVisibility(View.INVISIBLE);
+            view4.setVisibility(View.INVISIBLE);
+            view5.setVisibility(View.INVISIBLE);
         }
-    } else {
-        view1.setVisibility(View.INVISIBLE);
-        view2.setVisibility(View.INVISIBLE);
-        view3.setVisibility(View.INVISIBLE);
-        view4.setVisibility(View.INVISIBLE);
-        view5.setVisibility(View.INVISIBLE);
-    }
     }
 
-    private int getMaxValue_SETTINGS_MULTIPLY(){
+    private int getMaxValue_SETTINGS_MULTIPLY() {
         // Пусть нижняя граница имеет придел, тогда
         // верхняя, должна вычисляться по количеству игровых чисел
-        int maxValue=0;
+        int maxValue = 0;
+        //Считаем коилчество значений.
+        if (SETTINGS_MULTIPLYS[9]) maxValue = 10;
+        else if (SETTINGS_MULTIPLYS[8]) maxValue = 9;
+        else if (SETTINGS_MULTIPLYS[7]) maxValue = 8;
+        else if (SETTINGS_MULTIPLYS[6]) maxValue = 7;
+        else if (SETTINGS_MULTIPLYS[5]) maxValue = 6;
+        else if (SETTINGS_MULTIPLYS[4]) maxValue = 5;
+        else if (SETTINGS_MULTIPLYS[3]) maxValue = 4;
+        else if (SETTINGS_MULTIPLYS[2]) maxValue = 3;
+        else if (SETTINGS_MULTIPLYS[1]) maxValue = 2;
+        else if (SETTINGS_MULTIPLYS[0]) maxValue = 1;
+//        int countMaxValue = 0, maxValue = 0;
         // Считаем коилчество значений.
-        if  (SETTINGS_MULTIPLYS[9]) maxValue=10;
-        else if  (SETTINGS_MULTIPLYS[8]) maxValue=9;
-        else if  (SETTINGS_MULTIPLYS[7]) maxValue=8;
-        else if  (SETTINGS_MULTIPLYS[6]) maxValue=7;
-        else if  (SETTINGS_MULTIPLYS[5]) maxValue=6;
-        else if  (SETTINGS_MULTIPLYS[4]) maxValue=5;
-        else if  (SETTINGS_MULTIPLYS[3]) maxValue=4;
-        else if  (SETTINGS_MULTIPLYS[2]) maxValue=3;
-        else if  (SETTINGS_MULTIPLYS[1]) maxValue=2;
-        else if  (SETTINGS_MULTIPLYS[0]) maxValue=1;
-//        int countMaxValue=0, maxValue=0;
-//        // Считаем коилчество значений.
-//        if  (SETTINGS_MULTIPLYS[9]) { countMaxValue++;maxValue=10;}
-//        else if  (SETTINGS_MULTIPLYS[8]) { countMaxValue++;maxValue=9;}
-//        else if  (SETTINGS_MULTIPLYS[7]) { countMaxValue++;maxValue=8;}
-//        else if  (SETTINGS_MULTIPLYS[6]) { countMaxValue++;maxValue=7;}
-//        else if  (SETTINGS_MULTIPLYS[5]) { countMaxValue++;maxValue=6;}
-//        else if  (SETTINGS_MULTIPLYS[4]){ countMaxValue++;maxValue=5;}
-//        else if  (SETTINGS_MULTIPLYS[3]){ countMaxValue++;maxValue=4;}
-//        else if  (SETTINGS_MULTIPLYS[2]) { countMaxValue++;maxValue=3;}
-//        else if  (SETTINGS_MULTIPLYS[1]) { countMaxValue++;maxValue=2;}
-//        else if  (SETTINGS_MULTIPLYS[0]) { countMaxValue++;maxValue=1;}
-        // Если количесмтво значений равно с максимальным значением,
+//        if (SETTINGS_MULTIPLYS[9]) {
+//            countMaxValue++;
+//            maxValue = 10;
+//        } else if (SETTINGS_MULTIPLYS[8]) {
+//            countMaxValue++;
+//            maxValue = 9;
+//        } else if (SETTINGS_MULTIPLYS[7]) {
+//            countMaxValue++;
+//            maxValue = 8;
+//        } else if (SETTINGS_MULTIPLYS[6]) {
+//            countMaxValue++;
+//            maxValue = 7;
+//        } else if (SETTINGS_MULTIPLYS[5]) {
+//            countMaxValue++;
+//            maxValue = 6;
+//        } else if (SETTINGS_MULTIPLYS[4]) {
+//            countMaxValue++;
+//            maxValue = 5;
+//        } else if (SETTINGS_MULTIPLYS[3]) {
+//            countMaxValue++;
+//            maxValue = 4;
+//        } else if (SETTINGS_MULTIPLYS[2]) {
+//            countMaxValue++;
+//            maxValue = 3;
+//        } else if (SETTINGS_MULTIPLYS[1]) {
+//            countMaxValue++;
+//            maxValue = 2;
+//        } else if (SETTINGS_MULTIPLYS[0]) {
+//            countMaxValue++;
+//            maxValue = 1;
+//        }
+//        // Если количесмтво значений равно с максимальным значением,
         // то возвращаем результат, иначе
         // нужен пересчет
-//        if (countMaxValue==maxValue)
-            return maxValue;
+//        if (countMaxValue == maxValue)
+        return maxValue;
 //        else {
 //            return countMaxValue;
-            //MyNumberOneTen myNumberOneTen = new MyNumberOneTen(min )
+//            //MyNumberOneTen myNumberOneTen = new MyNumberOneTen(min )
 //        }
     }
 
-    private int getMinValue_SETTINGS_MULTIPLY(){
+    private int getMinValue_SETTINGS_MULTIPLY() {
         // Пусть нижняя граница имеет придел, тогда
         // верхняя, должна вычисляться по количеству игровых чисел
         //
-        if (SETTINGS_MULTIPLYS[0]) { return 1;}
-        else if (SETTINGS_MULTIPLYS[1]) { return 2;}
-        else if (SETTINGS_MULTIPLYS[2]) { return 3;}
-        else if (SETTINGS_MULTIPLYS[3]) { return 4;}
-        else if (SETTINGS_MULTIPLYS[4]) { return 5;}
-        else if (SETTINGS_MULTIPLYS[5]) { return 6;}
-        else if (SETTINGS_MULTIPLYS[6]) { return 7;}
-        else if (SETTINGS_MULTIPLYS[7]) { return 8;}
-        else if (SETTINGS_MULTIPLYS[8]) { return 9;}
-        else return 10;
+        if (SETTINGS_MULTIPLYS[0]) {
+            return 1;
+        } else if (SETTINGS_MULTIPLYS[1]) {
+            return 2;
+        } else if (SETTINGS_MULTIPLYS[2]) {
+            return 3;
+        } else if (SETTINGS_MULTIPLYS[3]) {
+            return 4;
+        } else if (SETTINGS_MULTIPLYS[4]) {
+            return 5;
+        } else if (SETTINGS_MULTIPLYS[5]) {
+            return 6;
+        } else if (SETTINGS_MULTIPLYS[6]) {
+            return 7;
+        } else if (SETTINGS_MULTIPLYS[7]) {
+            return 8;
+        } else if (SETTINGS_MULTIPLYS[8]) {
+            return 9;
+        } else return 10;
     }
 
 
@@ -662,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
         SETTINGS_MULTIPLY = sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
-        SETTINGS_DIVIDE= sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
+        SETTINGS_DIVIDE = sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
         SETTINGS_SUBTRAC = sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
         SETTINGS_ADD = sharedPreferences.getBoolean("SETTINGS_ADD", false);
         SETTINGS_MULTIPLYS[0] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
@@ -688,7 +691,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SETTINGS_RECORD = sharedPreferences.getBoolean("SETTINGS_RECORD", true);
         if (SETTINGS_RECORD)
             progressBar.setVisibility(ProgressBar.VISIBLE);
-        }
+    }
 
 
     private void savePreferences() {
@@ -725,22 +728,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else editorSharedPreferences.commit();
 
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putString(name_value_textViewAnswerShow1, textViewAnswerShow1.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow2, textViewAnswerShow2.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow3, textViewAnswerShow3.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow4, textViewAnswerShow4.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow5, textViewAnswerShow5.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow6, textViewAnswerShow6.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow7, textViewAnswerShow7.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow8, textViewAnswerShow8.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow9, textViewAnswerShow9.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow10, textViewAnswerShow10.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow11, textViewAnswerShow11.getText().toString() );
-        outState.putString(name_value_textViewAnswerShow12, textViewAnswerShow12.getText().toString() );
-        outState.putString(name_value_textViewAnswerShowBasic, textViewAnswerShowBasic.getText().toString() );
+        outState.putString(name_value_textViewAnswerShow1, textViewAnswerShow1.getText().toString());
+        outState.putString(name_value_textViewAnswerShow2, textViewAnswerShow2.getText().toString());
+        outState.putString(name_value_textViewAnswerShow3, textViewAnswerShow3.getText().toString());
+        outState.putString(name_value_textViewAnswerShow4, textViewAnswerShow4.getText().toString());
+        outState.putString(name_value_textViewAnswerShow5, textViewAnswerShow5.getText().toString());
+        outState.putString(name_value_textViewAnswerShow6, textViewAnswerShow6.getText().toString());
+        outState.putString(name_value_textViewAnswerShow7, textViewAnswerShow7.getText().toString());
+        outState.putString(name_value_textViewAnswerShow8, textViewAnswerShow8.getText().toString());
+        outState.putString(name_value_textViewAnswerShow9, textViewAnswerShow9.getText().toString());
+        outState.putString(name_value_textViewAnswerShow10, textViewAnswerShow10.getText().toString());
+        outState.putString(name_value_textViewAnswerShow11, textViewAnswerShow11.getText().toString());
+        outState.putString(name_value_textViewAnswerShow12, textViewAnswerShow12.getText().toString());
+        outState.putString(name_value_textViewAnswerShowBasic, textViewAnswerShowBasic.getText().toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -780,9 +784,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void  onDestroy(){
+    protected void onDestroy() {
         savePreferences();
         super.onDestroy();
+    }
+
+    private Runnable myThread = new Runnable() {
+        @Override
+        public void run() {
+            while (!lastGame) {
+                try {
+                    myHandler.sendMessage(myHandler.obtainMessage());
+                    Thread.sleep(1000);
+                    //секундный интервал, что бы был тайминг
+                    if (progressBar.getProgress() >= progressBarTime) {
+//                        // Сюда нужно встаивть вызов окна завершения игры
+                        lastGame = true;
+                    }
+                } catch (Throwable t) {
+                }
+            }
+        }
+
+        Handler myHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                upInterval(progressBarSpeed);
+                if (progressBarCount>=progressBarTime)
+                {
+                    if (countHeartLive > 0) {
+                        countHeartLive--;
+                        progressBarCount = (int) progressBarTime / 6;
+                        refrishIconLive();
+                    }
+                }
+
+                progressBar.setProgress(progressBarCount);
+
+            }
+        };
+    };
+
+    public int upInterval(int step) {
+        progressBarCount = progressBarCount + step;
+        return progressBarCount;
+    }
+
+    public int downInterval(int step) {
+        progressBarCount = progressBarCount - step;
+        if (progressBarCount < 0) progressBarCount = 0;
+        return progressBarCount;
     }
 
 
