@@ -23,35 +23,23 @@ import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static SharedPreferences sharedPreferences;
-    public static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
-    public static int countHeartLive = 0;
-    public static int countAllPrimerov = 0;
-    public static int countRightTask = 0, countWrongTask = 0;
-    public static int countCurrentRightTask = 0, countCurrentWrongTask = 0;
 
+    private static int countHeartLive = 0;
+    private static int countAllPrimerov = 0;
+    private static int countRightTask = 0, countWrongTask = 0;
+    private static int countCurrentRightTask = 0, countCurrentWrongTask = 0;
 
+    private static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
     private static boolean SETTINGS_SUBTRAC;    // Сложение
     private static boolean SETTINGS_ADD;        // Вычитание
     private static boolean SETTINGS_MULTIPLY;   // Умножение
     private static boolean SETTINGS_DIVIDE;     // Деление
     private static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
     private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
+    private static boolean SETTINGS_RECORD;
 
-    private static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
-    //    private static boolean SETTINGS_MULTIPLY_1; // Умножение на 1
-//    private static boolean SETTINGS_MULTIPLY_2; // Умножение на 2
-//    private static boolean SETTINGS_MULTIPLY_3; //
-//    private static boolean SETTINGS_MULTIPLY_4; //
-//    private static boolean SETTINGS_MULTIPLY_5; //
-//    private static boolean SETTINGS_MULTIPLY_6; //
-//    private static boolean SETTINGS_MULTIPLY_7; //
-//    private static boolean SETTINGS_MULTIPLY_8; //
-//    private static boolean SETTINGS_MULTIPLY_9; //
-//    private static boolean SETTINGS_MULTIPLY_10;//
 //    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
 //    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
-    private static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
 //    private static int SETTINGS_TIME_TASK;         // Время на одну задачу
 //    private static int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
 //    private static int PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
@@ -76,41 +64,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount;
     ImageView view1, view2, view3, view4, view5;
+
     ProgressBar progressBar;
     private int progressBarTime = 300;
     private int progressBarCount;
     private int countPrimerov = 1;
     private int progressBarSpeed = 1;
-
     private String stringCurrentAct = "*";
     private boolean endGame = false;
     private boolean lastGame = false;
-
     private MyTask currentTask;
-
-//    PrefActivity prefActivity = new PrefActivity();
-
-//    public MyNumber getCurrentOneUnit() {
-//        return currentOneUnit;
-//    }
-
-//    public void setCurrentOneUnit(int currentOneUnit) {
-//        this.currentOneUnit = currentOneUnit;
-//    }
-
-//    public MyNumber getCurrentTwoUnit() {
-//        return currentTwoUnit;
-//    }
-
-//    public void setCurrentTwoUnit(int currentTwoUnit) {
-//        this.currentTwoUnit = currentTwoUnit;
-//    }
-
-
-    /**
-     * Called when the activity is first created.
-     */
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,26 +92,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonEnter = findViewById(R.id.buttonEnter);
         buttonBackSpace = findViewById(R.id.buttonBackSpace);
 
+        buttonDigit1.setOnClickListener(this);
+        buttonDigit2.setOnClickListener(this);
+        buttonDigit3.setOnClickListener(this);
+        buttonDigit4.setOnClickListener(this);
+        buttonDigit5.setOnClickListener(this);
+        buttonDigit6.setOnClickListener(this);
+        buttonDigit7.setOnClickListener(this);
+        buttonDigit8.setOnClickListener(this);
+        buttonDigit9.setOnClickListener(this);
+        buttonDigit0.setOnClickListener(this);
+        buttonEnter.setOnClickListener(this);
+        buttonBackSpace.setOnClickListener(this);
 
         view1 = findViewById(R.id.imageView1);
-//        view1.setVisibility(View.VISIBLE);
         view1.setImageResource(R.drawable.heart);
-//        view1.setBackgroundResource(R.color.trans);
-
         view2 = findViewById(R.id.imageView2);
-//        view2.setVisibility(View.VISIBLE);
         view2.setImageResource(R.drawable.heart);
-
         view3 = findViewById(R.id.imageView3);
-//        view3.setVisibility(View.VISIBLE);
         view3.setImageResource(R.drawable.heart);
-
         view4 = findViewById(R.id.imageView4);
-//        view4.setVisibility(View.VISIBLE);
         view4.setImageResource(R.drawable.heart);
-
         view5 = findViewById(R.id.imageView5);
-//        view5.setVisibility(View.VISIBLE);
         view5.setImageResource(R.drawable.heart);
 
         textViewAnswerShow1 = findViewById(R.id.textViewAnswerShow1);
@@ -178,58 +143,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewAnswerCount = findViewById(R.id.textViewAnswerCount);
         textViewAnswerCount.setText(String.valueOf(countPrimerov));
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
-
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
-
         textViewQuestion = findViewById(R.id.textViewQuestion);
-
-        buttonDigit1.setOnClickListener(this);
-        buttonDigit2.setOnClickListener(this);
-        buttonDigit3.setOnClickListener(this);
-        buttonDigit4.setOnClickListener(this);
-        buttonDigit5.setOnClickListener(this);
-        buttonDigit6.setOnClickListener(this);
-        buttonDigit7.setOnClickListener(this);
-        buttonDigit8.setOnClickListener(this);
-        buttonDigit9.setOnClickListener(this);
-        buttonDigit0.setOnClickListener(this);
-        buttonEnter.setOnClickListener(this);
-        buttonBackSpace.setOnClickListener(this);
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setMax(progressBarTime);
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (sharedPreferences != null) {
-            // по умолчанию, если настроеки есть загружаются, иначе создаются
-
-            loadPreferences();
-//            Toast toast = Toast.makeText(getApplicationContext(),
-//                    "Настройки загруженны!", Toast.LENGTH_SHORT);
-//            toast.show();
-////            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
-//            textViewAnswerShow5.setText(R.string.SettingsLoad);
-        } else {
-            SETTINGS_MULTIPLY = true;
-            SETTINGS_DIVIDE = false;
-            SETTINGS_SUBTRAC = false;
-            SETTINGS_ADD = false;
-            SETTINGS_ADD_RANGE_MIN = 1;
-            SETTINGS_ADD_RANGE_MAX = 100;
-            SETTINGS_MULTIPLYS[0] = false;
-            SETTINGS_MULTIPLYS[1] = true;
-            SETTINGS_MULTIPLYS[2] = true;
-            SETTINGS_MULTIPLYS[3] = true;
-            SETTINGS_MULTIPLYS[4] = true;
-            SETTINGS_MULTIPLYS[5] = true;
-            SETTINGS_MULTIPLYS[6] = true;
-            SETTINGS_MULTIPLYS[7] = true;
-            SETTINGS_MULTIPLYS[8] = true;
-            SETTINGS_MULTIPLYS[9] = true;
-            countHeartLive = 0;
-            savePreferences();
-        }
+        SETTINGS_MULTIPLYS = StartActivity.SETTINGS_MULTIPLYS;
+        SETTINGS_SUBTRAC = StartActivity.SETTINGS_SUBTRAC;    // Сложение
+        SETTINGS_ADD= StartActivity.SETTINGS_ADD;        // Вычитание
+        SETTINGS_MULTIPLY= StartActivity.SETTINGS_MULTIPLY;   // Умножение
+        SETTINGS_DIVIDE= StartActivity.SETTINGS_DIVIDE;     // Деление
+        SETTINGS_ADD_RANGE_MIN= StartActivity.SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
+        SETTINGS_ADD_RANGE_MAX= StartActivity.SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
+        SETTINGS_RECORD= StartActivity.SETTINGS_RECORD;
+        countHeartLive = 0;
 
         if (SETTINGS_RECORD) {
             // создается таймер, нужно ли его переносить из конструктора?
@@ -257,32 +184,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct, SETTINGS_MULTIPLYS);
         else
             // Если Умножение или деление
-            this.currentTask = new MyTask(getMinValue_SETTINGS_MULTIPLY(), getMaxValue_SETTINGS_MULTIPLY(), currentAct, SETTINGS_MULTIPLYS);
+            this.currentTask = new MyTask(StartActivity.getMinValue_SETTINGS_MULTIPLY(), StartActivity.getMaxValue_SETTINGS_MULTIPLY(), currentAct, SETTINGS_MULTIPLYS);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.um_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.um_menu, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_report:
-//                пока не реализованно, но нужно сделать отчет, как бы журнал с ответами
-                return true;
-            case R.id.menu_Preferences:
-//                item.setIntent(new Intent(this, PrefActivity.class));
-                Intent intent = new Intent(this, PrefActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.menu_Exit:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.menu_report:
+////                пока не реализованно, но нужно сделать отчет, как бы журнал с ответами
+//                return true;
+//            case R.id.menu_Preferences:
+////                item.setIntent(new Intent(this, PrefActivity.class));
+//                Intent intent = new Intent(this, PrefActivity.class);
+//                startActivity(intent);
+//                return true;
+//            case R.id.menu_Exit:
+//                this.finish();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -576,159 +503,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private int getMaxValue_SETTINGS_MULTIPLY() {
-        // Пусть нижняя граница имеет придел, тогда
-        // верхняя, должна вычисляться по количеству игровых чисел
-        int maxValue = 0;
-        //Считаем коилчество значений.
-        if (SETTINGS_MULTIPLYS[9]) maxValue = 10;
-        else if (SETTINGS_MULTIPLYS[8]) maxValue = 9;
-        else if (SETTINGS_MULTIPLYS[7]) maxValue = 8;
-        else if (SETTINGS_MULTIPLYS[6]) maxValue = 7;
-        else if (SETTINGS_MULTIPLYS[5]) maxValue = 6;
-        else if (SETTINGS_MULTIPLYS[4]) maxValue = 5;
-        else if (SETTINGS_MULTIPLYS[3]) maxValue = 4;
-        else if (SETTINGS_MULTIPLYS[2]) maxValue = 3;
-        else if (SETTINGS_MULTIPLYS[1]) maxValue = 2;
-        else if (SETTINGS_MULTIPLYS[0]) maxValue = 1;
-//        int countMaxValue = 0, maxValue = 0;
-        // Считаем коилчество значений.
-//        if (SETTINGS_MULTIPLYS[9]) {
-//            countMaxValue++;
-//            maxValue = 10;
-//        } else if (SETTINGS_MULTIPLYS[8]) {
-//            countMaxValue++;
-//            maxValue = 9;
-//        } else if (SETTINGS_MULTIPLYS[7]) {
-//            countMaxValue++;
-//            maxValue = 8;
-//        } else if (SETTINGS_MULTIPLYS[6]) {
-//            countMaxValue++;
-//            maxValue = 7;
-//        } else if (SETTINGS_MULTIPLYS[5]) {
-//            countMaxValue++;
-//            maxValue = 6;
-//        } else if (SETTINGS_MULTIPLYS[4]) {
-//            countMaxValue++;
-//            maxValue = 5;
-//        } else if (SETTINGS_MULTIPLYS[3]) {
-//            countMaxValue++;
-//            maxValue = 4;
-//        } else if (SETTINGS_MULTIPLYS[2]) {
-//            countMaxValue++;
-//            maxValue = 3;
-//        } else if (SETTINGS_MULTIPLYS[1]) {
-//            countMaxValue++;
-//            maxValue = 2;
-//        } else if (SETTINGS_MULTIPLYS[0]) {
-//            countMaxValue++;
-//            maxValue = 1;
-//        }
-//        // Если количесмтво значений равно с максимальным значением,
-        // то возвращаем результат, иначе
-        // нужен пересчет
-//        if (countMaxValue == maxValue)
-        return maxValue;
-//        else {
-//            return countMaxValue;
-//            //MyNumberOneTen myNumberOneTen = new MyNumberOneTen(min )
-//        }
-    }
-
-    private int getMinValue_SETTINGS_MULTIPLY() {
-        // Пусть нижняя граница имеет придел, тогда
-        // верхняя, должна вычисляться по количеству игровых чисел
-        //
-        if (SETTINGS_MULTIPLYS[0]) {
-            return 1;
-        } else if (SETTINGS_MULTIPLYS[1]) {
-            return 2;
-        } else if (SETTINGS_MULTIPLYS[2]) {
-            return 3;
-        } else if (SETTINGS_MULTIPLYS[3]) {
-            return 4;
-        } else if (SETTINGS_MULTIPLYS[4]) {
-            return 5;
-        } else if (SETTINGS_MULTIPLYS[5]) {
-            return 6;
-        } else if (SETTINGS_MULTIPLYS[6]) {
-            return 7;
-        } else if (SETTINGS_MULTIPLYS[7]) {
-            return 8;
-        } else if (SETTINGS_MULTIPLYS[8]) {
-            return 9;
-        } else return 10;
-    }
-
-
-    private void loadPreferences() {
-        // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
-        // Должны сами устанавливаться по значению констант настроек
-        SETTINGS_MULTIPLY = sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
-        SETTINGS_DIVIDE = sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
-        SETTINGS_SUBTRAC = sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
-        SETTINGS_ADD = sharedPreferences.getBoolean("SETTINGS_ADD", false);
-        SETTINGS_MULTIPLYS[0] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
-        SETTINGS_MULTIPLYS[1] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_2", true);
-        SETTINGS_MULTIPLYS[2] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_3", true);
-        SETTINGS_MULTIPLYS[3] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_4", true);
-        SETTINGS_MULTIPLYS[4] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_5", true);
-        SETTINGS_MULTIPLYS[5] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_6", true);
-        SETTINGS_MULTIPLYS[6] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
-        SETTINGS_MULTIPLYS[7] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
-        SETTINGS_MULTIPLYS[8] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
-        SETTINGS_MULTIPLYS[9] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_10", true);
-
-        // НУЖНА проверка на сисловое или строковое значение
-        // была ошибка когда значение было по по умолчанию = "0"
-        // я поставил преобразование из троки в число
-        // потом поменял значение на другое и ошибка вышла
-        // на попытку преобразования числа в число, ну или я так понял
-
-        SETTINGS_ADD_RANGE_MIN = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MIN", "1"));
-        SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MAX", "100"));
-
-        SETTINGS_RECORD = sharedPreferences.getBoolean("SETTINGS_RECORD", true);
-        if (SETTINGS_RECORD)
-            progressBar.setVisibility(ProgressBar.VISIBLE);
-    }
-
-
-    private void savePreferences() {
-        SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
-//        sharedPreferences.edit();
-//        sharedPreferences.
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
-        editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
-        editorSharedPreferences.putBoolean("SETTINGS_SUBTRAC", SETTINGS_SUBTRAC);
-        editorSharedPreferences.putBoolean("SETTINGS_ADD", SETTINGS_ADD);
-        editorSharedPreferences.putString("SETTINGS_ADD_RANGE_MIN", String.valueOf(SETTINGS_ADD_RANGE_MIN));
-        editorSharedPreferences.putString("SETTINGS_ADD_RANGE_MAX", String.valueOf(SETTINGS_ADD_RANGE_MAX));
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_1", SETTINGS_MULTIPLYS[0]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_2", SETTINGS_MULTIPLYS[1]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_3", SETTINGS_MULTIPLYS[2]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_4", SETTINGS_MULTIPLYS[3]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_5", SETTINGS_MULTIPLYS[4]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_6", SETTINGS_MULTIPLYS[5]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_7", SETTINGS_MULTIPLYS[6]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_8", SETTINGS_MULTIPLYS[7]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_9", SETTINGS_MULTIPLYS[8]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_10", SETTINGS_MULTIPLYS[9]);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_BETWEEN_SESSIONS", SETTINGS_TIME_BETWEEN_SESSIONS);
-//            editorSharedPreferences.putBoolean("SETTINGS_COUNT_TASK", SETTINGS_COUNT_TASK);
-        editorSharedPreferences.putBoolean("SETTINGS_RECORD", SETTINGS_RECORD);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_TASK", SETTINGS_TIME_TASK);
-//            editorSharedPreferences.putBoolean("SSETTINGS_TIME_SESSION", SETTINGS_TIME_SESSION);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_SESSION", SETTINGS_MULTIPLY_10);
-//        editorSharedPreferences.putInt("PREFERENCES_SETTINGS_HEARTSLIVECOUNT", PREFERENCES_SETTINGS_HEARTSLIVECOUNT);
-//        editorSharedPreferences.putInt("CURRENT_HEARTSLIVECOUNT", heartLiveCount);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            editorSharedPreferences.apply();
-        } else editorSharedPreferences.commit();
-
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
@@ -751,7 +525,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
         textViewAnswerShow1.setText(savedInstanceState.getString(name_value_textViewAnswerShow1));
         textViewAnswerShow2.setText(savedInstanceState.getString(name_value_textViewAnswerShow2));
         textViewAnswerShow3.setText(savedInstanceState.getString(name_value_textViewAnswerShow3));
@@ -766,9 +539,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewAnswerShow11.setText(savedInstanceState.getString(name_value_textViewAnswerShow12));
         textViewAnswerShowBasic.setText(savedInstanceState.getString(name_value_textViewAnswerShowBasic));
     }
-//    private void saveTextViewAnswerShow(){
-////         textViewAnswerShow7
-//    }
+
 
     @Override
     protected void onPause() {
@@ -776,18 +547,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadPreferences();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        savePreferences();
-        super.onDestroy();
-    }
 
     private Runnable myThread = new Runnable() {
         @Override

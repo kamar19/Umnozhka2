@@ -29,7 +29,7 @@
     <string name="textViewAnswerShow12">12*6=62</string>
     <string name="textViewAnswerCount">1</string>
     <string name="textViewQuestion"> 12 * 6 = </string>
-    <string name="str_enter">Введи ответ.</string>
+    <string name="str_enter">Enter your response.</string>
     <string name="textViewAnswerShowBasic"> </string>
 
     <string-array name="entries">

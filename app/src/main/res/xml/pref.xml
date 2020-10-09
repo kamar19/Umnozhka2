@@ -2,6 +2,13 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ListPreference
+        android:defaultValue="2"
+        android:entries="@array/entries"
+        android:entryValues="@array/entries"
+        android:key="SettingsLanguageTitle"
+        android:title="@string/SettingsLanguageTitle" />
+
     <CheckBoxPreference
         android:key="SETTINGS_MULTIPLY"
         android:summaryOn="@string/SettingsMultiplySummaryOn"
