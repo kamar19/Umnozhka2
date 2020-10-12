@@ -1,20 +1,23 @@
 package com.example.umnozhka;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
-public class StartActivity extends AppCompatActivity implements View.OnClickListener {
-    Button buttonSettings, buttonGame, buttonGrades,buttonEnd;
+import java.util.Locale;
+
+public class StartActivity extends Activity implements View.OnClickListener {
+    Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
+    //    TextView textView, textView2;
     private static SharedPreferences sharedPreferences;
-    private static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
+//    private static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
+    public static String SettingsLanguage;
     public static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
     public static boolean SETTINGS_SUBTRAC;    // Сложение
     public static boolean SETTINGS_ADD;        // Вычитание
@@ -24,21 +27,13 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     public static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
     public static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
 
-
+    public static Locale locale;
+    public static Configuration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-        buttonSettings = findViewById(R.id.buttonSettings);
-        buttonGame = findViewById(R.id.buttonGame);
-        buttonGrades = findViewById(R.id.buttonGrades);
-        buttonEnd = findViewById(R.id.buttonEnd);
 
-        buttonSettings.setOnClickListener(this);
-        buttonGame.setOnClickListener(this);
-        buttonGrades.setOnClickListener(this);
-        buttonEnd.setOnClickListener(this);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -46,12 +41,19 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             // по умолчанию, если настроеки есть загружаются, иначе создаются
 
             loadPreferences();
+            changeDisplayLanguage(SettingsLanguage);
+//            getResources().getConfiguration().locale.getDisplayLanguage().toString().
+//            textView.setText(getResources().getConfiguration().locale.getDisplayLanguage().toString());
+//            textView2.setText(SettingsLanguage);
 //            Toast toast = Toast.makeText(getApplicationContext(),
 //                    "Настройки загруженны!", Toast.LENGTH_SHORT);
 //            toast.show();
 ////            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
 //            textViewAnswerShow5.setText(R.string.SettingsLoad);
         } else {
+            // Первая загрузка значений по умолчанию
+            // нужно проверить какая локаль в системе по умолчанию
+            SettingsLanguage = getResources().getConfiguration().locale.getDisplayLanguage();
             SETTINGS_MULTIPLY = true;
             SETTINGS_DIVIDE = false;
             SETTINGS_SUBTRAC = false;
@@ -68,38 +70,85 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             SETTINGS_MULTIPLYS[7] = true;
             SETTINGS_MULTIPLYS[8] = true;
             SETTINGS_MULTIPLYS[9] = true;
-             savePreferences();
+            savePreferences();
         }
 
+        setContentView(R.layout.activity_start);
+
+        buttonSettings = findViewById(R.id.buttonSettings);
+        buttonGame = findViewById(R.id.buttonGame);
+        buttonGrades = findViewById(R.id.buttonGrades);
+        buttonEnd = findViewById(R.id.buttonEnd);
+        buttonSettings.setOnClickListener(this);
+        buttonGame.setOnClickListener(this);
+        buttonGrades.setOnClickListener(this);
+        buttonEnd.setOnClickListener(this);
+
+
+//        textView = findViewById(R.id.textView);
+//        textView2 = findViewById(R.id.textView2);
+    }
+
+    private void changeDisplayLanguage(String langCode) {
+        if (!getResources().getConfiguration().locale.getDisplayLanguage().equals(langCode))
+        // Если текущая локаль и в параметрах локаль отличаются, то поменять локаль.
+        {
+            locale = new Locale(langCode);
+            Locale.setDefault(locale);
+            configuration = new Configuration((getResources().getConfiguration()));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                configuration.setLocale(locale);
+            } else {
+                configuration.locale = locale;
+            }
+            getBaseContext().getResources()
+                    .updateConfiguration(configuration,
+                            getBaseContext()
+                                    .getResources()
+                                    .getDisplayMetrics());
+        }
+        Button buttonSettingsRef = findViewById(R.id.buttonSettings);
+        if (buttonSettingsRef != null) {
+            buttonSettingsRef.setText(R.string.buttonSettings_title);
+            Button buttonGameRef = findViewById(R.id.buttonGame);
+            buttonGameRef.setText(R.string.buttonGame_title);
+            Button buttonGradesRef = findViewById(R.id.buttonGrades);
+            buttonGradesRef.setText(R.string.buttonGrades_title);
+            Button buttonEndRef = findViewById(R.id.buttonEnd);
+            buttonEndRef.setText(R.string.buttonEnd_title);
+        }
     }
 
     @Override
     public void onClick(View v) {
 
-            switch (v.getId()) {
-                case R.id.buttonSettings:
-                    // вызов настроек
-                    Intent intent = new Intent(this, PrefActivity.class);
-                    startActivity(intent);
-                    break;
-                case R.id.buttonGame:
-                    // игра
-                    Intent intent2 = new Intent(this, MainActivity.class);
-                    startActivity(intent2);
-                    break;
-                case R.id.buttonGrades:
-                    // журнал оценок
-                    break;
-                case R.id.buttonEnd:
-                    this.finish();
-                    break;
+        switch (v.getId()) {
+            case R.id.buttonSettings:
+                // вызов настроек
+                Intent intent = new Intent(this, PrefActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.buttonGame:
+                // игра
+                Intent intent2 = new Intent(this, MainActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.buttonGrades:
+                // журнал оценок
+//                    setContentView(R.layout.activity_start);
+                break;
+            case R.id.buttonEnd:
+                this.finish();
+                break;
 
-            }
+        }
 
     }
+
     private void loadPreferences() {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
+        SettingsLanguage = sharedPreferences.getString("SettingsLanguage", "en");
         SETTINGS_MULTIPLY = sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
         SETTINGS_DIVIDE = sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
         SETTINGS_SUBTRAC = sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
@@ -125,13 +174,22 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MAX", "100"));
 
         SETTINGS_RECORD = sharedPreferences.getBoolean("SETTINGS_RECORD", true);
-       }
+        changeDisplayLanguage(SettingsLanguage);
+//        recreate();
+
+//        textView.setText(Locale.getDefault().getLanguage());
+//        textView2.setText(SettingsLanguage);
+    }
 
 
     private void savePreferences() {
         SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
 //        sharedPreferences.edit();
 //        sharedPreferences.
+//        SettingsLanguage= sharedPreferences.getString("SettingsLanguage", "en");
+
+        editorSharedPreferences.putString("SettingsLanguage", String.valueOf(SettingsLanguage));
+
         editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
         editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
         editorSharedPreferences.putBoolean("SETTINGS_SUBTRAC", SETTINGS_SUBTRAC);
@@ -157,6 +215,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 //        editorSharedPreferences.putInt("PREFERENCES_SETTINGS_HEARTSLIVECOUNT", PREFERENCES_SETTINGS_HEARTSLIVECOUNT);
 //        editorSharedPreferences.putInt("CURRENT_HEARTSLIVECOUNT", heartLiveCount);
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
@@ -175,6 +234,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         savePreferences();
         super.onDestroy();
     }
+
     public static int getMinValue_SETTINGS_MULTIPLY() {
         // Пусть нижняя граница имеет придел, тогда
         // верхняя, должна вычисляться по количеству игровых чисел
@@ -199,6 +259,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             return 9;
         } else return 10;
     }
+
     public static int getMaxValue_SETTINGS_MULTIPLY() {
         // Пусть нижняя граница имеет придел, тогда
         // верхняя, должна вычисляться по количеству игровых чисел

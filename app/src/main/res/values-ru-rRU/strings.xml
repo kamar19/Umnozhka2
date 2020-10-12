@@ -29,32 +29,20 @@
     <string name="textViewAnswerShow12">12*6=62</string>
     <string name="textViewAnswerCount">1</string>
     <string name="textViewQuestion"> 12 * 6 = </string>
-    <string name="str_enter">Enter your response.</string>
     <string name="textViewAnswerShowBasic"> </string>
 
-    <string-array name="entries">
-        <item>English</item>
-        <item>қазақ</item>
-        <item>Русский</item>
-    </string-array>
-    <string-array name="entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
+     <string name="str_enter">Введи ответ.</string>
     <string name="titleAllTask">Задач: </string>
     <string name="titleWrongTask">, ошибок - </string>
     <string name="titleRightTask">, правильно - </string>
     <string name="textRightTask">верно </string>
     <string name="textWrongTask">ошибка </string>
 
-    <string name="title_activity_pref">prefActivity</string>
+    <string name="title_activity_pref">Настройки</string>
 
     <string name="menu_report">Журнал</string>
     <string name="menu_Preferences">Настройки</string>
     <string name="menu_Exit">Выход</string>
-
 
     <string name="SettingsMultiplySummaryOn">включено</string>
     <string name="SettingsMultiplySummaryOff">выключено</string>
@@ -64,8 +52,6 @@
     <string name="SettingsDivideTitle">Деление</string>
 
     <string name="SettingsMultiply_PreferenceScreen">Действия</string>
-
-
 
     <string name="SettingsMultiply_SETTINGS_MULTIPLY_1">на 1</string>
     <string name="SettingsMultiply_SETTINGS_MULTIPLY_2">на 2</string>
@@ -101,14 +87,13 @@
     <string name="SETTINGS_RECORD_switchTextOff">Нет?</string>
     <string name="SETTINGS_RECORD_switchTextOn">Да?</string>
 
-
     <string name="SettingsLoad">Загружены</string>
     <string name="SettingsSave">Сохранены</string>
     <string name="todo">TODO</string>
-    <string name="buttonSettings">Настройки</string>
-    <string name="buttonGame">Играть</string>
-    <string name="buttonGrades">Оценки</string>
-    <string name="buttonEnd">Выход</string>
 
+    <string name="buttonSettings_title">Настройки</string>
+    <string name="buttonGame_title">Играть</string>
+    <string name="buttonGrades_title">Оценки</string>
+    <string name="buttonEnd_title">Выход</string>
 
 </resources>

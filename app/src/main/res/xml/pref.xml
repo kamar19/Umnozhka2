@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:defaultValue="2"
+        android:defaultValue="0"
         android:entries="@array/entries"
-        android:entryValues="@array/entries"
-        android:key="SettingsLanguageTitle"
+        android:entryValues="@array/entry_values"
+        android:key="SettingsLanguage"
         android:title="@string/SettingsLanguageTitle" />
 
     <CheckBoxPreference
@@ -82,9 +82,9 @@
 
     <SwitchPreference
         android:key="SETTINGS_RECORD"
-        android:summaryOff="Игра без времени?"
-        android:summaryOn="Ограничение времени?"
-        android:title="С учетом времени"
-        android:switchTextOff="Нет"
-        android:switchTextOn="Да" />
+        android:summaryOff="@string/SETTINGS_RECORD_summaryOff"
+        android:summaryOn="@string/SETTINGS_RECORD_summaryOn"
+        android:title="@string/SETTINGS_RECORD_title"
+        android:switchTextOff="@string/SETTINGS_RECORD_switchTextOff"
+        android:switchTextOn="@string/SETTINGS_RECORD_switchTextOn" />
     </PreferenceScreen>

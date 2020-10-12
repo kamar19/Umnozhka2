@@ -1,5 +1,6 @@
 package com.example.umnozhka;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -22,7 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private static int countHeartLive = 0;
     private static int countAllPrimerov = 0;

@@ -8,34 +8,38 @@
         android:orientation="vertical"
         android:layout_margin="30dp"
         >
-
-
         <Button
             android:id="@+id/buttonSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/buttonSettings"
+            android:text="@string/buttonSettings_title"
+            android:textAllCaps="false"
             android:textSize="16sp"             />
         <Button
             android:id="@+id/buttonGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:textAllCaps="false"
             android:textSize="16sp"
-            android:text="@string/buttonGame" />
+            android:text="@string/buttonGame_title" />
         <Button
             android:id="@+id/buttonGrades"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:textAllCaps="false"
             android:textSize="16sp"
-            android:text="@string/buttonGrades" />
+            android:text="@string/buttonGrades_title" />
+
         <Button
             android:id="@+id/buttonEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:textAllCaps="false"
             android:textSize="16sp"
-            android:text="@string/buttonEnd" />
+            android:text="@string/buttonEnd_title" />
+
     </LinearLayout>
