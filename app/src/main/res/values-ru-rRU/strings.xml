@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Umnozhka</string>
+    <string name="appName">Umnozhka</string>
     <string name="act">*</string>
     <string name="numberOne">5</string>
     <string name="numberTwo">5</string>
@@ -31,69 +31,78 @@
     <string name="textViewQuestion"> 12 * 6 = </string>
     <string name="textViewAnswerShowBasic"> </string>
 
-     <string name="str_enter">Введи ответ.</string>
+    <string name="strEnter">Введи ответ.</string>
     <string name="titleAllTask">Задач: </string>
     <string name="titleWrongTask">, ошибок - </string>
     <string name="titleRightTask">, правильно - </string>
     <string name="textRightTask">верно </string>
     <string name="textWrongTask">ошибка </string>
 
-    <string name="title_activity_pref">Настройки</string>
+    <string name="titleActivityPref">Настройки</string>
 
-    <string name="menu_report">Журнал</string>
-    <string name="menu_Preferences">Настройки</string>
-    <string name="menu_Exit">Выход</string>
+    <string name="menuReport">Журнал</string>
+    <string name="menuPreferences">Настройки</string>
+    <string name="menuExit">Выход</string>
 
-    <string name="SettingsMultiplySummaryOn">включено</string>
-    <string name="SettingsMultiplySummaryOff">выключено</string>
+    <string name="settingsMultiplySummaryOn">включено</string>
+    <string name="settingsMultiplySummaryOff">выключено</string>
 
-    <string name="SettingsLanguageTitle">Язык</string>
-    <string name="SettingsMultiplyTitle">Умножение</string>
-    <string name="SettingsDivideTitle">Деление</string>
+    <string name="settingsLanguageTitle">Язык</string>
+    <string name="settingsMultiplyTitle">Умножение</string>
+    <string name="settingsDivideTitle">Деление</string>
 
-    <string name="SettingsMultiply_PreferenceScreen">Действия</string>
+    <string name="settingsMultiplyPreferenceScreen">Действия</string>
 
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_1">на 1</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_2">на 2</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_3">на 3</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_4">на 4</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_5">на 5</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_6">на 6</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_7">на 7</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_8">на 8</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_9">на 9</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_10">на 10</string>
+    <string name="settingsMultiplyNumber1">на 1</string>
+    <string name="settingsMultiplyNumber2">на 2</string>
+    <string name="settingsMultiplyNumber3">на 3</string>
+    <string name="settingsMultiplyNumber4">на 4</string>
+    <string name="settingsMultiplyNumber5">на 5</string>
+    <string name="settingsMultiplyNumber6">на 6</string>
+    <string name="settingsMultiplyNumber7">на 7</string>
+    <string name="settingsMultiplyNumber8">на 8</string>
+    <string name="settingsMultiplyNumber9">на 9</string>
+    <string name="settingsMultiplyNumber10">на 10</string>
 
-    <string name="SettingsDivideSummaryOff">выключено</string>
-    <string name="SettingsDivideSummaryOn">включено</string>
+    <string name="settingsDivideSummaryOff">выключено</string>
+    <string name="settingsDivideSummaryOn">включено</string>
     <string name="operationsOn">Действия на ...</string>
 
-    <string name="SETTINGS_ADD_Title">Сложение</string>
-    <string name="SETTINGS_ADD_summaryOff">выключено</string>
-    <string name="SETTINGS_ADD_summaryOn">включено</string>
+    <string name="settingsAddTitle">Сложение</string>
+    <string name="settingsAddSummaryOff">выключено</string>
+    <string name="settingsAddSummaryOn">включено</string>
 
-    <string name="SETTINGS_SUBTRAC_Title">Вычитание</string>
-    <string name="SETTINGS_SUBTRAC_summaryOff">выключено</string>
-    <string name="SETTINGS_SUBTRAC_summaryOn">включено</string>
+    <string name="settingsSubstracTitle">Вычитание</string>
+    <string name="settingsSubstracSummaryOff">выключено</string>
+    <string name="settingsSubstracSummaryOn">включено</string>
 
-    <string name="SETTINGS_ADD_RANGE_MIN_title">Начало диапазона сложения</string>
-    <string name="SETTINGS_ADD_RANGE_MIN_summary">введите первое число</string>
-    <string name="SETTINGS_ADD_RANGE_MAX_title">Конец диапазона сложения</string>
-    <string name="SETTINGS_ADD_RANGE_MAX_summary">введите второе число</string>
+    <string name="settingsAddRangeMinTitle">Начало диапазона сложения</string>
+    <string name="settingsAddRangeMinSummary">введите первое число</string>
+    <string name="settingsAddRangeMaxTitle">Конец диапазона сложения</string>
+    <string name="settingsAddRangeMaxSummary">введите второе число</string>
 
-    <string name="SETTINGS_RECORD_summaryOff">Без ограничений на время?</string>
-    <string name="SETTINGS_RECORD_summaryOn">Игра на время?</string>
-    <string name="SETTINGS_RECORD_title">Игра на рекорд</string>
-    <string name="SETTINGS_RECORD_switchTextOff">Нет?</string>
-    <string name="SETTINGS_RECORD_switchTextOn">Да?</string>
+    <string name="settingsRecordSummaryOff">Без ограничений на время?</string>
+    <string name="settingsRecordSummaryOn">Игра на время?</string>
+    <string name="settingsRecordTitle">Игра на рекорд</string>
+    <string name="settingsRecordSwitchTextOff">Нет?</string>
+    <string name="settingsRecordSwitchTextOn">Да?</string>
 
-    <string name="SettingsLoad">Загружены</string>
-    <string name="SettingsSave">Сохранены</string>
+    <string name="settingsLoad">Загружены</string>
+    <string name="settingsSave">Сохранены</string>
     <string name="todo">TODO</string>
 
-    <string name="buttonSettings_title">Настройки</string>
-    <string name="buttonGame_title">Играть</string>
-    <string name="buttonGrades_title">Оценки</string>
-    <string name="buttonEnd_title">Выход</string>
+    <string name="buttonSettingsTitle">Настройки</string>
+    <string name="buttonGameTitle">Играть</string>
+    <string name="buttonGradesTitle">Оценки</string>
+    <string name="buttonEndTitle">Выход</string>
+
+    <string name="settingsSoundTitle">Звуковые эффекты</string>
+    <string name="settingsSoundOn">включено</string>
+    <string name="settingsSoundOff">выключено</string>
+
+    android:summaryOn="@string/SETTINGS_SOUNDOn"
+    android:summaryOff="@string/SETTINGS_SOUNDOff"
+    android:title="@string/SETTINGS_SOUNDTitle"/>
+
 
 </resources>

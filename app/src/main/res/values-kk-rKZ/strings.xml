@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Umnozhka</string>
+    <string name="appName">Umnozhka</string>
     <string name="act">*</string>
     <string name="numberOne">5</string>
     <string name="numberTwo">5</string>
@@ -30,70 +30,74 @@
     <string name="textViewAnswerCount">1</string>
     <string name="textViewQuestion"> 12 * 6 = </string>
     <string name="textViewAnswerShowBasic"> </string>
-    <string name="SettingsLoad">Loaded</string>
-    <string name="SettingsSave">Saved</string>
+    <string name="settingsLoad">Loaded</string>
+    <string name="settingsSave">Saved</string>
     <string name="todo">TODO</string>
 
-     <string name="str_enter">Жауабың енгізі.</string>
+     <string name="strEnter">Жауабың енгізі.</string>
     <string name="titleAllTask">Тапсырмалар: </string>
     <string name="titleWrongTask">, қателер - </string>
     <string name="titleRightTask">, дұрыс - </string>
     <string name="textRightTask">дұрыс </string>
     <string name="textWrongTask">қателер </string>
 
-    <string name="title_activity_pref">Баптаулар</string>
+    <string name="titleActivityPref">Баптаулар</string>
 
-    <string name="menu_report">Журнал</string>
-    <string name="menu_Preferences">Баптаулар</string>
-    <string name="menu_Exit">Шығу</string>
+    <string name="menuReport">Журнал</string>
+    <string name="menuPreferences">Баптаулар</string>
+    <string name="menuExit">Шығу</string>
 
-    <string name="SettingsMultiplySummaryOn">Енгізілген</string>
-    <string name="SettingsMultiplySummaryOff">Өшірілген</string>
+    <string name="settingsMultiplySummaryOn">Енгізілген</string>
+    <string name="settingsMultiplySummaryOff">Өшірілген</string>
 
-    <string name="SettingsLanguageTitle">Тіл</string>
-    <string name="SettingsMultiplyTitle">Көбей</string>
-    <string name="SettingsDivideTitle">Бөлім</string>
+    <string name="settingsLanguageTitle">Тіл</string>
+    <string name="settingsMultiplyTitle">Көбей</string>
+    <string name="settingsDivideTitle">Бөлім</string>
 
-    <string name="SettingsMultiply_PreferenceScreen">Әрекеттер</string>
+    <string name="settingsMultiplyPreferenceScreen">Әрекеттер</string>
 
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_1"> 1</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_2"> 2</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_3"> 3</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_4"> 4</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_5"> 5</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_6"> 6</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_7"> 7</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_8"> 8</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_9"> 9</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_10"> 10</string>
+    <string name="settingsMultiplyNumber1"> 1</string>
+    <string name="settingsMultiplyNumber2"> 2</string>
+    <string name="settingsMultiplyNumber3"> 3</string>
+    <string name="settingsMultiplyNumber4"> 4</string>
+    <string name="settingsMultiplyNumber5"> 5</string>
+    <string name="settingsMultiplyNumber6"> 6</string>
+    <string name="settingsMultiplyNumber7"> 7</string>
+    <string name="settingsMultiplyNumber8"> 8</string>
+    <string name="settingsMultiplyNumber9"> 9</string>
+    <string name="settingsMultiplyNumber10"> 10</string>
 
-    <string name="SettingsDivideSummaryOff">Өшірілген</string>
-    <string name="SettingsDivideSummaryOn">Енгізілген</string>
+    <string name="settingsDivideSummaryOff">Өшірілген</string>
+    <string name="settingsDivideSummaryOn">Енгізілген</string>
     <string name="operationsOn">Әрекеттер ...</string>
 
-    <string name="SETTINGS_ADD_Title">Қосу</string>
-    <string name="SETTINGS_ADD_summaryOff">Өшірілген</string>
-    <string name="SETTINGS_ADD_summaryOn">Енгізілген</string>
+    <string name="settingsAddTitle">Қосу</string>
+    <string name="settingsAddSummaryOff">Өшірілген</string>
+    <string name="settingsAddSummaryOn">Енгізілген</string>
 
-    <string name="SETTINGS_SUBTRAC_Title">Азайту</string>
-    <string name="SETTINGS_SUBTRAC_summaryOff">Өшірілген</string>
-    <string name="SETTINGS_SUBTRAC_summaryOn">Енгізілген</string>
+    <string name="settingsSubstracTitle">Азайту</string>
+    <string name="settingsSubstracSummaryOff">Өшірілген</string>
+    <string name="settingsSubstracSummaryOn">Енгізілген</string>
 
-    <string name="SETTINGS_ADD_RANGE_MIN_title">Бүктеу ауқымы басталады</string>
-    <string name="SETTINGS_ADD_RANGE_MIN_summary">Бірінші нөмірді енгізіңіз</string>
-    <string name="SETTINGS_ADD_RANGE_MAX_title">Қосу ауқымының аяқталуы</string>
-    <string name="SETTINGS_ADD_RANGE_MAX_summary">Екінші нөмірді енгізіңіз</string>
+    <string name="settingsAddRangeMinTitle">Бүктеу ауқымы басталады</string>
+    <string name="settingsAddRangeMinSummary">Бірінші нөмірді енгізіңіз</string>
+    <string name="settingsAddRangeMaxTitle">Қосу ауқымының аяқталуы</string>
+    <string name="settingsAddRangeMaxSummary">Екінші нөмірді енгізіңіз</string>
 
-    <string name="SETTINGS_RECORD_summaryOff">Уақыт шектеулері жоқ?</string>
-    <string name="SETTINGS_RECORD_summaryOn">Уақыт ойыны?</string>
-    <string name="SETTINGS_RECORD_title">Ойын жазба</string>
-    <string name="SETTINGS_RECORD_switchTextOff">Жоқ?</string>
-    <string name="SETTINGS_RECORD_switchTextOn">Иә?</string>
+    <string name="settingsRecordSummaryOff">Уақыт шектеулері жоқ?</string>
+    <string name="settingsRecordSummaryOn">Уақыт ойыны?</string>
+    <string name="settingsRecordTitle">Ойын жазба</string>
+    <string name="settingsRecordSwitchTextOff">Жоқ?</string>
+    <string name="settingsRecordSwitchTextOn">Иә?</string>
 
-    <string name="buttonSettings_title">Баптаулар</string>
-    <string name="buttonGame_title">Ойнату</string>
-    <string name="buttonGrades_title">Бағалау</string>
-    <string name="buttonEnd_title">Шығу</string>
+    <string name="buttonSettingsTitle">Баптаулар</string>
+    <string name="buttonGameTitle">Ойнату</string>
+    <string name="buttonGradesTitle">Бағалау</string>
+    <string name="buttonEndTitle">Шығу</string>
+
+    <string name="settingsSoundTitle">Дыбыстық эффекттер</string>
+    <string name="settingsSoundOn">Енгізілген</string>
+    <string name="settingsSoundOff">Өшірілген</string>
 
 
 

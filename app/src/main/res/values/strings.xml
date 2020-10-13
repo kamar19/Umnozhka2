@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Umnozhka</string>
+    <string name="appName">Umnozhka</string>
     <string name="act">*</string>
     <string name="numberOne">5</string>
     <string name="numberTwo">5</string>
@@ -30,8 +30,8 @@
     <string name="textViewAnswerCount">1</string>
     <string name="textViewQuestion"> 12 * 6 = </string>
     <string name="textViewAnswerShowBasic"> </string>
-    <string name="SettingsLoad">Loaded</string>
-    <string name="SettingsSave">Saved</string>
+    <string name="settingsLoad">Loaded</string>
+    <string name="settingsSave">Saved</string>
     <string name="todo">TODO</string>
 
     <string-array name="entries">
@@ -45,65 +45,70 @@
         <item>ru</item>
 
     </string-array>
-    <string name="str_enter">Enter your answer.</string>
+    <string name="strEnter">Enter your answer.</string>
     <string name="titleAllTask">Tasks: </string>
     <string name="titleWrongTask">, wrong - </string>
     <string name="titleRightTask">, right - </string>
     <string name="textRightTask">right </string>
     <string name="textWrongTask">wrong </string>
 
-    <string name="title_activity_pref">Preferences</string>
+    <string name="titleActivityPref">Preferences</string>
 
-    <string name="menu_report">Report</string>
-    <string name="menu_Preferences">Preferences</string>
-    <string name="menu_Exit">Exit</string>
+    <string name="menuReport">Report</string>
+    <string name="menuPreferences">Preferences</string>
+    <string name="menuExit">Exit</string>
 
-    <string name="SettingsMultiplySummaryOn">On</string>
-    <string name="SettingsMultiplySummaryOff">Off</string>
+    <string name="settingsMultiplySummaryOn">On</string>
+    <string name="settingsMultiplySummaryOff">Off</string>
 
-    <string name="SettingsLanguageTitle">Language</string>
-    <string name="SettingsMultiplyTitle">Multiply</string>
-    <string name="SettingsDivideTitle">Divide</string>
+    <string name="settingsLanguageTitle">Language</string>
+    <string name="settingsMultiplyTitle">Multiply</string>
+    <string name="settingsDivideTitle">Divide</string>
 
-    <string name="SettingsMultiply_PreferenceScreen">Actions on...</string>
+    <string name="settingsMultiplyPreferenceScreen">Actions on...</string>
 
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_1">on 1</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_2">on 2</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_3">on 3</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_4">on 4</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_5">on 5</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_6">on 6</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_7">on 7</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_8">on 8</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_9">on 9</string>
-    <string name="SettingsMultiply_SETTINGS_MULTIPLY_10">on 10</string>
+    <string name="settingsMultiplyNumber1">on 1</string>
+    <string name="settingsMultiplyNumber2">on 2</string>
+    <string name="settingsMultiplyNumber3">on 3</string>
+    <string name="settingsMultiplyNumber4">on 4</string>
+    <string name="settingsMultiplyNumber5">on 5</string>
+    <string name="settingsMultiplyNumber6">on 6</string>
+    <string name="settingsMultiplyNumber7">on 7</string>
+    <string name="settingsMultiplyNumber8">on 8</string>
+    <string name="settingsMultiplyNumber9">on 9</string>
+    <string name="settingsMultiplyNumber10">on 10</string>
 
-    <string name="SettingsDivideSummaryOff">Off</string>
-    <string name="SettingsDivideSummaryOn">On</string>
+    <string name="settingsDivideSummaryOff">Off</string>
+    <string name="settingsDivideSummaryOn">On</string>
     <string name="operationsOn">Actions on ...</string>
 
-    <string name="SETTINGS_ADD_Title">ADD</string>
-    <string name="SETTINGS_ADD_summaryOff">Off</string>
-    <string name="SETTINGS_ADD_summaryOn">On</string>
+    <string name="settingsAddTitle">ADD</string>
+    <string name="settingsAddSummaryOff">Off</string>
+    <string name="settingsAddSummaryOn">On</string>
 
-    <string name="SETTINGS_SUBTRAC_Title">SUBTRAC</string>
-    <string name="SETTINGS_SUBTRAC_summaryOff">Off</string>
-    <string name="SETTINGS_SUBTRAC_summaryOn">On</string>
+    <string name="settingsSubstracTitle">SUBTRAC</string>
+    <string name="settingsSubstracSummaryOff">Off</string>
+    <string name="settingsSubstracSummaryOn">On</string>
 
-    <string name="SETTINGS_ADD_RANGE_MIN_title">Start of folding range</string>
-    <string name="SETTINGS_ADD_RANGE_MIN_summary">Enter the first number</string>
-    <string name="SETTINGS_ADD_RANGE_MAX_title">End of addition range</string>
-    <string name="SETTINGS_ADD_RANGE_MAX_summary">Enter the second number</string>
+    <string name="settingsAddRangeMinTitle">Start of folding range</string>
+    <string name="settingsAddRangeMinSummary">Enter the first number</string>
+    <string name="settingsAddRangeMaxTitle">End of addition range</string>
+    <string name="settingsAddRangeMaxSummary">Enter the second number</string>
 
-    <string name="SETTINGS_RECORD_summaryOff">No time?</string>
-    <string name="SETTINGS_RECORD_summaryOn">Time game?</string>
-    <string name="SETTINGS_RECORD_title">Record game?</string>
-    <string name="SETTINGS_RECORD_switchTextOff">Off?</string>
-    <string name="SETTINGS_RECORD_switchTextOn">On?</string>
+    <string name="settingsRecordSummaryOff">No time?</string>
+    <string name="settingsRecordSummaryOn">Time game?</string>
+    <string name="settingsRecordTitle">Record game?</string>
+    <string name="settingsRecordSwitchTextOff">Off?</string>
+    <string name="settingsRecordSwitchTextOn">On?</string>
 
-    <string name="buttonSettings_title">Preferences</string>
-    <string name="buttonGame_title">Game</string>
-    <string name="buttonGrades_title">Grades</string>
-    <string name="buttonEnd_title">End</string>
+    <string name="buttonSettingsTitle">Preferences</string>
+    <string name="buttonGameTitle">Game</string>
+    <string name="buttonGradesTitle">Grades</string>
+    <string name="buttonEndTitle">End</string>
+
+    <string name="settingsSoundTitle">Sound effects</string>
+    <string name="settingsSoundOn">On</string>
+    <string name="settingsSoundOff">Off</string>
+
 
 </resources>

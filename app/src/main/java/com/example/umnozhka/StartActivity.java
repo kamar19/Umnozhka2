@@ -26,9 +26,11 @@ public class StartActivity extends Activity implements View.OnClickListener {
     public static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
     public static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
     public static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
+    public static boolean SETTINGS_SOUND;             // Включение звуковых эффектов
 
-    public static Locale locale;
-    public static Configuration configuration;
+
+//    public static Locale locale;
+//    public static Configuration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class StartActivity extends Activity implements View.OnClickListener {
             // Первая загрузка значений по умолчанию
             // нужно проверить какая локаль в системе по умолчанию
             SettingsLanguage = getResources().getConfiguration().locale.getDisplayLanguage();
+            SETTINGS_SOUND    = true;
             SETTINGS_MULTIPLY = true;
             SETTINGS_DIVIDE = false;
             SETTINGS_SUBTRAC = false;
@@ -72,9 +75,7 @@ public class StartActivity extends Activity implements View.OnClickListener {
             SETTINGS_MULTIPLYS[9] = true;
             savePreferences();
         }
-
         setContentView(R.layout.activity_start);
-
         buttonSettings = findViewById(R.id.buttonSettings);
         buttonGame = findViewById(R.id.buttonGame);
         buttonGrades = findViewById(R.id.buttonGrades);
@@ -83,19 +84,15 @@ public class StartActivity extends Activity implements View.OnClickListener {
         buttonGame.setOnClickListener(this);
         buttonGrades.setOnClickListener(this);
         buttonEnd.setOnClickListener(this);
-
-
-//        textView = findViewById(R.id.textView);
-//        textView2 = findViewById(R.id.textView2);
     }
 
     private void changeDisplayLanguage(String langCode) {
         if (!getResources().getConfiguration().locale.getDisplayLanguage().equals(langCode))
         // Если текущая локаль и в параметрах локаль отличаются, то поменять локаль.
         {
-            locale = new Locale(langCode);
+            Locale locale = new Locale(langCode);
             Locale.setDefault(locale);
-            configuration = new Configuration((getResources().getConfiguration()));
+            Configuration configuration = new Configuration((getResources().getConfiguration()));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 configuration.setLocale(locale);
             } else {
@@ -109,13 +106,13 @@ public class StartActivity extends Activity implements View.OnClickListener {
         }
         Button buttonSettingsRef = findViewById(R.id.buttonSettings);
         if (buttonSettingsRef != null) {
-            buttonSettingsRef.setText(R.string.buttonSettings_title);
+            buttonSettingsRef.setText(R.string.buttonSettingsTitle);
             Button buttonGameRef = findViewById(R.id.buttonGame);
-            buttonGameRef.setText(R.string.buttonGame_title);
+            buttonGameRef.setText(R.string.buttonGameTitle);
             Button buttonGradesRef = findViewById(R.id.buttonGrades);
-            buttonGradesRef.setText(R.string.buttonGrades_title);
+            buttonGradesRef.setText(R.string.buttonGradesTitle);
             Button buttonEndRef = findViewById(R.id.buttonEnd);
-            buttonEndRef.setText(R.string.buttonEnd_title);
+            buttonEndRef.setText(R.string.buttonEndTitle);
         }
     }
 
@@ -148,21 +145,23 @@ public class StartActivity extends Activity implements View.OnClickListener {
     private void loadPreferences() {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
-        SettingsLanguage = sharedPreferences.getString("SettingsLanguage", "en");
-        SETTINGS_MULTIPLY = sharedPreferences.getBoolean("SETTINGS_MULTIPLY", true);
-        SETTINGS_DIVIDE = sharedPreferences.getBoolean("SETTINGS_DIVIDE", false);
-        SETTINGS_SUBTRAC = sharedPreferences.getBoolean("SETTINGS_SUBTRAC", false);
-        SETTINGS_ADD = sharedPreferences.getBoolean("SETTINGS_ADD", false);
-        SETTINGS_MULTIPLYS[0] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_1", false);
-        SETTINGS_MULTIPLYS[1] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_2", true);
-        SETTINGS_MULTIPLYS[2] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_3", true);
-        SETTINGS_MULTIPLYS[3] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_4", true);
-        SETTINGS_MULTIPLYS[4] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_5", true);
-        SETTINGS_MULTIPLYS[5] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_6", true);
-        SETTINGS_MULTIPLYS[6] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_7", true);
-        SETTINGS_MULTIPLYS[7] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_8", true);
-        SETTINGS_MULTIPLYS[8] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_9", true);
-        SETTINGS_MULTIPLYS[9] = sharedPreferences.getBoolean("SETTINGS_MULTIPLY_10", true);
+
+        SettingsLanguage = sharedPreferences.getString("settingsLanguage", "en");
+        SETTINGS_SOUND =  sharedPreferences.getBoolean("settingsSound", true);
+        SETTINGS_MULTIPLY = sharedPreferences.getBoolean("settingsMultiply", true);
+        SETTINGS_DIVIDE = sharedPreferences.getBoolean("settingsDivide", false);
+        SETTINGS_SUBTRAC = sharedPreferences.getBoolean("settingsSubtrac", false);
+        SETTINGS_ADD = sharedPreferences.getBoolean("settingsAdd", false);
+        SETTINGS_MULTIPLYS[0] = sharedPreferences.getBoolean("settingsMultiplyNumber1", false);
+        SETTINGS_MULTIPLYS[1] = sharedPreferences.getBoolean("settingsMultiplyNumber2", true);
+        SETTINGS_MULTIPLYS[2] = sharedPreferences.getBoolean("settingsMultiplyNumber3", true);
+        SETTINGS_MULTIPLYS[3] = sharedPreferences.getBoolean("settingsMultiplyNumber4", true);
+        SETTINGS_MULTIPLYS[4] = sharedPreferences.getBoolean("settingsMultiplyNumber5", true);
+        SETTINGS_MULTIPLYS[5] = sharedPreferences.getBoolean("settingsMultiplyNumber6", true);
+        SETTINGS_MULTIPLYS[6] = sharedPreferences.getBoolean("settingsMultiplyNumber7", true);
+        SETTINGS_MULTIPLYS[7] = sharedPreferences.getBoolean("settingsMultiplyNumber8", true);
+        SETTINGS_MULTIPLYS[8] = sharedPreferences.getBoolean("settingsMultiplyNumber9", true);
+        SETTINGS_MULTIPLYS[9] = sharedPreferences.getBoolean("settingsMultiplyNumber10", true);
 
         // НУЖНА проверка на сисловое или строковое значение
         // была ошибка когда значение было по по умолчанию = "0"
@@ -170,10 +169,10 @@ public class StartActivity extends Activity implements View.OnClickListener {
         // потом поменял значение на другое и ошибка вышла
         // на попытку преобразования числа в число, ну или я так понял
 
-        SETTINGS_ADD_RANGE_MIN = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MIN", "1"));
-        SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("SETTINGS_ADD_RANGE_MAX", "100"));
+        SETTINGS_ADD_RANGE_MIN = Integer.valueOf(sharedPreferences.getString("settingsAddRangeMin", "1"));
+        SETTINGS_ADD_RANGE_MAX = Integer.valueOf(sharedPreferences.getString("settingsAddRangeMax", "100"));
 
-        SETTINGS_RECORD = sharedPreferences.getBoolean("SETTINGS_RECORD", true);
+        SETTINGS_RECORD = sharedPreferences.getBoolean("settingsRecord", true);
         changeDisplayLanguage(SettingsLanguage);
 //        recreate();
 
@@ -184,49 +183,34 @@ public class StartActivity extends Activity implements View.OnClickListener {
 
     private void savePreferences() {
         SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
-//        sharedPreferences.edit();
-//        sharedPreferences.
-//        SettingsLanguage= sharedPreferences.getString("SettingsLanguage", "en");
-
-        editorSharedPreferences.putString("SettingsLanguage", String.valueOf(SettingsLanguage));
-
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY", SETTINGS_MULTIPLY);
-        editorSharedPreferences.putBoolean("SETTINGS_DIVIDE", SETTINGS_DIVIDE);
-        editorSharedPreferences.putBoolean("SETTINGS_SUBTRAC", SETTINGS_SUBTRAC);
-        editorSharedPreferences.putBoolean("SETTINGS_ADD", SETTINGS_ADD);
-        editorSharedPreferences.putString("SETTINGS_ADD_RANGE_MIN", String.valueOf(SETTINGS_ADD_RANGE_MIN));
-        editorSharedPreferences.putString("SETTINGS_ADD_RANGE_MAX", String.valueOf(SETTINGS_ADD_RANGE_MAX));
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_1", SETTINGS_MULTIPLYS[0]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_2", SETTINGS_MULTIPLYS[1]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_3", SETTINGS_MULTIPLYS[2]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_4", SETTINGS_MULTIPLYS[3]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_5", SETTINGS_MULTIPLYS[4]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_6", SETTINGS_MULTIPLYS[5]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_7", SETTINGS_MULTIPLYS[6]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_8", SETTINGS_MULTIPLYS[7]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_9", SETTINGS_MULTIPLYS[8]);
-        editorSharedPreferences.putBoolean("SETTINGS_MULTIPLY_10", SETTINGS_MULTIPLYS[9]);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_BETWEEN_SESSIONS", SETTINGS_TIME_BETWEEN_SESSIONS);
-//            editorSharedPreferences.putBoolean("SETTINGS_COUNT_TASK", SETTINGS_COUNT_TASK);
-        editorSharedPreferences.putBoolean("SETTINGS_RECORD", SETTINGS_RECORD);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_TASK", SETTINGS_TIME_TASK);
-//            editorSharedPreferences.putBoolean("SSETTINGS_TIME_SESSION", SETTINGS_TIME_SESSION);
-//            editorSharedPreferences.putBoolean("SETTINGS_TIME_SESSION", SETTINGS_MULTIPLY_10);
-//        editorSharedPreferences.putInt("PREFERENCES_SETTINGS_HEARTSLIVECOUNT", PREFERENCES_SETTINGS_HEARTSLIVECOUNT);
-//        editorSharedPreferences.putInt("CURRENT_HEARTSLIVECOUNT", heartLiveCount);
-
-
+        editorSharedPreferences.putString("settingsLanguage", String.valueOf(SettingsLanguage));
+        editorSharedPreferences.putBoolean("settingsSound", SETTINGS_SOUND);
+        editorSharedPreferences.putBoolean("settingsMultiply", SETTINGS_MULTIPLY);
+        editorSharedPreferences.putBoolean("settingsDivide", SETTINGS_DIVIDE);
+        editorSharedPreferences.putBoolean("settingsSubtrac", SETTINGS_SUBTRAC);
+        editorSharedPreferences.putBoolean("settingsAdd", SETTINGS_ADD);
+        editorSharedPreferences.putString("settingsAddRangeMin", String.valueOf(SETTINGS_ADD_RANGE_MIN));
+        editorSharedPreferences.putString("settingsAddRangeMax", String.valueOf(SETTINGS_ADD_RANGE_MAX));
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber1", SETTINGS_MULTIPLYS[0]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber2", SETTINGS_MULTIPLYS[1]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber3", SETTINGS_MULTIPLYS[2]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber4", SETTINGS_MULTIPLYS[3]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber5", SETTINGS_MULTIPLYS[4]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber6", SETTINGS_MULTIPLYS[5]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber7", SETTINGS_MULTIPLYS[6]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber8", SETTINGS_MULTIPLYS[7]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber9", SETTINGS_MULTIPLYS[8]);
+        editorSharedPreferences.putBoolean("settingsMultiplyNumber10", SETTINGS_MULTIPLYS[9]);
+        editorSharedPreferences.putBoolean("settingsRecord", SETTINGS_RECORD);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         loadPreferences();
-
     }
 
     @Override
