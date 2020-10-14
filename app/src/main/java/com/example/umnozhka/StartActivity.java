@@ -16,7 +16,7 @@ public class StartActivity extends Activity implements View.OnClickListener {
     Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
     //    TextView textView, textView2;
     private static SharedPreferences sharedPreferences;
-//    private static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
+    private static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
     public static String SettingsLanguage;
     public static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
     public static boolean SETTINGS_SUBTRAC;    // Сложение

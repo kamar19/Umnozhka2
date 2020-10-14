@@ -6,17 +6,17 @@
         android:defaultValue="0"
         android:entries="@array/entries"
         android:entryValues="@array/entry_values"
-        android:key="SettingsLanguage"
+        android:key="settingsLanguage"
         android:title="@string/settingsLanguageTitle" />
     <CheckBoxPreference
-        android:key="SettingsSound"
+        android:key="settingsSound"
         android:summaryOn="@string/settingsSoundOn"
         android:summaryOff="@string/settingsSoundOff"
         android:title="@string/settingsSoundTitle"/>
 
 
     <CheckBoxPreference
-        android:key="SettingsMultiply"
+        android:key="settingsMultiply"
         android:summaryOn="@string/settingsMultiplySummaryOn"
         android:summaryOff="@string/settingsMultiplySummaryOff"
         android:title="@string/settingsMultiplyTitle"/>
@@ -27,7 +27,7 @@
         android:title="@string/settingsDivideTitle"/>
 
     <PreferenceScreen
-        android:dependency="SettingsMultiply"
+        android:dependency="settingsMultiply"
         android:summary="@string/operationsOn"
         android:title="@string/settingsMultiplyPreferenceScreen">
         <CheckBoxPreference

@@ -1,13 +1,20 @@
 package com.example.umnozhka;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +26,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
 
     private static int countHeartLive = 0;
     private static int countAllPrimerov = 0;
@@ -38,7 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
     private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
     private static boolean SETTINGS_RECORD;
-
+    private static boolean SETTINGS_SOUND;
 //    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
 //    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
 //    private static int SETTINGS_TIME_TASK;         // Время на одну задачу
@@ -75,6 +83,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private boolean endGame = false;
     private boolean lastGame = false;
     private MyTask currentTask;
+
+    private AssetManager assetManager;
+    private SoundPool soundPool;
+    //    private int soundIdShot;
+    private int soundIdExplosion, soundIdExplosion2;
+    private final int MAX_STREAMS = 5;
+    private final String LOG_TAG = "myLogs";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,13 +166,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         progressBar.setMax(progressBarTime);
         SETTINGS_MULTIPLYS = StartActivity.SETTINGS_MULTIPLYS;
         SETTINGS_SUBTRAC = StartActivity.SETTINGS_SUBTRAC;    // Сложение
-        SETTINGS_ADD= StartActivity.SETTINGS_ADD;        // Вычитание
-        SETTINGS_MULTIPLY= StartActivity.SETTINGS_MULTIPLY;   // Умножение
-        SETTINGS_DIVIDE= StartActivity.SETTINGS_DIVIDE;     // Деление
-        SETTINGS_ADD_RANGE_MIN= StartActivity.SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
-        SETTINGS_ADD_RANGE_MAX= StartActivity.SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
-        SETTINGS_RECORD= StartActivity.SETTINGS_RECORD;
+        SETTINGS_ADD = StartActivity.SETTINGS_ADD;        // Вычитание
+        SETTINGS_MULTIPLY = StartActivity.SETTINGS_MULTIPLY;   // Умножение
+        SETTINGS_DIVIDE = StartActivity.SETTINGS_DIVIDE;     // Деление
+        SETTINGS_ADD_RANGE_MIN = StartActivity.SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
+        SETTINGS_ADD_RANGE_MAX = StartActivity.SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
+        SETTINGS_RECORD = StartActivity.SETTINGS_RECORD;
+        SETTINGS_SOUND = StartActivity.SETTINGS_SOUND;
         countHeartLive = 0;
+        newSoundPools();
 
         if (SETTINGS_RECORD) {
             // создается таймер, нужно ли его переносить из конструктора?
@@ -270,9 +287,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // Если правельных ответов в подряд 5, то дается одна жизнь.
         countRightTask++;
         countCurrentRightTask++;
+        if (soundPool!=null) {
+            soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
+        }
+
         if (countCurrentRightTask > 4) {
             if (countHeartLive < 5) {
                 countHeartLive++;
+                if (soundPool!=null) {
+                    soundPool.play(soundIdExplosion2, 1, 1, 1, 0, 1);
+                }
+                //                sp.play(soundIdExplosion, 1, 1, 0, 0, 1);
                 countCurrentRightTask = 0;
                 countCurrentWrongTask = 0;
                 refrishIconLive();
@@ -295,7 +320,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 refrishIconLive();
             }
             if (countCurrentWrongTask > 5) {
-                if (progressBarSpeed>2) progressBarSpeed = (int) progressBarSpeed / 2;
+                if (progressBarSpeed > 2) progressBarSpeed = (int) progressBarSpeed / 2;
             }
         }
 
@@ -570,8 +595,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 upInterval(progressBarSpeed);
-                if (progressBarCount>=progressBarTime)
-                {
+                if (progressBarCount >= progressBarTime) {
                     if (countHeartLive > 0) {
                         countHeartLive--;
                         progressBarCount = (int) progressBarTime / 6;
@@ -595,6 +619,64 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (progressBarCount < 0) progressBarCount = 0;
         return progressBarCount;
     }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void createNewSoundPool() {
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
+    }
+
+    @SuppressWarnings("deprecation")
+    private void createOldSoundPool() {
+        soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+    }
+    public boolean newSoundPools() {
+        if (SETTINGS_SOUND) {
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                // Для устройств до Android 5
+                createOldSoundPool();
+            } else {
+                // Для новых устройств
+                createNewSoundPool();
+            }
+//            soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+//            soundPool.setOnLoadCompleteListener(this);
+
+//        soundIdShot = sp.load(this, getAssets().openFd("explosion.ogg"), 1);
+//        getAssets().openFd("explosion.ogg"),
+//        Log.d(LOG_TAG, "soundIdShot = " + soundIdShot);
+//            soundIdExplosion = loadSound("bcushp_ui-149.wav");
+            soundIdExplosion = loadSound("shot.ogg");
+//            soundIdExplosion2 = loadSound("bcushp_ui-149.wav");
+            soundIdExplosion2 = loadSound("explosion.ogg");
+
+            //        Log.d(LOG_TAG, "soundIdExplosion = " + soundIdExplosion);
+        }
+        return SETTINGS_SOUND;
+    }
 
 
+    private int loadSound(String fileName) {
+        AssetFileDescriptor afd;
+        try {
+            assetManager = getAssets();
+            afd = assetManager.openFd(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Не могу загрузить файл " + fileName,
+                    Toast.LENGTH_SHORT).show();
+            return -1;
+        }
+        return soundPool.load(afd, 1);
+    }
+
+
+    @Override
+    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+        Log.d(LOG_TAG, "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
+    }
 }
