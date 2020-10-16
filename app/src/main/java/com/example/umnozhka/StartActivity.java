@@ -1,22 +1,32 @@
 package com.example.umnozhka;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import android.app.DialogFragment;
+
+//import androidx.fragment.app.DialogFragment;
 
 import java.util.Locale;
 
 public class StartActivity extends Activity implements View.OnClickListener {
     Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
+    DialogFragment dialogFragment;
     //    TextView textView, textView2;
     private static SharedPreferences sharedPreferences;
-    private static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
+    //    private static final String PREFERENCES_SETTINGS_NAME = "umnozhka_Settings";
     public static String SettingsLanguage;
     public static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
     public static boolean SETTINGS_SUBTRAC;    // Сложение
@@ -27,8 +37,10 @@ public class StartActivity extends Activity implements View.OnClickListener {
     public static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
     public static boolean SETTINGS_RECORD;            // На выживание (на рекорд)
     public static boolean SETTINGS_SOUND;             // Включение звуковых эффектов
+    private boolean endGame = false;
+    private MyDialog myDialog;
 
-
+    final String LOG_TAG = "StartActivityLogs";
 //    public static Locale locale;
 //    public static Configuration configuration;
 
@@ -36,12 +48,11 @@ public class StartActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+//        sharedPreferences =  getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (sharedPreferences != null) {
             // по умолчанию, если настроеки есть загружаются, иначе создаются
-
             loadPreferences();
             changeDisplayLanguage(SettingsLanguage);
 //            getResources().getConfiguration().locale.getDisplayLanguage().toString().
@@ -56,7 +67,7 @@ public class StartActivity extends Activity implements View.OnClickListener {
             // Первая загрузка значений по умолчанию
             // нужно проверить какая локаль в системе по умолчанию
             SettingsLanguage = getResources().getConfiguration().locale.getDisplayLanguage();
-            SETTINGS_SOUND    = true;
+            SETTINGS_SOUND = true;
             SETTINGS_MULTIPLY = true;
             SETTINGS_DIVIDE = false;
             SETTINGS_SUBTRAC = false;
@@ -73,6 +84,7 @@ public class StartActivity extends Activity implements View.OnClickListener {
             SETTINGS_MULTIPLYS[7] = true;
             SETTINGS_MULTIPLYS[8] = true;
             SETTINGS_MULTIPLYS[9] = true;
+            endGame = false;
             savePreferences();
         }
         setContentView(R.layout.activity_start);
@@ -126,9 +138,72 @@ public class StartActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.buttonGame:
-                // игра
-                Intent intent2 = new Intent(this, MainActivity.class);
-                startActivity(intent2);
+                // Если игра не завершена
+                // продолжить игру? начать новую?
+                //getExternalFilesDir()
+                if (!endGame) {
+                    //Если игра не закончена
+                    myDialog = new MyDialog();
+                    DialogFragment dialogFragment = new MyDialog();
+                    dialogFragment.show(getFragmentManager(), "tt");
+
+//                    FragmentManager fragmentManager=  StartActivity.this.getFragmentManager();
+
+//                    myDialog.show();
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this);
+//                    2.show(getFragmentManager(), "dlg2");
+//                    myDialog.show(getSupportFragmentManager() );
+//                    AlertDialog.Builder builder = myDialog.onCreateDialog(StartActivity.this);
+
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this);
+//                    builder.setTitle(R.string.alertDialogTitle);
+//                    builder.setMessage(R.string.alertDialogMessage)
+//                            .setPositiveButton(R.string.alertDialogPositiveButtonText, new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    // Продолжить
+//                                    tempDialogResult = 1;
+//                                    dialog.dismiss();
+//                                }
+//                            })
+//                            .setNegativeButton(R.string.alertDialogNegativeButtonText, new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    // Начать новый
+//                                    tempDialogResult = 2;
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//                    builder.setNeutralButton(R.string.alertDialogNeutralButtonText,
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog,
+//                                                    int which) {
+//                                    // Отмена
+//                                    tempDialogResult = 3;
+//                                    dialog.dismiss();
+//                                }
+//                            });
+////                    AlertDialog ad = myDialog.create();
+//                    builder.show();
+                    Log.d(LOG_TAG, "if (myDialog.getResultDialog() != 0)");
+
+//                    if (myDialog.getResultDialog() != 0)
+//                        switch (myDialog.getResultDialog()) {
+//                            case 1: {
+//                                myDialog.dismiss();
+//                                Intent intent2 = new Intent(this, MainActivity.class);
+//                                startActivity(intent2);
+//                                break;
+//                            }
+//                            case 2: {
+//                                // новая игра, установка в начальные параметры.
+//                                myDialog.dismiss();
+//                                Intent intent2 = new Intent(this, MainActivity.class);
+//                                startActivity(intent2);
+//                                break;
+//                            }
+//                            case 3:
+//                                break;
+//                        }
+                }
                 break;
             case R.id.buttonGrades:
                 // журнал оценок
@@ -139,15 +214,17 @@ public class StartActivity extends Activity implements View.OnClickListener {
                 break;
 
         }
+        Log.d(LOG_TAG, "end of onClick");
+
 
     }
 
-    private void loadPreferences() {
+    public void loadPreferences() {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
 
         SettingsLanguage = sharedPreferences.getString("settingsLanguage", "en");
-        SETTINGS_SOUND =  sharedPreferences.getBoolean("settingsSound", true);
+        SETTINGS_SOUND = sharedPreferences.getBoolean("settingsSound", true);
         SETTINGS_MULTIPLY = sharedPreferences.getBoolean("settingsMultiply", true);
         SETTINGS_DIVIDE = sharedPreferences.getBoolean("settingsDivide", false);
         SETTINGS_SUBTRAC = sharedPreferences.getBoolean("settingsSubtrac", false);
@@ -162,6 +239,8 @@ public class StartActivity extends Activity implements View.OnClickListener {
         SETTINGS_MULTIPLYS[7] = sharedPreferences.getBoolean("settingsMultiplyNumber8", true);
         SETTINGS_MULTIPLYS[8] = sharedPreferences.getBoolean("settingsMultiplyNumber9", true);
         SETTINGS_MULTIPLYS[9] = sharedPreferences.getBoolean("settingsMultiplyNumber10", true);
+
+        endGame = sharedPreferences.getBoolean("valueEndGame", false);
 
         // НУЖНА проверка на сисловое или строковое значение
         // была ошибка когда значение было по по умолчанию = "0"
@@ -184,6 +263,8 @@ public class StartActivity extends Activity implements View.OnClickListener {
     private void savePreferences() {
         SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
         editorSharedPreferences.putString("settingsLanguage", String.valueOf(SettingsLanguage));
+        // нет связи SettingsLanguage и PrefActivity
+
         editorSharedPreferences.putBoolean("settingsSound", SETTINGS_SOUND);
         editorSharedPreferences.putBoolean("settingsMultiply", SETTINGS_MULTIPLY);
         editorSharedPreferences.putBoolean("settingsDivide", SETTINGS_DIVIDE);
@@ -202,19 +283,26 @@ public class StartActivity extends Activity implements View.OnClickListener {
         editorSharedPreferences.putBoolean("settingsMultiplyNumber9", SETTINGS_MULTIPLYS[8]);
         editorSharedPreferences.putBoolean("settingsMultiplyNumber10", SETTINGS_MULTIPLYS[9]);
         editorSharedPreferences.putBoolean("settingsRecord", SETTINGS_RECORD);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         loadPreferences();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onPause() {
+        //       savePreferences();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
         savePreferences();
         super.onDestroy();
     }
@@ -261,5 +349,6 @@ public class StartActivity extends Activity implements View.OnClickListener {
         else if (SETTINGS_MULTIPLYS[0]) maxValue = 1;
         return maxValue;
     }
+
 
 }

@@ -84,9 +84,9 @@
     <string name="settingsAddRangeMaxTitle">Қосу ауқымының аяқталуы</string>
     <string name="settingsAddRangeMaxSummary">Екінші нөмірді енгізіңіз</string>
 
-    <string name="settingsRecordSummaryOff">Уақыт шектеулері жоқ?</string>
-    <string name="settingsRecordSummaryOn">Уақыт ойыны?</string>
-    <string name="settingsRecordTitle">Ойын жазба</string>
+    <string name="settingsRecordTitle">Уақыт сабағы</string>
+    <string name="settingsRecordSummaryOn">уақыт шектеулі?</string>
+    <string name="settingsRecordSummaryOff">Суақыт шектеусіз?</string>
     <string name="settingsRecordSwitchTextOff">Жоқ?</string>
     <string name="settingsRecordSwitchTextOn">Иә?</string>
 
@@ -99,6 +99,11 @@
     <string name="settingsSoundOn">Енгізілген</string>
     <string name="settingsSoundOff">Өшірілген</string>
 
+    <string name="alertDialogTitle">Сабақ аяқталған жоқ!</string>
+    <string name="alertDialogMessage">Өткен сабақты жалғастыру керек пе?</string>
+    <string name="alertDialogNegativeButtonText">Жаңа сабақты бастаңыз</string>
+    <string name="alertDialogPositiveButtonText">Сабақты жалғастыру</string>
+    <string name="alertDialogNeutralButtonText">Болдырмау</string>
 
 
 </resources>

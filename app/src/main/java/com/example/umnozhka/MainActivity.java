@@ -2,7 +2,6 @@ package com.example.umnozhka;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -15,8 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,20 +21,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
+    // не сохраняемые
+    Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
+            buttonDigit0, buttonEnter, buttonBackSpace;
+    private static SharedPreferences sharedPreferences;
+    //    private static final String PREFERENCES_SETTINGS_NAME = "umnozhkaMain";
+    ImageView view1, view2, view3, view4, view5;
+    ProgressBar progressBar;
+    private MyTask currentTask;
+    private AssetManager assetManager;
+    private SoundPool soundPool;
+    //    private int soundIdShot;
+    private int soundIdExplosion, soundIdExplosion2;
+    private final int MAX_STREAMS = 5;
+    private final String LOG_TAG = "myLogs";
 
-    private static int countHeartLive = 0;
-    private static int countAllPrimerov = 0;
-    private static int countRightTask = 0, countWrongTask = 0;
-    private static int countCurrentRightTask = 0, countCurrentWrongTask = 0;
-
+    // общие параметры для приложения, сохраняются в sharedPreferences, PREFERENCES_SETTINGS_NAME = "umnozhka_Settings"
     private static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
     private static boolean SETTINGS_SUBTRAC;    // Сложение
     private static boolean SETTINGS_ADD;        // Вычитание
@@ -53,43 +56,37 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 //    private static int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
 //    private static int PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
 
-    final static String name_value_textViewAnswerShow1 = "value_textViewAnswerShow1";
-    final static String name_value_textViewAnswerShow2 = "value_textViewAnswerShow2";
-    final static String name_value_textViewAnswerShow3 = "value_textViewAnswerShow3";
-    final static String name_value_textViewAnswerShow4 = "value_textViewAnswerShow4";
-    final static String name_value_textViewAnswerShow5 = "value_textViewAnswerShow5";
-    final static String name_value_textViewAnswerShow6 = "value_textViewAnswerShow6";
-    final static String name_value_textViewAnswerShow7 = "value_textViewAnswerShow7";
-    final static String name_value_textViewAnswerShow8 = "value_textViewAnswerShow8";
-    final static String name_value_textViewAnswerShow9 = "value_textViewAnswerShow9";
-    final static String name_value_textViewAnswerShow10 = "value_textViewAnswerShow10";
-    final static String name_value_textViewAnswerShow11 = "value_textViewAnswerShow11";
-    final static String name_value_textViewAnswerShow12 = "value_textViewAnswerShow12";
-    final static String name_value_textViewAnswerShowBasic = "value_textViewAnswerShowBasic";
-
-    Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
-            buttonDigit0, buttonEnter, buttonBackSpace;
+    // параметры для данной активности, сохраняются в sharedPreferences, "umnozhkaMain"
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount;
-    ImageView view1, view2, view3, view4, view5;
+    private static int countHeartLive = 0;
+    private static int countAllPrimerov = 0;
+    private static int countRightTask = 0, countWrongTask = 0;
+    private static int countCurrentRightTask = 0, countCurrentWrongTask = 0;
 
-    ProgressBar progressBar;
     private int progressBarTime = 300;
-    private int progressBarCount;
+    private int progressBarCount = 1;
     private int countPrimerov = 1;
     private int progressBarSpeed = 1;
     private String stringCurrentAct = "*";
     private boolean endGame = false;
     private boolean lastGame = false;
-    private MyTask currentTask;
 
-    private AssetManager assetManager;
-    private SoundPool soundPool;
-    //    private int soundIdShot;
-    private int soundIdExplosion, soundIdExplosion2;
-    private final int MAX_STREAMS = 5;
-    private final String LOG_TAG = "myLogs";
+//    private static String valueTextViewAnswerShow1 = "value_textViewAnswerShow1";
+//    private static String valueTextViewAnswerShow2 = "value_textViewAnswerShow2";
+//    private static String valueTextViewAnswerShow3 = "value_textViewAnswerShow3";
+//    private static String valueTextViewAnswerShow4 = "value_textViewAnswerShow4";
+//    private static String valueTextViewAnswerShow5 = "value_textViewAnswerShow5";
+//    private static String valueTextViewAnswerShow6 = "value_textViewAnswerShow6";
+//    private static String valueTextViewAnswerShow7 = "value_textViewAnswerShow7";
+//    private static String valueTextViewAnswerShow8 = "value_textViewAnswerShow8";
+//    private static String valueTextViewAnswerShow9 = "value_textViewAnswerShow9";
+//    private static String valueTextViewAnswerShow10 = "value_textViewAnswerShow10";
+//    private static String valueTextViewAnswerShow11 = "value_textViewAnswerShow11";
+//    private static String valueTextViewAnswerShow12 = "value_textViewAnswerShow12";
+//    private static String valueTextViewAnswerShowBasic = "value_textViewAnswerShowBasic";
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,37 +130,24 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         view5.setImageResource(R.drawable.heart);
 
         textViewAnswerShow1 = findViewById(R.id.textViewAnswerShow1);
-        textViewAnswerShow1.setText("");
         textViewAnswerShow2 = findViewById(R.id.textViewAnswerShow2);
-        textViewAnswerShow2.setText("");
         textViewAnswerShow3 = findViewById(R.id.textViewAnswerShow3);
-        textViewAnswerShow3.setText("");
         textViewAnswerShow4 = findViewById(R.id.textViewAnswerShow4);
-        textViewAnswerShow4.setText("");
         textViewAnswerShow5 = findViewById(R.id.textViewAnswerShow5);
-        textViewAnswerShow5.setText("");
         textViewAnswerShow6 = findViewById(R.id.textViewAnswerShow6);
-        textViewAnswerShow6.setText("");
         textViewAnswerShow7 = findViewById(R.id.textViewAnswerShow7);
-        textViewAnswerShow7.setText("");
         textViewAnswerShow8 = findViewById(R.id.textViewAnswerShow8);
-        textViewAnswerShow8.setText("");
         textViewAnswerShow9 = findViewById(R.id.textViewAnswerShow9);
-        textViewAnswerShow9.setText("");
         textViewAnswerShow10 = findViewById(R.id.textViewAnswerShow10);
-        textViewAnswerShow10.setText("");
         textViewAnswerShow11 = findViewById(R.id.textViewAnswerShow11);
-        textViewAnswerShow11.setText("");
         textViewAnswerShow12 = findViewById(R.id.textViewAnswerShow12);
-        textViewAnswerShow12.setText("1");
         textViewAnswerCount = findViewById(R.id.textViewAnswerCount);
-        textViewAnswerCount.setText(String.valueOf(countPrimerov));
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewQuestion = findViewById(R.id.textViewQuestion);
-
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setMax(progressBarTime);
+
+
         SETTINGS_MULTIPLYS = StartActivity.SETTINGS_MULTIPLYS;
         SETTINGS_SUBTRAC = StartActivity.SETTINGS_SUBTRAC;    // Сложение
         SETTINGS_ADD = StartActivity.SETTINGS_ADD;        // Вычитание
@@ -175,6 +159,19 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         SETTINGS_SOUND = StartActivity.SETTINGS_SOUND;
         countHeartLive = 0;
         newSoundPools();
+//        sharedPreferences = getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPreferences != null) {
+            if (!endGame) {
+                loadValues();
+            } else
+                startNewGame();
+        } else {
+            // Первая загрузка значений по умолчанию
+
+//            saveValues();
+        }
 
         if (SETTINGS_RECORD) {
             // создается таймер, нужно ли его переносить из конструктора?
@@ -287,14 +284,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         // Если правельных ответов в подряд 5, то дается одна жизнь.
         countRightTask++;
         countCurrentRightTask++;
-        if (soundPool!=null) {
+        if (soundPool != null) {
             soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
         }
 
         if (countCurrentRightTask > 4) {
             if (countHeartLive < 5) {
                 countHeartLive++;
-                if (soundPool!=null) {
+                if (soundPool != null) {
                     soundPool.play(soundIdExplosion2, 1, 1, 1, 0, 1);
                 }
                 //                sp.play(soundIdExplosion, 1, 1, 0, 0, 1);
@@ -529,51 +526,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-        outState.putString(name_value_textViewAnswerShow1, textViewAnswerShow1.getText().toString());
-        outState.putString(name_value_textViewAnswerShow2, textViewAnswerShow2.getText().toString());
-        outState.putString(name_value_textViewAnswerShow3, textViewAnswerShow3.getText().toString());
-        outState.putString(name_value_textViewAnswerShow4, textViewAnswerShow4.getText().toString());
-        outState.putString(name_value_textViewAnswerShow5, textViewAnswerShow5.getText().toString());
-        outState.putString(name_value_textViewAnswerShow6, textViewAnswerShow6.getText().toString());
-        outState.putString(name_value_textViewAnswerShow7, textViewAnswerShow7.getText().toString());
-        outState.putString(name_value_textViewAnswerShow8, textViewAnswerShow8.getText().toString());
-        outState.putString(name_value_textViewAnswerShow9, textViewAnswerShow9.getText().toString());
-        outState.putString(name_value_textViewAnswerShow10, textViewAnswerShow10.getText().toString());
-        outState.putString(name_value_textViewAnswerShow11, textViewAnswerShow11.getText().toString());
-        outState.putString(name_value_textViewAnswerShow12, textViewAnswerShow12.getText().toString());
-        outState.putString(name_value_textViewAnswerShowBasic, textViewAnswerShowBasic.getText().toString());
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        textViewAnswerShow1.setText(savedInstanceState.getString(name_value_textViewAnswerShow1));
-        textViewAnswerShow2.setText(savedInstanceState.getString(name_value_textViewAnswerShow2));
-        textViewAnswerShow3.setText(savedInstanceState.getString(name_value_textViewAnswerShow3));
-        textViewAnswerShow4.setText(savedInstanceState.getString(name_value_textViewAnswerShow4));
-        textViewAnswerShow5.setText(savedInstanceState.getString(name_value_textViewAnswerShow5));
-        textViewAnswerShow6.setText(savedInstanceState.getString(name_value_textViewAnswerShow6));
-        textViewAnswerShow6.setText(savedInstanceState.getString(name_value_textViewAnswerShow7));
-        textViewAnswerShow7.setText(savedInstanceState.getString(name_value_textViewAnswerShow8));
-        textViewAnswerShow8.setText(savedInstanceState.getString(name_value_textViewAnswerShow9));
-        textViewAnswerShow9.setText(savedInstanceState.getString(name_value_textViewAnswerShow10));
-        textViewAnswerShow10.setText(savedInstanceState.getString(name_value_textViewAnswerShow11));
-        textViewAnswerShow11.setText(savedInstanceState.getString(name_value_textViewAnswerShow12));
-        textViewAnswerShowBasic.setText(savedInstanceState.getString(name_value_textViewAnswerShowBasic));
-    }
-
-
-    @Override
-    protected void onPause() {
-//        savePreferences();
-        super.onPause();
-    }
-
-
     private Runnable myThread = new Runnable() {
         @Override
         public void run() {
@@ -619,6 +571,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         if (progressBarCount < 0) progressBarCount = 0;
         return progressBarCount;
     }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createNewSoundPool() {
         AudioAttributes attributes = new AudioAttributes.Builder()
@@ -634,6 +587,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private void createOldSoundPool() {
         soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
     }
+
     public boolean newSoundPools() {
         if (SETTINGS_SOUND) {
             if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -679,4 +633,207 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
         Log.d(LOG_TAG, "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // но если нажимается кнопка back - возврат, то не сохраняются значения.
+        // попробую все значения переменных и объектов сохранять в  sharedPreferences
+
+//        outState.putString(valueTextViewAnswerShow1, textViewAnswerShow1.getText().toString());
+//        outState.putString(valueTextViewAnswerShow2, textViewAnswerShow2.getText().toString());
+//        outState.putString(valueTextViewAnswerShow3, textViewAnswerShow3.getText().toString());
+//        outState.putString(valueTextViewAnswerShow4, textViewAnswerShow4.getText().toString());
+//        outState.putString(valueTextViewAnswerShow5, textViewAnswerShow5.getText().toString());
+//        outState.putString(valueTextViewAnswerShow6, textViewAnswerShow6.getText().toString());
+//        outState.putString(valueTextViewAnswerShow7, textViewAnswerShow7.getText().toString());
+//        outState.putString(valueTextViewAnswerShow8, textViewAnswerShow8.getText().toString());
+//        outState.putString(valueTextViewAnswerShow9, textViewAnswerShow9.getText().toString());
+//        outState.putString(valueTextViewAnswerShow10, textViewAnswerShow10.getText().toString());
+//        outState.putString(valueTextViewAnswerShow11, textViewAnswerShow11.getText().toString());
+//        outState.putString(valueTextViewAnswerShow12, textViewAnswerShow12.getText().toString());
+//        outState.putString(valueTextViewAnswerShowBasic, textViewAnswerShowBasic.getText().toString());
+//
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+//        textViewAnswerShow1.setText(savedInstanceState.getString(valueTextViewAnswerShow1));
+//        textViewAnswerShow2.setText(savedInstanceState.getString(valueTextViewAnswerShow2));
+//        textViewAnswerShow3.setText(savedInstanceState.getString(valueTextViewAnswerShow3));
+//        textViewAnswerShow4.setText(savedInstanceState.getString(valueTextViewAnswerShow4));
+//        textViewAnswerShow5.setText(savedInstanceState.getString(valueTextViewAnswerShow5));
+//        textViewAnswerShow6.setText(savedInstanceState.getString(valueTextViewAnswerShow6));
+//        textViewAnswerShow6.setText(savedInstanceState.getString(valueTextViewAnswerShow7));
+//        textViewAnswerShow7.setText(savedInstanceState.getString(valueTextViewAnswerShow8));
+//        textViewAnswerShow8.setText(savedInstanceState.getString(valueTextViewAnswerShow9));
+//        textViewAnswerShow9.setText(savedInstanceState.getString(valueTextViewAnswerShow10));
+//        textViewAnswerShow10.setText(savedInstanceState.getString(valueTextViewAnswerShow11));
+//        textViewAnswerShow11.setText(savedInstanceState.getString(valueTextViewAnswerShow12));
+//        textViewAnswerShowBasic.setText(savedInstanceState.getString(valueTextViewAnswerShowBasic));
+    }
+
+
+//        Log.d(LOG_TAG, "onSaveInstanceState");
+
+    public Object onRetainNonConfigurationInstance() {
+        return R.layout.activity_main;
+    }
+
+    private void loadValues() {
+
+        textViewAnswerShow1.setText(sharedPreferences.getString("valueTextViewAnswerShow1", ""));
+        textViewAnswerShow2.setText(sharedPreferences.getString("valueTextViewAnswerShow2", ""));
+        textViewAnswerShow3.setText(sharedPreferences.getString("valueTextViewAnswerShow3", ""));
+        textViewAnswerShow4.setText(sharedPreferences.getString("valueTextViewAnswerShow4", ""));
+        textViewAnswerShow5.setText(sharedPreferences.getString("valueTextViewAnswerShow5", ""));
+        textViewAnswerShow6.setText(sharedPreferences.getString("valueTextViewAnswerShow6", ""));
+        textViewAnswerShow7.setText(sharedPreferences.getString("valueTextViewAnswerShow7", ""));
+        textViewAnswerShow8.setText(sharedPreferences.getString("valueTextViewAnswerShow8", ""));
+        textViewAnswerShow9.setText(sharedPreferences.getString("valueTextViewAnswerShow9", ""));
+        textViewAnswerShow10.setText(sharedPreferences.getString("valueTextViewAnswerShow10", ""));
+        textViewAnswerShow11.setText(sharedPreferences.getString("valueTextViewAnswerShow11", ""));
+        textViewAnswerShow12.setText(sharedPreferences.getString("valueTextViewAnswerShow12", ""));
+        textViewAnswerCount.setText(sharedPreferences.getString("valueTextViewAnswerCount", ""));
+        textViewAnswerShowBasic.setText(sharedPreferences.getString("valueTextViewAnswerShowBasic", ""));
+        textViewQuestion.setText(sharedPreferences.getString("valueTextViewQuestion", ""));
+        countHeartLive = Integer.valueOf(sharedPreferences.getString("valueCountHeartLive", "0"));
+        countAllPrimerov = Integer.valueOf(sharedPreferences.getString("valueCountAllPrimerov", "0"));
+        countRightTask = Integer.valueOf(sharedPreferences.getString("valueCountRightTask", "0"));
+        countWrongTask = Integer.valueOf(sharedPreferences.getString("valueCountWrongTask", "0"));
+        countCurrentRightTask = Integer.valueOf(sharedPreferences.getString("valueCountCurrentRightTask", "0"));
+        progressBarTime = Integer.valueOf(sharedPreferences.getString("valueProgressBarTime", "300"));
+        progressBar.setMax(progressBarTime);
+        progressBarCount = Integer.valueOf(sharedPreferences.getString("valueProgressBarCount", "1"));
+        progressBarSpeed = Integer.valueOf(sharedPreferences.getString("valueProgressBarSpeed", "1"));
+        countPrimerov = Integer.valueOf(sharedPreferences.getString("valueCountPrimerov", "1"));
+        stringCurrentAct = sharedPreferences.getString("valueStringCurrentAct", "*");
+        endGame = sharedPreferences.getBoolean("valueEndGame", false);
+        lastGame = sharedPreferences.getBoolean("valueLastGame", false);
+        textViewAnswerShow1.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow1", "0")));
+        textViewAnswerShow2.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow2", "0")));
+        textViewAnswerShow3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow3", "0")));
+        textViewAnswerShow4.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow4", "0")));
+        textViewAnswerShow5.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow5", "0")));
+        textViewAnswerShow6.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow6", "0")));
+        textViewAnswerShow7.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow7", "0")));
+        textViewAnswerShow8.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow8", "0")));
+        textViewAnswerShow9.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow9", "0")));
+        textViewAnswerShow10.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow10", "0")));
+        textViewAnswerShow11.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow11", "0")));
+        textViewAnswerShow12.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow12", "0")));
+        view1.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView1", "1")));
+        view2.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView2", "1")));
+        view3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView3", "1")));
+        view4.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView4", "1")));
+        view5.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView5", "1")));
+    }
+
+    private void saveValues() {
+        SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
+        editorSharedPreferences.putString("valueTextViewAnswerShow1", textViewAnswerShow1.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow2", textViewAnswerShow2.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow3", textViewAnswerShow3.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow4", textViewAnswerShow4.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow5", textViewAnswerShow5.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow6", textViewAnswerShow6.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow7", textViewAnswerShow7.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow8", textViewAnswerShow8.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow9", textViewAnswerShow9.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow10", textViewAnswerShow10.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow11", textViewAnswerShow11.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShow12", textViewAnswerShow12.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerCount", textViewAnswerCount.getText().toString());
+        editorSharedPreferences.putString("valueTextViewAnswerShowBasic", textViewAnswerShowBasic.getText().toString());
+        editorSharedPreferences.putString("valueTextViewQuestion", textViewQuestion.getText().toString());
+
+        editorSharedPreferences.putString("valueCountHeartLive", String.valueOf(countHeartLive));
+        editorSharedPreferences.putString("valueCountAllPrimerov", String.valueOf(countAllPrimerov));
+        editorSharedPreferences.putString("valueCountRightTask", String.valueOf(countRightTask));
+        editorSharedPreferences.putString("valueCountWrongTask", String.valueOf(countWrongTask));
+        editorSharedPreferences.putString("valueCountCurrentRightTask", String.valueOf(countCurrentRightTask));
+        editorSharedPreferences.putString("valueCountCurrentWrongTask", String.valueOf(countCurrentWrongTask));
+
+        editorSharedPreferences.putString("valueProgressBarTime", String.valueOf(progressBarTime));
+        editorSharedPreferences.putString("valueProgressBarCount", String.valueOf(progressBarCount));
+        editorSharedPreferences.putString("valueProgressBarSpeed", String.valueOf(progressBarSpeed));
+        editorSharedPreferences.putString("valueCountPrimerov", String.valueOf(countPrimerov));
+        editorSharedPreferences.putString("valueStringCurrentAct", String.valueOf(stringCurrentAct));
+        editorSharedPreferences.putBoolean("valueEndGame", endGame);
+        editorSharedPreferences.putBoolean("valueLastGame", lastGame);
+
+        editorSharedPreferences.putString("visibleTextViewAnswerShow1", String.valueOf(textViewAnswerShow1.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow2", String.valueOf(textViewAnswerShow2.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow3", String.valueOf(textViewAnswerShow3.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow4", String.valueOf(textViewAnswerShow4.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow5", String.valueOf(textViewAnswerShow5.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow6", String.valueOf(textViewAnswerShow6.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow7", String.valueOf(textViewAnswerShow7.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow8", String.valueOf(textViewAnswerShow8.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow9", String.valueOf(textViewAnswerShow9.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow10", String.valueOf(textViewAnswerShow10.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow11", String.valueOf(textViewAnswerShow11.getVisibility()));
+        editorSharedPreferences.putString("visibleTextViewAnswerShow12", String.valueOf(textViewAnswerShow12.getVisibility()));
+        editorSharedPreferences.putString("visibleView1", String.valueOf(view1.getVisibility()));
+        editorSharedPreferences.putString("visibleView2", String.valueOf(view2.getVisibility()));
+        editorSharedPreferences.putString("visibleView3", String.valueOf(view3.getVisibility()));
+        editorSharedPreferences.putString("visibleView4", String.valueOf(view4.getVisibility()));
+        editorSharedPreferences.putString("visibleView5", String.valueOf(view5.getVisibility()));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editorSharedPreferences.apply();
+        } else editorSharedPreferences.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadValues();
+    }
+
+    @Override
+    protected void onDestroy() {
+        saveValues();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        saveValues();
+        super.onPause();
+    }
+
+    private void startNewGame() {
+        countHeartLive = 0;
+        countAllPrimerov = 0;
+        countRightTask = 0;
+        countWrongTask = 0;
+        countCurrentRightTask = 0;
+        countCurrentWrongTask = 0;
+        progressBarTime = 300;
+        progressBarCount = 1;
+        countPrimerov = 1;
+        progressBarSpeed = 1;
+        stringCurrentAct = "*";
+        endGame = false;
+        lastGame = false;
+        textViewAnswerShow1.setText("");
+        textViewAnswerShow2.setText("");
+        textViewAnswerShow3.setText("");
+        textViewAnswerShow4.setText("");
+        textViewAnswerShow5.setText("");
+        textViewAnswerShow6.setText("");
+        textViewAnswerShow7.setText("");
+        textViewAnswerShow8.setText("");
+        textViewAnswerShow9.setText("");
+        textViewAnswerShow10.setText("");
+        textViewAnswerShow11.setText("");
+        textViewAnswerShow12.setText("");
+        saveValues();
+        refrishIconLive();
+    }
+
+
 }

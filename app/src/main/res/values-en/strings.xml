@@ -82,9 +82,9 @@
     <string name="settingsAddRangeMaxTitle">End of addition range</string>
     <string name="settingsAddRangeMaxSummary">Enter the second number</string>
 
-    <string name="settingsRecordSummaryOff">No time?</string>
-    <string name="settingsRecordSummaryOn">Time game?</string>
-    <string name="settingsRecordTitle">Record game?</string>
+    <string name="settingsRecordTitle">Time lesson</string>
+    <string name="settingsRecordSummaryOn">with time limit?</string>
+    <string name="settingsRecordSummaryOff">no time limit?</string>
     <string name="settingsRecordSwitchTextOff">Off</string>
     <string name="settingsRecordSwitchTextOn">On</string>
 
@@ -100,4 +100,11 @@
     <string name="settingsSoundTitle">Sound effects</string>
     <string name="settingsSoundOn">On</string>
     <string name="settingsSoundOff">Off</string>
+
+    <string name="alertDialogTitle">Lesson not completed!</string>
+    <string name="alertDialogMessage">Continue from last lesson?</string>
+    <string name="alertDialogNegativeButtonText">Start new</string>
+    <string name="alertDialogPositiveButtonText">Continue</string>
+    <string name="alertDialogNeutralButtonText">Cancel</string>
+
 </resources>

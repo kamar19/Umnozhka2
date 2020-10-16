@@ -81,9 +81,9 @@
     <string name="settingsAddRangeMaxTitle">Конец диапазона сложения</string>
     <string name="settingsAddRangeMaxSummary">введите второе число</string>
 
-    <string name="settingsRecordSummaryOff">Без ограничений на время?</string>
-    <string name="settingsRecordSummaryOn">Игра на время?</string>
-    <string name="settingsRecordTitle">Игра на рекорд</string>
+    <string name="settingsRecordTitle">Урок по времени</string>
+    <string name="settingsRecordSummaryOn">с ограничением по времени?</string>
+    <string name="settingsRecordSummaryOff">без ограничений по времени?</string>
     <string name="settingsRecordSwitchTextOff">Нет?</string>
     <string name="settingsRecordSwitchTextOn">Да?</string>
 
@@ -92,7 +92,7 @@
     <string name="todo">TODO</string>
 
     <string name="buttonSettingsTitle">Настройки</string>
-    <string name="buttonGameTitle">Играть</string>
+    <string name="buttonGameTitle">Заниматься</string>
     <string name="buttonGradesTitle">Оценки</string>
     <string name="buttonEndTitle">Выход</string>
 
@@ -100,9 +100,10 @@
     <string name="settingsSoundOn">включено</string>
     <string name="settingsSoundOff">выключено</string>
 
-    android:summaryOn="@string/SETTINGS_SOUNDOn"
-    android:summaryOff="@string/SETTINGS_SOUNDOff"
-    android:title="@string/SETTINGS_SOUNDTitle"/>
-
+    <string name="alertDialogTitle">Урок не завершен!</string>
+    <string name="alertDialogMessage">Продолжить прошлый урок?</string>
+    <string name="alertDialogNegativeButtonText">Начать новый</string>
+    <string name="alertDialogPositiveButtonText">Продолжить </string>
+    <string name="alertDialogNeutralButtonText">Отмена</string>
 
 </resources>
