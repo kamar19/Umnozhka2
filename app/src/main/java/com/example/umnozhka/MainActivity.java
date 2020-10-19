@@ -33,23 +33,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     ImageView view1, view2, view3, view4, view5;
     ProgressBar progressBar;
     private MyTask currentTask;
-    private AssetManager assetManager;
-    private SoundPool soundPool;
-    //    private int soundIdShot;
-    private int soundIdExplosion, soundIdExplosion2;
-    private final int MAX_STREAMS = 5;
-    private final String LOG_TAG = "myLogs";
 
-    // общие параметры для приложения, сохраняются в sharedPreferences, PREFERENCES_SETTINGS_NAME = "umnozhka_Settings"
-    private static boolean[] SETTINGS_MULTIPLYS = {false, false, false, false, false, false, false, false, false, false};
-    private static boolean SETTINGS_SUBTRAC;    // Сложение
-    private static boolean SETTINGS_ADD;        // Вычитание
-    private static boolean SETTINGS_MULTIPLY;   // Умножение
-    private static boolean SETTINGS_DIVIDE;     // Деление
-    private static int SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
-    private static int SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
-    private static boolean SETTINGS_RECORD;
-    private static boolean SETTINGS_SOUND;
+    private SoundPool soundPool;
+    private final int MAX_STREAMS = 5;
+    private AssetManager assetManager;
+    private final String LOG_TAG = "myLogs";
+    private int soundIdExplosion, soundIdExplosion2;
+    private MyLesson myLesson;
+    private MySettings mySettings;
+
 //    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
 //    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
 //    private static int SETTINGS_TIME_TASK;         // Время на одну задачу
@@ -60,33 +52,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount;
-    private static int countHeartLive = 0;
-    private static int countAllPrimerov = 0;
-    private static int countRightTask = 0, countWrongTask = 0;
-    private static int countCurrentRightTask = 0, countCurrentWrongTask = 0;
-
-    private int progressBarTime = 300;
-    private int progressBarCount = 1;
-    private int countPrimerov = 1;
-    private int progressBarSpeed = 1;
-    private String stringCurrentAct = "*";
-    private boolean endGame = false;
-    private boolean lastGame = false;
-
-//    private static String valueTextViewAnswerShow1 = "value_textViewAnswerShow1";
-//    private static String valueTextViewAnswerShow2 = "value_textViewAnswerShow2";
-//    private static String valueTextViewAnswerShow3 = "value_textViewAnswerShow3";
-//    private static String valueTextViewAnswerShow4 = "value_textViewAnswerShow4";
-//    private static String valueTextViewAnswerShow5 = "value_textViewAnswerShow5";
-//    private static String valueTextViewAnswerShow6 = "value_textViewAnswerShow6";
-//    private static String valueTextViewAnswerShow7 = "value_textViewAnswerShow7";
-//    private static String valueTextViewAnswerShow8 = "value_textViewAnswerShow8";
-//    private static String valueTextViewAnswerShow9 = "value_textViewAnswerShow9";
-//    private static String valueTextViewAnswerShow10 = "value_textViewAnswerShow10";
-//    private static String valueTextViewAnswerShow11 = "value_textViewAnswerShow11";
-//    private static String valueTextViewAnswerShow12 = "value_textViewAnswerShow12";
-//    private static String valueTextViewAnswerShowBasic = "value_textViewAnswerShowBasic";
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,34 +111,30 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewQuestion = findViewById(R.id.textViewQuestion);
         progressBar = findViewById(R.id.progressBar);
-
-
-        SETTINGS_MULTIPLYS = StartActivity.SETTINGS_MULTIPLYS;
-        SETTINGS_SUBTRAC = StartActivity.SETTINGS_SUBTRAC;    // Сложение
-        SETTINGS_ADD = StartActivity.SETTINGS_ADD;        // Вычитание
-        SETTINGS_MULTIPLY = StartActivity.SETTINGS_MULTIPLY;   // Умножение
-        SETTINGS_DIVIDE = StartActivity.SETTINGS_DIVIDE;     // Деление
-        SETTINGS_ADD_RANGE_MIN = StartActivity.SETTINGS_ADD_RANGE_MIN;  // Начало диапозона сложения
-        SETTINGS_ADD_RANGE_MAX = StartActivity.SETTINGS_ADD_RANGE_MAX;  // Конец диапозона сложения
-        SETTINGS_RECORD = StartActivity.SETTINGS_RECORD;
-        SETTINGS_SOUND = StartActivity.SETTINGS_SOUND;
-        countHeartLive = 0;
+        mySettings = StartActivity.mySettings;
+//        countHeartLive = 0;
         newSoundPools();
 //        sharedPreferences = getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (sharedPreferences != null) {
-            if (!endGame) {
-                loadValues();
-            } else
-                startNewGame();
-        } else {
-            // Первая загрузка значений по умолчанию
-
+        myLesson = StartActivity.myLesson;
+        mySettings = StartActivity.mySettings;
+        if (myLesson.getCountAllPrimerov()==0)
+            startNewLessonMainActivity();
+//        endGame = myLesson.isEndGame();
+//        if (sharedPreferences != null) {
+//            if (!myLesson.isEndGame()) {
+//                // получем всегда, так как если завершене игры, то новая игра и myLesson.isEndGame()=true
+//
+////                myLesson.loadValuesMyLesson(sharedPreferences);
+////                loadValues();
+//            } else
+//                startNewLessonMainActivity();
+//        } else {
+//            // Первая загрузка значений по умолчанию
 //            saveValues();
-        }
+//        }
 
-        if (SETTINGS_RECORD) {
+        if (mySettings.isSettingsRecord()) {
             // создается таймер, нужно ли его переносить из конструктора?
             // наверное.... Создал класс MyService туда вставил Timer
             // пример взял из https://startandroid.ru/ru/uroki/vse-uroki-spiskom/163-urok-98-service-lokalnyj-binding.html
@@ -191,44 +152,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     }
 
     public void act_to_currentTask() {
-        MyAct currentAct = new MyAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
+        MyAct currentAct = new MyAct(mySettings.isSettingsMultiply(), mySettings.isSettingsDivide(), mySettings.isSettingsAdd(), mySettings.isSettingsSubstrac());
         //временный currentAct, созданый что бы получить значение действия - getMyAct()
         // а потом уже изходя из действия создать currentTask
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
             // Если Сложение или Вычитание
-            this.currentTask = new MyTask(SETTINGS_ADD_RANGE_MIN, SETTINGS_ADD_RANGE_MAX, currentAct, SETTINGS_MULTIPLYS);
+            this.currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), currentAct, mySettings.getSettingsMultiplys());
         else
             // Если Умножение или деление
-            this.currentTask = new MyTask(StartActivity.getMinValue_SETTINGS_MULTIPLY(), StartActivity.getMaxValue_SETTINGS_MULTIPLY(), currentAct, SETTINGS_MULTIPLYS);
+            this.currentTask = new MyTask(mySettings.getMinValue_SETTINGS_MULTIPLY(), mySettings.getMaxValue_SETTINGS_MULTIPLY(), currentAct, mySettings.getSettingsMultiplys());
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.um_menu, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.menu_report:
-////                пока не реализованно, но нужно сделать отчет, как бы журнал с ответами
-//                return true;
-//            case R.id.menu_Preferences:
-////                item.setIntent(new Intent(this, PrefActivity.class));
-//                Intent intent = new Intent(this, PrefActivity.class);
-//                startActivity(intent);
-//                return true;
-//            case R.id.menu_Exit:
-//                this.finish();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onClick(View v) {
-        if (!endGame) {
+        if (!myLesson.isEndGame()) {
             String tempQuestion = textViewAnswerShowBasic.getText().toString();
             switch (v.getId()) {
                 case R.id.buttonDigit1:
@@ -273,8 +210,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                     act_to_currentTask();
                     textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
-                    if (lastGame)
-                        endGame = true;
+                    if (myLesson.isLastGame())
+                        if (myLesson.getCountHeartLive() > 0) {
+                            myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
+                            myLesson.setCountCurrentWrongTask(0);
+                            refrishIconLive();
+                        } else
+                            myLesson.setEndGame(true);
+
                     break;
             }
         }
@@ -282,24 +225,25 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 
     private String setRightTask() {
         // Если правельных ответов в подряд 5, то дается одна жизнь.
-        countRightTask++;
-        countCurrentRightTask++;
+        myLesson.setCountRightTask(myLesson.getCountRightTask() + 1);
+        myLesson.setCountCurrentRightTask(myLesson.getCountCurrentRightTask() + 1);
+
         if (soundPool != null) {
             soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
         }
 
-        if (countCurrentRightTask > 4) {
-            if (countHeartLive < 5) {
-                countHeartLive++;
+        if (myLesson.getCountCurrentRightTask() > 4) {
+            if (myLesson.getCountHeartLive() < 5) {
+                myLesson.setCountHeartLive(myLesson.getCountHeartLive() + 1);
                 if (soundPool != null) {
                     soundPool.play(soundIdExplosion2, 1, 1, 1, 0, 1);
                 }
                 //                sp.play(soundIdExplosion, 1, 1, 0, 0, 1);
-                countCurrentRightTask = 0;
-                countCurrentWrongTask = 0;
+                myLesson.setCountCurrentRightTask(0);
+                myLesson.setCountCurrentWrongTask(0);
                 refrishIconLive();
             }
-            progressBarSpeed = progressBarSpeed * 2;
+            myLesson.setProgressBarSpeed(myLesson.getProgressBarSpeed() * 2);
         }
         return getString(R.string.textRightTask);
     }
@@ -307,22 +251,23 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private String setWrongTask() {
         // Установка ошибки
         // Если неправельных ответов в подряд 3, то отнимается одна жизнь.
-        countWrongTask++;
-        countCurrentWrongTask++;
-        countCurrentRightTask = 0;
-        if (countCurrentWrongTask > 2) {
-            if (countHeartLive > 0) {
-                countHeartLive--;
-                countCurrentWrongTask = 0;
+        myLesson.setCountWrongTask(myLesson.getCountWrongTask() + 1);
+        myLesson.setCountCurrentWrongTask(myLesson.getCountCurrentWrongTask() + 1);
+        myLesson.setCountCurrentRightTask(0);
+        if (myLesson.getCountCurrentWrongTask() > 2) {
+            if (myLesson.getCountHeartLive() > 0) {
+                myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
+                myLesson.setCountCurrentWrongTask(0);
                 refrishIconLive();
             }
-            if (countCurrentWrongTask > 5) {
-                if (progressBarSpeed > 2) progressBarSpeed = (int) progressBarSpeed / 2;
+            if (myLesson.getCountCurrentWrongTask() > 5) {
+                if (myLesson.getProgressBarSpeed() > 2)
+                    myLesson.setProgressBarSpeed((int) myLesson.getProgressBarSpeed() / 2);
             }
         }
-
         return getString(R.string.textWrongTask);
     }
+
 
     private void showAnswer() {
         int intAnswer;
@@ -366,13 +311,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         } else
             answer = setWrongTask();
         showViewAnswerShow(answer, intAnswer);
-        textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + countAllPrimerov + getString(R.string.titleRightTask) + " "
-                + countRightTask + getString(R.string.titleWrongTask) + " " + countWrongTask + "    ");
+        myLesson.setCountPrimerov(myLesson.getCountPrimerov() + 1);
+        myLesson.setCountAllPrimerov(myLesson.getCountAllPrimerov() + 1);
+        textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
+                + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
 
 //            progressBar.setProgress(countPrimerov);
 
-        countPrimerov++;
-        countAllPrimerov++;
     }
 
     private void invisibleTextViewAnswer() {
@@ -399,7 +344,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         // int intAnswer - числое значение результата
         Act deist = currentTask.getCurrentAct().getMyAct();
         String tempText = currentTask.getCurrentOneUnit().toString() + deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav;
-        switch (countPrimerov) {
+        switch (myLesson.getCountPrimerov()) {
             // можно попробовать убрать громоздкую конгструкцию из 12 textViewAnswerShow1
             // и сделать массив из textViewAnswerShow, но это усложнит их наименование через string.xml
             case 1: {
@@ -461,7 +406,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             case 12: {
                 textViewAnswerShow12.setVisibility(View.VISIBLE);
                 textViewAnswerShow12.setText(tempText);
-                countPrimerov = 0;
+                myLesson.setCountPrimerov(0);
                 break;
             }
         }
@@ -469,11 +414,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 
     private void refrishIconLive() {
 
-        if (countHeartLive > 5) countHeartLive = 5;
-        if (countHeartLive < 0) countHeartLive = 0;
+        if (myLesson.getCountHeartLive() > 5) myLesson.setCountHeartLive(5);
+        if (myLesson.getCountHeartLive() < 0) myLesson.setCountHeartLive(0);
 
-        if (SETTINGS_RECORD) {
-            switch (countHeartLive) {
+        if (mySettings.isSettingsRecord()) {
+            switch (myLesson.getCountHeartLive()) {
                 case 0:
                     view1.setVisibility(View.INVISIBLE);
                     view2.setVisibility(View.INVISIBLE);
@@ -529,14 +474,16 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private Runnable myThread = new Runnable() {
         @Override
         public void run() {
-            while (!lastGame) {
+//            while (!myLesson.isLastGame()||myLesson.isEndGame()) {
+            while (!myLesson.isLastGame()) {
+
                 try {
                     myHandler.sendMessage(myHandler.obtainMessage());
                     Thread.sleep(1000);
                     //секундный интервал, что бы был тайминг
-                    if (progressBar.getProgress() >= progressBarTime) {
+                    if (progressBar.getProgress() >= myLesson.getProgressBarTime()) {
 //                        // Сюда нужно встаивть вызов окна завершения игры
-                        lastGame = true;
+                        myLesson.setLastGame(true);
                     }
                 } catch (Throwable t) {
                 }
@@ -546,143 +493,38 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         Handler myHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                upInterval(progressBarSpeed);
-                if (progressBarCount >= progressBarTime) {
-                    if (countHeartLive > 0) {
-                        countHeartLive--;
-                        progressBarCount = (int) progressBarTime / 6;
+                myLesson.upInterval(myLesson.getProgressBarSpeed());
+                if (myLesson.getProgressBarCount() >= myLesson.getProgressBarTime()) {
+                    if (myLesson.getCountHeartLive() > 0) {
+                        myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
+                        myLesson.setProgressBarCount((int) myLesson.getProgressBarTime() / 6);
                         refrishIconLive();
                     }
                 }
-
-                progressBar.setProgress(progressBarCount);
+                progressBar.setProgress(myLesson.getProgressBarCount());
 
             }
         };
     };
 
-    public int upInterval(int step) {
-        progressBarCount = progressBarCount + step;
-        return progressBarCount;
-    }
-
-    public int downInterval(int step) {
-        progressBarCount = progressBarCount - step;
-        if (progressBarCount < 0) progressBarCount = 0;
-        return progressBarCount;
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void createNewSoundPool() {
-        AudioAttributes attributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setAudioAttributes(attributes)
-                .build();
-    }
-
-    @SuppressWarnings("deprecation")
-    private void createOldSoundPool() {
-        soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
-    }
-
-    public boolean newSoundPools() {
-        if (SETTINGS_SOUND) {
-            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                // Для устройств до Android 5
-                createOldSoundPool();
-            } else {
-                // Для новых устройств
-                createNewSoundPool();
-            }
-//            soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
-//            soundPool.setOnLoadCompleteListener(this);
-
-//        soundIdShot = sp.load(this, getAssets().openFd("explosion.ogg"), 1);
-//        getAssets().openFd("explosion.ogg"),
-//        Log.d(LOG_TAG, "soundIdShot = " + soundIdShot);
-//            soundIdExplosion = loadSound("bcushp_ui-149.wav");
-            soundIdExplosion = loadSound("shot.ogg");
-//            soundIdExplosion2 = loadSound("bcushp_ui-149.wav");
-            soundIdExplosion2 = loadSound("explosion.ogg");
-
-            //        Log.d(LOG_TAG, "soundIdExplosion = " + soundIdExplosion);
-        }
-        return SETTINGS_SOUND;
-    }
-
-
-    private int loadSound(String fileName) {
-        AssetFileDescriptor afd;
-        try {
-            assetManager = getAssets();
-            afd = assetManager.openFd(fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Не могу загрузить файл " + fileName,
-                    Toast.LENGTH_SHORT).show();
-            return -1;
-        }
-        return soundPool.load(afd, 1);
-    }
-
-
-    @Override
-    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-        Log.d(LOG_TAG, "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // но если нажимается кнопка back - возврат, то не сохраняются значения.
-        // попробую все значения переменных и объектов сохранять в  sharedPreferences
-
-//        outState.putString(valueTextViewAnswerShow1, textViewAnswerShow1.getText().toString());
-//        outState.putString(valueTextViewAnswerShow2, textViewAnswerShow2.getText().toString());
-//        outState.putString(valueTextViewAnswerShow3, textViewAnswerShow3.getText().toString());
-//        outState.putString(valueTextViewAnswerShow4, textViewAnswerShow4.getText().toString());
-//        outState.putString(valueTextViewAnswerShow5, textViewAnswerShow5.getText().toString());
-//        outState.putString(valueTextViewAnswerShow6, textViewAnswerShow6.getText().toString());
-//        outState.putString(valueTextViewAnswerShow7, textViewAnswerShow7.getText().toString());
-//        outState.putString(valueTextViewAnswerShow8, textViewAnswerShow8.getText().toString());
-//        outState.putString(valueTextViewAnswerShow9, textViewAnswerShow9.getText().toString());
-//        outState.putString(valueTextViewAnswerShow10, textViewAnswerShow10.getText().toString());
-//        outState.putString(valueTextViewAnswerShow11, textViewAnswerShow11.getText().toString());
-//        outState.putString(valueTextViewAnswerShow12, textViewAnswerShow12.getText().toString());
-//        outState.putString(valueTextViewAnswerShowBasic, textViewAnswerShowBasic.getText().toString());
-//
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-//        textViewAnswerShow1.setText(savedInstanceState.getString(valueTextViewAnswerShow1));
-//        textViewAnswerShow2.setText(savedInstanceState.getString(valueTextViewAnswerShow2));
-//        textViewAnswerShow3.setText(savedInstanceState.getString(valueTextViewAnswerShow3));
-//        textViewAnswerShow4.setText(savedInstanceState.getString(valueTextViewAnswerShow4));
-//        textViewAnswerShow5.setText(savedInstanceState.getString(valueTextViewAnswerShow5));
-//        textViewAnswerShow6.setText(savedInstanceState.getString(valueTextViewAnswerShow6));
-//        textViewAnswerShow6.setText(savedInstanceState.getString(valueTextViewAnswerShow7));
-//        textViewAnswerShow7.setText(savedInstanceState.getString(valueTextViewAnswerShow8));
-//        textViewAnswerShow8.setText(savedInstanceState.getString(valueTextViewAnswerShow9));
-//        textViewAnswerShow9.setText(savedInstanceState.getString(valueTextViewAnswerShow10));
-//        textViewAnswerShow10.setText(savedInstanceState.getString(valueTextViewAnswerShow11));
-//        textViewAnswerShow11.setText(savedInstanceState.getString(valueTextViewAnswerShow12));
-//        textViewAnswerShowBasic.setText(savedInstanceState.getString(valueTextViewAnswerShowBasic));
     }
-
-
-//        Log.d(LOG_TAG, "onSaveInstanceState");
 
     public Object onRetainNonConfigurationInstance() {
         return R.layout.activity_main;
     }
 
     private void loadValues() {
-
+        if (sharedPreferences == null)
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         textViewAnswerShow1.setText(sharedPreferences.getString("valueTextViewAnswerShow1", ""));
         textViewAnswerShow2.setText(sharedPreferences.getString("valueTextViewAnswerShow2", ""));
         textViewAnswerShow3.setText(sharedPreferences.getString("valueTextViewAnswerShow3", ""));
@@ -697,20 +539,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow12.setText(sharedPreferences.getString("valueTextViewAnswerShow12", ""));
         textViewAnswerCount.setText(sharedPreferences.getString("valueTextViewAnswerCount", ""));
         textViewAnswerShowBasic.setText(sharedPreferences.getString("valueTextViewAnswerShowBasic", ""));
-        textViewQuestion.setText(sharedPreferences.getString("valueTextViewQuestion", ""));
-        countHeartLive = Integer.valueOf(sharedPreferences.getString("valueCountHeartLive", "0"));
-        countAllPrimerov = Integer.valueOf(sharedPreferences.getString("valueCountAllPrimerov", "0"));
-        countRightTask = Integer.valueOf(sharedPreferences.getString("valueCountRightTask", "0"));
-        countWrongTask = Integer.valueOf(sharedPreferences.getString("valueCountWrongTask", "0"));
-        countCurrentRightTask = Integer.valueOf(sharedPreferences.getString("valueCountCurrentRightTask", "0"));
-        progressBarTime = Integer.valueOf(sharedPreferences.getString("valueProgressBarTime", "300"));
-        progressBar.setMax(progressBarTime);
-        progressBarCount = Integer.valueOf(sharedPreferences.getString("valueProgressBarCount", "1"));
-        progressBarSpeed = Integer.valueOf(sharedPreferences.getString("valueProgressBarSpeed", "1"));
-        countPrimerov = Integer.valueOf(sharedPreferences.getString("valueCountPrimerov", "1"));
-        stringCurrentAct = sharedPreferences.getString("valueStringCurrentAct", "*");
-        endGame = sharedPreferences.getBoolean("valueEndGame", false);
-        lastGame = sharedPreferences.getBoolean("valueLastGame", false);
+//        textViewQuestion.setText(sharedPreferences.getString("valueTextViewQuestion", ""));
         textViewAnswerShow1.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow1", "0")));
         textViewAnswerShow2.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow2", "0")));
         textViewAnswerShow3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow3", "0")));
@@ -728,6 +557,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         view3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView3", "1")));
         view4.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView4", "1")));
         view5.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView5", "1")));
+
+        mySettings.loadValuesMySettings(sharedPreferences);
+        myLesson.loadValuesMyLesson(sharedPreferences);
+        progressBar.setMax(myLesson.getProgressBarTime());
+
     }
 
     private void saveValues() {
@@ -747,22 +581,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         editorSharedPreferences.putString("valueTextViewAnswerCount", textViewAnswerCount.getText().toString());
         editorSharedPreferences.putString("valueTextViewAnswerShowBasic", textViewAnswerShowBasic.getText().toString());
         editorSharedPreferences.putString("valueTextViewQuestion", textViewQuestion.getText().toString());
-
-        editorSharedPreferences.putString("valueCountHeartLive", String.valueOf(countHeartLive));
-        editorSharedPreferences.putString("valueCountAllPrimerov", String.valueOf(countAllPrimerov));
-        editorSharedPreferences.putString("valueCountRightTask", String.valueOf(countRightTask));
-        editorSharedPreferences.putString("valueCountWrongTask", String.valueOf(countWrongTask));
-        editorSharedPreferences.putString("valueCountCurrentRightTask", String.valueOf(countCurrentRightTask));
-        editorSharedPreferences.putString("valueCountCurrentWrongTask", String.valueOf(countCurrentWrongTask));
-
-        editorSharedPreferences.putString("valueProgressBarTime", String.valueOf(progressBarTime));
-        editorSharedPreferences.putString("valueProgressBarCount", String.valueOf(progressBarCount));
-        editorSharedPreferences.putString("valueProgressBarSpeed", String.valueOf(progressBarSpeed));
-        editorSharedPreferences.putString("valueCountPrimerov", String.valueOf(countPrimerov));
-        editorSharedPreferences.putString("valueStringCurrentAct", String.valueOf(stringCurrentAct));
-        editorSharedPreferences.putBoolean("valueEndGame", endGame);
-        editorSharedPreferences.putBoolean("valueLastGame", lastGame);
-
         editorSharedPreferences.putString("visibleTextViewAnswerShow1", String.valueOf(textViewAnswerShow1.getVisibility()));
         editorSharedPreferences.putString("visibleTextViewAnswerShow2", String.valueOf(textViewAnswerShow2.getVisibility()));
         editorSharedPreferences.putString("visibleTextViewAnswerShow3", String.valueOf(textViewAnswerShow3.getVisibility()));
@@ -780,12 +598,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         editorSharedPreferences.putString("visibleView3", String.valueOf(view3.getVisibility()));
         editorSharedPreferences.putString("visibleView4", String.valueOf(view4.getVisibility()));
         editorSharedPreferences.putString("visibleView5", String.valueOf(view5.getVisibility()));
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
+        myLesson.saveValuesMyLesson(sharedPreferences);
+
     }
+
 
     @Override
     protected void onResume() {
@@ -805,20 +624,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         super.onPause();
     }
 
-    private void startNewGame() {
-        countHeartLive = 0;
-        countAllPrimerov = 0;
-        countRightTask = 0;
-        countWrongTask = 0;
-        countCurrentRightTask = 0;
-        countCurrentWrongTask = 0;
-        progressBarTime = 300;
-        progressBarCount = 1;
-        countPrimerov = 1;
-        progressBarSpeed = 1;
-        stringCurrentAct = "*";
-        endGame = false;
-        lastGame = false;
+    private void startNewLessonMainActivity() {
+        myLesson.startNewLesson();
         textViewAnswerShow1.setText("");
         textViewAnswerShow2.setText("");
         textViewAnswerShow3.setText("");
@@ -831,8 +638,94 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow10.setText("");
         textViewAnswerShow11.setText("");
         textViewAnswerShow12.setText("");
+        textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
+                + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
+
+//        textViewAnswerCount.setText("");
+//        textViewAnswerShowBasic.setText("");
+//        textViewQuestion.setText("");
+        textViewAnswerShow1.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow2.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow3.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow4.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow5.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow6.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow7.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow8.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow9.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow10.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow11.setVisibility(TextView.INVISIBLE);
+        textViewAnswerShow12.setVisibility(TextView.INVISIBLE);
+        view1.setVisibility(View.INVISIBLE);
+        view2.setVisibility(View.INVISIBLE);
+        view3.setVisibility(View.INVISIBLE);
+        view4.setVisibility(View.INVISIBLE);
+        view5.setVisibility(View.INVISIBLE);
+
         saveValues();
         refrishIconLive();
+    }
+
+    private int loadSound(String fileName) {
+        AssetFileDescriptor afd;
+        try {
+            assetManager = getAssets();
+            afd = assetManager.openFd(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Не могу загрузить файл " + fileName,
+                    Toast.LENGTH_SHORT).show();
+            return -1;
+        }
+        return soundPool.load(afd, 1);
+    }
+
+    public void newSoundPools() {
+//        public boolean newSoundPools() {
+//        if (SETTINGS_SOUND) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // Для устройств до Android 5
+            createOldSoundPool();
+        } else {
+            // Для новых устройств
+            createNewSoundPool();
+//            }
+//            soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+//            soundPool.setOnLoadCompleteListener(this);
+
+//        soundIdShot = sp.load(this, getAssets().openFd("explosion.ogg"), 1);
+//        getAssets().openFd("explosion.ogg"),
+//        Log.d(LOG_TAG, "soundIdShot = " + soundIdShot);
+//            soundIdExplosion = loadSound("bcushp_ui-149.wav");
+            soundIdExplosion = loadSound("shot.ogg");
+//            soundIdExplosion2 = loadSound("bcushp_ui-149.wav");
+            soundIdExplosion2 = loadSound("explosion.ogg");
+
+            //        Log.d(LOG_TAG, "soundIdExplosion = " + soundIdExplosion);
+        }
+//        return SETTINGS_SOUND;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void createNewSoundPool() {
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
+    }
+
+    @SuppressWarnings("deprecation")
+    private void createOldSoundPool() {
+        soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+    }
+
+    @Override
+    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+        Log.d(LOG_TAG, "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
+
     }
 
 

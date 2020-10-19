@@ -112,7 +112,7 @@
 
     <string name="alertDialogTitle">Lesson not completed!</string>
     <string name="alertDialogMessage">Continue from last lesson?</string>
-    <string name="alertDialogNegativeButtonText">Start new</string>
-    <string name="alertDialogPositiveButtonText">Continue</string>
+    <string name="alertDialogNegativeButtonText">Start new lesson</string>
+    <string name="alertDialogPositiveButtonText">Continue lesson</string>
     <string name="alertDialogNeutralButtonText">Cancel</string>
 </resources>

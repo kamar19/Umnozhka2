@@ -76,13 +76,17 @@
 
     <EditTextPreference
         android:dependency="settingsAdd"
+        android:inputType="number"
         android:key="settingsAddRangeMin"
+        android:maxLength="3"
         android:summary="@string/settingsAddRangeMinSummary"
         android:title="@string/settingsAddRangeMinTitle" />
 
     <EditTextPreference
         android:dependency="settingsAdd"
+        android:inputType="number"
         android:key="settingsAddRangeMax"
+        android:maxLength="3"
         android:summary="@string/settingsAddRangeMaxSummary"
         android:title="@string/settingsAddRangeMaxTitle" />
 

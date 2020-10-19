@@ -102,8 +102,8 @@
 
     <string name="alertDialogTitle">Урок не завершен!</string>
     <string name="alertDialogMessage">Продолжить прошлый урок?</string>
-    <string name="alertDialogNegativeButtonText">Начать новый</string>
-    <string name="alertDialogPositiveButtonText">Продолжить </string>
+    <string name="alertDialogNegativeButtonText">Начать новый урок</string>
+    <string name="alertDialogPositiveButtonText">Продолжить урок</string>
     <string name="alertDialogNeutralButtonText">Отмена</string>
 
 </resources>

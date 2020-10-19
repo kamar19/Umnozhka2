@@ -20,7 +20,7 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
         resultDialog = 0;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.alertDialogTitle);
-        builder.setMessage(R.string.alertDialogTitle)
+        builder.setMessage(R.string.alertDialogMessage)
                 .setPositiveButton(R.string.alertDialogPositiveButtonText, this)
 //                .setPositiveButton(R.string.alertDialogPositiveButtonText, new DialogInterface.OnClickListener() {
 //                    public void onClick(DialogInterface dialog, int id) {
@@ -62,15 +62,22 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
 
         switch (which) {
             case Dialog.BUTTON_POSITIVE:
+                // продолжить игру
                 resultDialog = 1;
-                Log.d(LOG_TAG, "onClick: PositiveButton");
+//                Log.d(LOG_TAG, "onClick: PositiveButton");
                 Intent intent2 = new Intent( getActivity(), MainActivity.class);
                 startActivity(intent2);
             dismiss();
             break;
             case Dialog.BUTTON_NEGATIVE:
                 resultDialog = 2;
-                Log.d(LOG_TAG, "onClick: NegativeButton");
+                // начать занова
+//                Log.d(LOG_TAG, "onClick: NegativeButton");
+                StartActivity.myLesson.startNewLesson();
+                StartActivity.myLesson.setEndGame(true);
+                Intent intent3 = new Intent( getActivity(), MainActivity.class);
+                startActivity(intent3);
+                dismiss();
                 break;
             case Dialog.BUTTON_NEUTRAL:
                 resultDialog = 3;
