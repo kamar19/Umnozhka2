@@ -130,6 +130,9 @@ public class StartActivity extends Activity implements View.OnClickListener {
             case R.id.buttonGrades:
                 // журнал оценок
 //                    setContentView(R.layout.activity_start);
+                Intent intent3 = new Intent(this, GradebookActivity.class);
+                startActivity(intent3);
+
                 break;
             case R.id.buttonEnd:
                 this.finish();

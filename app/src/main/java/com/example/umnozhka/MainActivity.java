@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -118,21 +119,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         myLesson = StartActivity.myLesson;
         mySettings = StartActivity.mySettings;
-        if (myLesson.getCountAllPrimerov()==0)
+        if (myLesson.getCountAllPrimerov() == 0)
             startNewLessonMainActivity();
-//        endGame = myLesson.isEndGame();
-//        if (sharedPreferences != null) {
-//            if (!myLesson.isEndGame()) {
-//                // получем всегда, так как если завершене игры, то новая игра и myLesson.isEndGame()=true
-//
-////                myLesson.loadValuesMyLesson(sharedPreferences);
-////                loadValues();
-//            } else
-//                startNewLessonMainActivity();
-//        } else {
-//            // Первая загрузка значений по умолчанию
-//            saveValues();
-//        }
 
         if (mySettings.isSettingsRecord()) {
             // создается таймер, нужно ли его переносить из конструктора?
@@ -215,9 +203,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
                             myLesson.setCountCurrentWrongTask(0);
                             refrishIconLive();
-                        } else
+                        } else {
                             myLesson.setEndGame(true);
+                            //сохранение результатов и загрузка GradebookActivity
+//                            GradebookActivity
+                                   DBHelper  dbHelper = new DBHelper(this);
+                            SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+
+                        }
                     break;
             }
         }
@@ -476,7 +470,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         public void run() {
 //            while (!myLesson.isLastGame()||myLesson.isEndGame()) {
             while (!myLesson.isLastGame()) {
-
                 try {
                     myHandler.sendMessage(myHandler.obtainMessage());
                     Thread.sleep(1000);
@@ -502,11 +495,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                     }
                 }
                 progressBar.setProgress(myLesson.getProgressBarCount());
-
             }
         };
     };
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -557,11 +548,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         view3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView3", "1")));
         view4.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView4", "1")));
         view5.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView5", "1")));
-
         mySettings.loadValuesMySettings(sharedPreferences);
         myLesson.loadValuesMyLesson(sharedPreferences);
         progressBar.setMax(myLesson.getProgressBarTime());
-
     }
 
     private void saveValues() {
@@ -602,9 +591,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
         myLesson.saveValuesMyLesson(sharedPreferences);
-
     }
-
 
     @Override
     protected void onResume() {
@@ -640,10 +627,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow12.setText("");
         textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
                 + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
-
-//        textViewAnswerCount.setText("");
-//        textViewAnswerShowBasic.setText("");
-//        textViewQuestion.setText("");
         textViewAnswerShow1.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow2.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow3.setVisibility(TextView.INVISIBLE);
@@ -661,7 +644,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         view3.setVisibility(View.INVISIBLE);
         view4.setVisibility(View.INVISIBLE);
         view5.setVisibility(View.INVISIBLE);
-
         saveValues();
         refrishIconLive();
     }
@@ -681,29 +663,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     }
 
     public void newSoundPools() {
-//        public boolean newSoundPools() {
-//        if (SETTINGS_SOUND) {
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             // Для устройств до Android 5
             createOldSoundPool();
         } else {
             // Для новых устройств
             createNewSoundPool();
-//            }
-//            soundPool = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
-//            soundPool.setOnLoadCompleteListener(this);
-
-//        soundIdShot = sp.load(this, getAssets().openFd("explosion.ogg"), 1);
-//        getAssets().openFd("explosion.ogg"),
-//        Log.d(LOG_TAG, "soundIdShot = " + soundIdShot);
-//            soundIdExplosion = loadSound("bcushp_ui-149.wav");
             soundIdExplosion = loadSound("shot.ogg");
-//            soundIdExplosion2 = loadSound("bcushp_ui-149.wav");
             soundIdExplosion2 = loadSound("explosion.ogg");
-
-            //        Log.d(LOG_TAG, "soundIdExplosion = " + soundIdExplosion);
         }
-//        return SETTINGS_SOUND;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
