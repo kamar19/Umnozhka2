@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import android.app.DialogFragment;
@@ -17,7 +18,7 @@ import android.app.DialogFragment;
 
 import java.util.Locale;
 
-public class StartActivity extends Activity implements View.OnClickListener {
+public class StartActivity extends Activity implements OnClickListener {
     Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
     DialogFragment dialogFragment;
     private static SharedPreferences sharedPreferences;

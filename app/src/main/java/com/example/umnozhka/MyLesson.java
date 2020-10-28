@@ -12,12 +12,24 @@ public class MyLesson {
     private int countCurrentRightTask = 0, countCurrentWrongTask = 0;
     private int progressBarTime = 300;
     private int progressBarCount = 1;
+
+
     private int countAllPrimerov = 0;
     private int countPrimerov = 1; // количество примеров в текущей отображаемой сессии, до 12, потом с 1
     private int progressBarSpeed = 1;
     private String stringCurrentAct = "*";
     private boolean endGame = false;
     private boolean lastGame = false; // используется толдько в main.activity?
+
+    public String getUserNameDefault() {
+        return userNameDefault;
+    }
+
+    public void setUserNameDefault(String userNameDefault) {
+        this.userNameDefault = userNameDefault;
+    }
+
+    private String userNameDefault = "noname";
 
     public boolean isLastGame() {
         return lastGame;
@@ -44,6 +56,38 @@ public class MyLesson {
 
     }
 
+    public int getCountAllPrimerov() {
+        return countAllPrimerov;
+    }
+
+    public int getCountWrongTask() {
+        return countWrongTask;
+    }
+
+    public int getCountCurrentWrongTask() {
+        return countCurrentWrongTask;
+    }
+
+    public int getProgressBarTime() {
+        return progressBarTime;
+    }
+
+    public int getCountPrimerov() {
+        return countPrimerov;
+    }
+
+    public int getProgressBarSpeed() {
+        return progressBarSpeed;
+    }
+
+    public int getCountRightTask() {
+        return countRightTask;
+    }
+
+    public int getCountCurrentRightTask() {
+        return countCurrentRightTask;
+    }
+
     public int getProgressBarCount() {
         return progressBarCount;
     }
@@ -52,40 +96,14 @@ public class MyLesson {
         this.progressBarCount = progressBarCount;
     }
 
-    public int getProgressBarTime() {
-        return progressBarTime;
-    }
-
-    public int getCountRightTask() {
-        return countRightTask;
-    }
-
-    public int getCountWrongTask() {
-        return countWrongTask;
-    }
-
-    public int getCountCurrentRightTask() {
-        return countCurrentRightTask;
-    }
-
-    public int getCountCurrentWrongTask() {
-        return countCurrentWrongTask;
-    }
-
-    public int getProgressBarSpeed() {
-        return progressBarSpeed;
-    }
 
     public void setProgressBarSpeed(int progressBarSpeed) {
         this.progressBarSpeed = progressBarSpeed;
     }
 
-    public int getCountAllPrimerov() {
-        return countAllPrimerov;
-    }
+    public String getStringCountAllPrimerov() {
+        return String.valueOf(countAllPrimerov) + String.valueOf(countRightTask) + String.valueOf(countWrongTask);
 
-    public int getCountPrimerov() {
-        return countPrimerov;
     }
 
     public void setCountPrimerov(int countPrimerov) {
@@ -141,7 +159,7 @@ public class MyLesson {
         editorSharedPreferences.putString("valueStringCurrentAct", String.valueOf(stringCurrentAct));
         editorSharedPreferences.putBoolean("valueEndGame", endGame);
         editorSharedPreferences.putBoolean("valueLastGame", lastGame);
-
+        editorSharedPreferences.putString("valueUserNameDefault", String.valueOf(userNameDefault));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
@@ -160,6 +178,7 @@ public class MyLesson {
         stringCurrentAct = sharedPreferences.getString("valueStringCurrentAct", "*");
         endGame = sharedPreferences.getBoolean("valueEndGame", false);
         lastGame = sharedPreferences.getBoolean("valueLastGame", false);
+        userNameDefault = sharedPreferences.getString("vvalueUserNameDefault", "noname");
     }
 
     public void startNewLesson() {
@@ -169,12 +188,14 @@ public class MyLesson {
         countWrongTask = 0;
         countCurrentRightTask = 0;
         countCurrentWrongTask = 0;
-        progressBarTime = 300;
+        progressBarTime = 10;//300
         progressBarCount = 1;
         countPrimerov = 1;
         progressBarSpeed = 1;
         stringCurrentAct = "*";
         endGame = false;
         lastGame = false;
+
+
     }
 }

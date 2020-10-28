@@ -106,4 +106,19 @@
     <string name="alertDialogPositiveButtonText">Продолжить урок</string>
     <string name="alertDialogNeutralButtonText">Отмена</string>
 
+    <string name="finishTextViewResultTitle">The result of the lessons</string>
+
+    <string name="finishTextNameUser">Name user: </string>
+    <string name="finishTextPrimerovTasks">Count (all tasks, right task, wrong task):</string>
+    <string name="finishTextViewMDSA">Actions: </string>
+    <string name="finishTextViewMultiplyNumbers">Multiply Numbers: </string>
+
+    <string name="finishStringUserName">Noname</string>
+    <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
+    <string name="finishStringActions">Multiply, Divide, Add, Substrac</string>
+    <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
+
+    <string name="finishButtonTakeFotoTitle">Make foto</string>
+    <string name="finishButtonSaveTitle">Save result</string>
+
 </resources>

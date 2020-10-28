@@ -44,6 +44,32 @@ public class MySettings {
         return settingsAddRangeMin;
     }
 
+
+    public String getStringMDSA() {
+
+        //    private String stringMDSA;//Multiply + Divide + Substrac + Add
+        //    private String stringMultiplyNumbers; //MultiplyNumber1+...MultiplyNumber10
+        String string="";
+        if (isSettingsMultiply()) string="*, ";
+        if (isSettingsDivide()) string=string+ "/, ";
+        if (isSettingsSubstrac()) string=string+ "+, ";
+        if (isSettingsDivide()) string=string+ "- ";
+        return string;
+
+    }
+
+    public String getStringMultiplyNumbers() {
+        String string="";
+        if (isSettingsMultiply()) string="*, ";
+        if (isSettingsDivide()) string=string+ "/, ";
+        if (isSettingsSubstrac()) string=string+ "/, ";
+        if (isSettingsDivide()) string=string+ "/, ";
+
+           return string; //MultiplyNumber1+...MultiplyNumber10
+
+    }
+
+
     public int getSettingsAddRangeMax() {
         return settingsAddRangeMax;
     }

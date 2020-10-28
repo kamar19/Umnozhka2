@@ -1,21 +1,49 @@
 package com.example.umnozhka;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.List;
 
     class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
         private LayoutInflater inflater;
         private List<LessonSummary> lessonSummaries ;
+//        private Bitmap bitmap;
+        private List<Bitmap> bitmaps;
+
 
         DataAdapter(Context context, List<LessonSummary> lessonSummaries) {
             this.lessonSummaries = lessonSummaries;
             this.inflater = LayoutInflater.from(context);
+            Iterator<LessonSummary> iterator=lessonSummaries.iterator();
+            while (iterator.hasNext())
+             {
+                 LessonSummary lessonSummary = iterator.next();
+                 FileInputStream fileInputStream = null;
+                 try {
+                     fileInputStream = new FileInputStream(lessonSummary.getImage());
+                 } catch (FileNotFoundException e) {
+                     e.printStackTrace();
+                 }
+                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+
+                 Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+                 bitmaps.add(bitmap);
+            }
+
         }
         @Override
         public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -27,7 +55,7 @@ import java.util.List;
         @Override
         public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
             LessonSummary lessonSummary = lessonSummaries.get(position);
-            holder.imageView.setImageResource(lessonSummary.getImage());
+            holder.imageView.setImageBitmap(bitmaps.get(position));
             holder.nameUserView.setText(lessonSummary.getNameUser());
             holder.dateLesson.setText(lessonSummary.getDateLesson());
             holder.stringPrimerovTasks.setText(lessonSummary.getDateLesson());

@@ -2,6 +2,7 @@ package com.example.umnozhka;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -11,6 +12,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -22,7 +24,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends Activity implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
@@ -40,8 +45,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private AssetManager assetManager;
     private final String LOG_TAG = "myLogs";
     private int soundIdExplosion, soundIdExplosion2;
+
     private MyLesson myLesson;
     private MySettings mySettings;
+    public static LessonSummary lessonSummary;
 
 //    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
 //    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
@@ -205,10 +212,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             refrishIconLive();
                         } else {
                             myLesson.setEndGame(true);
+                            String filename = null;
+                            try {
+                                filename = createImageNameFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            lessonSummary = new LessonSummary(myLesson.getUserNameDefault(), filename ,myLesson.getStringCountAllPrimerov(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
+                            // попробую работать c new LessonSummary сразу в FinishLeassonActivity
+                            // не получилось, так как тогда нужно пердавать и mySettings
+
+                            Intent intent = new Intent(this, FinishLeassonActivity.class);
+                            startActivity(intent);
                             //сохранение результатов и загрузка GradebookActivity
 //                            GradebookActivity
-                                   DBHelper  dbHelper = new DBHelper(this);
-                            SQLiteDatabase db = dbHelper.getWritableDatabase();
+//                            DBHelper  dbHelper = new DBHelper(this);
+//                            SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 
                         }
@@ -696,5 +715,25 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 
     }
 
+
+    public MyLesson getMyLesson() {
+        return myLesson;
+    }
+
+    private String createImageNameFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "foto_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+//        this.imageFileName = image.getAbsolutePath();
+        return image.getAbsolutePath();
+    }
 
 }

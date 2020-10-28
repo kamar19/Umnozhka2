@@ -1,11 +1,10 @@
 package com.example.umnozhka;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
+import android.os.Environment;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,31 +15,23 @@ import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 public class LessonSummary {
     private String dateLesson;// без привязки ко времени
     private String nameUser;
-    private int image;
-    private int idResultLesson;//номер занятия
+//    private String imageFileName;
+    String imageFileName;
+
+    private int idResultLesson;//номер занятия, должен быть для все уникалным. берется из БД.
     private String stringPrimerovTasks; // countAllPrimerov+countRightTask+countWrongTask
     private String stringMDSA;//Multiply + Divide + Substrac + Add
     private String stringMultiplyNumbers; //MultiplyNumber1+...MultiplyNumber10
-    private static int countIdResultLesson;
 
-    public LessonSummary(Date dateLesson, String nameUser, String imageName, int idResultLesson, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
-        countIdResultLesson++;
-        this.dateLesson = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    public LessonSummary(String nameUser, String imageFileName, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
+        this.dateLesson = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
         this.nameUser = nameUser;
-        this.image = countIdResultLesson;
-        this.idResultLesson = countIdResultLesson;
         this.stringPrimerovTasks = stringPrimerovTasks;
         this.stringMDSA = stringMDSA;
         this.stringMultiplyNumbers = stringMultiplyNumbers;
+        this.imageFileName = imageFileName;
     }
 
-    public static int getCountIdResultLesson() {
-        return countIdResultLesson;
-    }
-
-    public static void setCountIdResultLesson(int countIdResultLesson) {
-        LessonSummary.countIdResultLesson = countIdResultLesson;
-    }
 
     public String getDateLesson() {
         return dateLesson;
@@ -50,8 +41,8 @@ public class LessonSummary {
         return nameUser;
     }
 
-    public int getImage() {
-        return image;
+    public String getImage() {
+        return imageFileName;
     }
 
     public String getStringPrimerovTasks() {
@@ -73,9 +64,26 @@ public class LessonSummary {
         db.execSQL("CREATE TABLE IF NOT EXISTS lessons ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
                 "nameUser TEXT, dateLesson TEXT, image INTEGER,idResultLesson INTEGER, " +
                 " stringPrimerovTasks TEXT, stringMDSA TEXT, stringMultiplyNumbers TEXT )");
-        db.execSQL("INSERT INTO lessons VALUES ('" + this.nameUser + "' , '" + this.dateLesson + "' , " + this.image
+        db.execSQL("INSERT INTO lessons VALUES ('" + this.nameUser + "' , '" + this.dateLesson + "' , " + this.imageFileName
                 + ", '" + this.stringPrimerovTasks + "', '" + this.stringMDSA + "', '" + this.stringMultiplyNumbers + "')");
+//        нужно ли в БД первую запись делать с ноунем и ноуфото?
     }
+
+//    private File createImageFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+//        this.imageFileName = image.getAbsolutePath();
+//        return image;
+//    }
 
 
 }
