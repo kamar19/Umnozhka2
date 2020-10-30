@@ -60,13 +60,10 @@ public class MySettings {
 
     public String getStringMultiplyNumbers() {
         String string="";
-        if (isSettingsMultiply()) string="*, ";
-        if (isSettingsDivide()) string=string+ "/, ";
-        if (isSettingsSubstrac()) string=string+ "/, ";
-        if (isSettingsDivide()) string=string+ "/, ";
-
+        for (int i = 0; i <settingsMultiplys.length-1 ; i++) {
+            if (settingsMultiplys[i]) string=string+i+" ,";
+        }
            return string; //MultiplyNumber1+...MultiplyNumber10
-
     }
 
 

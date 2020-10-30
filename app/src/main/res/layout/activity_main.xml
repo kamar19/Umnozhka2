@@ -6,12 +6,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewAnswerCount"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:gravity="right"
-        android:text="" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_height="match_parent"
+            android:layout_width="20dp"/>
+
+        <TextView
+            android:id="@+id/textViewPoints"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:layout_width="80dp"
+            android:text="@string/textViewPoints"
+            android:textSize="28sp" />
+        <Space
+            android:layout_height="match_parent"
+            android:layout_width="20dp"     />
+
+        <TextView
+            android:id="@+id/textViewAnswerCount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:text="@string/titleAllTask" />
+    </LinearLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
@@ -29,11 +51,11 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:orientation="horizontal">
 
             <Space
-                android:layout_width="192dp"
+                android:layout_width="152dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0" />
 
@@ -51,6 +73,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/todo"
                 tools:srcCompat="@drawable/heart" />
+
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
@@ -404,7 +427,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

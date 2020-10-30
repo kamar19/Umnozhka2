@@ -6,7 +6,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/imageName"
+        android:id="@+id/listItemImageName"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="16dp"
@@ -18,27 +18,31 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nameUser"
+            android:id="@+id/listItemNameUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/dateLesson"
+            android:id="@+id/listItemDateLesson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/stringPrimerovTasks"
+            android:id="@+id/listItemCountPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/listItemStringPrimerovTasks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/stringMDSA"
+            android:id="@+id/listItemStringMDSA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/stringMultiplyNumbers"
+            android:id="@+id/listItemStringMultiplyNumbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

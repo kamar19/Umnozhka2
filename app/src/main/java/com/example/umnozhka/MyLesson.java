@@ -10,6 +10,16 @@ public class MyLesson {
     private int countHeartLive = 0;
     private int countRightTask = 0, countWrongTask = 0;
     private int countCurrentRightTask = 0, countCurrentWrongTask = 0;
+
+    public int getCountPoints() {
+        return countPoints;
+    }
+
+    public void setCountPoints(int countPoints) {
+        this.countPoints = countPoints;
+    }
+
+    private int countPoints = 0;
     private int progressBarTime = 300;
     private int progressBarCount = 1;
 
@@ -96,14 +106,12 @@ public class MyLesson {
         this.progressBarCount = progressBarCount;
     }
 
-
     public void setProgressBarSpeed(int progressBarSpeed) {
         this.progressBarSpeed = progressBarSpeed;
     }
 
     public String getStringCountAllPrimerov() {
         return String.valueOf(countAllPrimerov) + String.valueOf(countRightTask) + String.valueOf(countWrongTask);
-
     }
 
     public void setCountPrimerov(int countPrimerov) {
@@ -151,7 +159,7 @@ public class MyLesson {
         editorSharedPreferences.putString("valueCountWrongTask", String.valueOf(countWrongTask));
         editorSharedPreferences.putString("valueCountCurrentRightTask", String.valueOf(countCurrentRightTask));
         editorSharedPreferences.putString("valueCountCurrentWrongTask", String.valueOf(countCurrentWrongTask));
-
+        editorSharedPreferences.putString("valueCountPoints", String.valueOf(countPoints));
         editorSharedPreferences.putString("valueProgressBarTime", String.valueOf(progressBarTime));
         editorSharedPreferences.putString("valueProgressBarCount", String.valueOf(progressBarCount));
         editorSharedPreferences.putString("valueProgressBarSpeed", String.valueOf(progressBarSpeed));
@@ -179,6 +187,7 @@ public class MyLesson {
         endGame = sharedPreferences.getBoolean("valueEndGame", false);
         lastGame = sharedPreferences.getBoolean("valueLastGame", false);
         userNameDefault = sharedPreferences.getString("vvalueUserNameDefault", "noname");
+        countPoints = Integer.valueOf(sharedPreferences.getString("valueCountPoints", "0"));
     }
 
     public void startNewLesson() {
@@ -188,14 +197,13 @@ public class MyLesson {
         countWrongTask = 0;
         countCurrentRightTask = 0;
         countCurrentWrongTask = 0;
-        progressBarTime = 10;//300
+        progressBarTime = 300;//300
         progressBarCount = 1;
         countPrimerov = 1;
         progressBarSpeed = 1;
         stringCurrentAct = "*";
         endGame = false;
         lastGame = false;
-
-
+        countPoints=0;
     }
 }

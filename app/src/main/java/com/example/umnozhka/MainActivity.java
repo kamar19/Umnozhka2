@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 
     private MyLesson myLesson;
     private MySettings mySettings;
-    public static LessonSummary lessonSummary;
+//    public static LessonSummary lessonSummary;
 
 //    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
 //    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     // параметры для данной активности, сохраняются в sharedPreferences, "umnozhkaMain"
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
-            textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount;
+            textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount, textViewPoints;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +118,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewQuestion = findViewById(R.id.textViewQuestion);
+        textViewPoints =  findViewById(R.id.textViewPoints);
         progressBar = findViewById(R.id.progressBar);
         mySettings = StartActivity.mySettings;
 //        countHeartLive = 0;
@@ -218,12 +219,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            lessonSummary = new LessonSummary(myLesson.getUserNameDefault(), filename ,myLesson.getStringCountAllPrimerov(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
+                            StartActivity.setStartLessonSummary(new LessonSummary(myLesson.getUserNameDefault(), filename ,myLesson.getCountPoints() ,myLesson.getStringCountAllPrimerov(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers()));
                             // попробую работать c new LessonSummary сразу в FinishLeassonActivity
                             // не получилось, так как тогда нужно пердавать и mySettings
 
                             Intent intent = new Intent(this, FinishLeassonActivity.class);
                             startActivity(intent);
+                            finish();
                             //сохранение результатов и загрузка GradebookActivity
 //                            GradebookActivity
 //                            DBHelper  dbHelper = new DBHelper(this);
@@ -236,10 +238,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         }
     }
 
-    private String setRightTask() {
+    private String setRightTask(int countPoints) {
         // Если правельных ответов в подряд 5, то дается одна жизнь.
         myLesson.setCountRightTask(myLesson.getCountRightTask() + 1);
         myLesson.setCountCurrentRightTask(myLesson.getCountCurrentRightTask() + 1);
+        myLesson.setCountPoints(myLesson.getCountPoints()+countPoints);
 
         if (soundPool != null) {
             soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
@@ -295,27 +298,27 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             switch (currentTask.getCurrentAct().getMyAct()) {
                 case MULTIPLY: {
                     if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer)
-                        answer = setRightTask();
+                        answer = setRightTask(intAnswer);
                     else answer = setWrongTask();
                     break;
                 }
                 case DIVIDE: {
                     if (currentTask.getCurrentOneUnit().getValue() / currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
-                        answer = setRightTask();
+                        answer = setRightTask(currentTask.getCurrentOneUnit().getValue());
                     else
                         answer = setWrongTask();
                     break;
                 }
                 case ADD: {
                     if (currentTask.getCurrentOneUnit().getValue() + currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
-                        answer = setRightTask();
+                        answer = setRightTask(intAnswer);
                     else
                         answer = setWrongTask();
                     break;
                 }
                 case SUBTRAC: {
                     if (currentTask.getCurrentOneUnit().getValue() - currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
-                        answer = setRightTask();
+                        answer = setRightTask(currentTask.getCurrentOneUnit().getValue());
                     else
                         answer = setWrongTask();
                     break;
@@ -328,6 +331,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         myLesson.setCountAllPrimerov(myLesson.getCountAllPrimerov() + 1);
         textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
                 + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
+        textViewPoints.setText(String.valueOf(myLesson.getCountPoints()));
 
 //            progressBar.setProgress(countPrimerov);
 
@@ -549,6 +553,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow12.setText(sharedPreferences.getString("valueTextViewAnswerShow12", ""));
         textViewAnswerCount.setText(sharedPreferences.getString("valueTextViewAnswerCount", ""));
         textViewAnswerShowBasic.setText(sharedPreferences.getString("valueTextViewAnswerShowBasic", ""));
+        textViewPoints.setText(sharedPreferences.getString("valueTextViewPoints", ""));
 //        textViewQuestion.setText(sharedPreferences.getString("valueTextViewQuestion", ""));
         textViewAnswerShow1.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow1", "0")));
         textViewAnswerShow2.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow2", "0")));
@@ -589,6 +594,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         editorSharedPreferences.putString("valueTextViewAnswerCount", textViewAnswerCount.getText().toString());
         editorSharedPreferences.putString("valueTextViewAnswerShowBasic", textViewAnswerShowBasic.getText().toString());
         editorSharedPreferences.putString("valueTextViewQuestion", textViewQuestion.getText().toString());
+        editorSharedPreferences.putString("valueTextViewPoints", textViewPoints.getText().toString());
         editorSharedPreferences.putString("visibleTextViewAnswerShow1", String.valueOf(textViewAnswerShow1.getVisibility()));
         editorSharedPreferences.putString("visibleTextViewAnswerShow2", String.valueOf(textViewAnswerShow2.getVisibility()));
         editorSharedPreferences.putString("visibleTextViewAnswerShow3", String.valueOf(textViewAnswerShow3.getVisibility()));
@@ -644,6 +650,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow10.setText("");
         textViewAnswerShow11.setText("");
         textViewAnswerShow12.setText("");
+        textViewPoints.setText("");
         textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
                 + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
         textViewAnswerShow1.setVisibility(TextView.INVISIBLE);
@@ -658,6 +665,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow10.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow11.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow12.setVisibility(TextView.INVISIBLE);
+
         view1.setVisibility(View.INVISIBLE);
         view2.setVisibility(View.INVISIBLE);
         view3.setVisibility(View.INVISIBLE);

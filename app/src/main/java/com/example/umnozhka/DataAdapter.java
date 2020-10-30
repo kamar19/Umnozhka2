@@ -28,21 +28,22 @@ import java.util.List;
         DataAdapter(Context context, List<LessonSummary> lessonSummaries) {
             this.lessonSummaries = lessonSummaries;
             this.inflater = LayoutInflater.from(context);
-            Iterator<LessonSummary> iterator=lessonSummaries.iterator();
-            while (iterator.hasNext())
-             {
-                 LessonSummary lessonSummary = iterator.next();
-                 FileInputStream fileInputStream = null;
-                 try {
-                     fileInputStream = new FileInputStream(lessonSummary.getImage());
-                 } catch (FileNotFoundException e) {
-                     e.printStackTrace();
-                 }
-                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-
-                 Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
-                 bitmaps.add(bitmap);
-            }
+//            Iterator<LessonSummary> iterator=lessonSummaries.iterator();
+//            while (iterator.hasNext())
+//             {
+//                 LessonSummary lessonSummary = iterator.next();
+//                 FileInputStream fileInputStream = null;
+//                 try {
+//                     // попытка вытащить имя картинки
+//                     fileInputStream = new FileInputStream(lessonSummary.getImage());
+//                 } catch (FileNotFoundException e) {
+//                     e.printStackTrace();
+//                 }
+//                 BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+//
+//                 Bitmap bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+//                 bitmaps.add(bitmap);
+//            }
 
         }
         @Override
@@ -55,12 +56,14 @@ import java.util.List;
         @Override
         public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
             LessonSummary lessonSummary = lessonSummaries.get(position);
-            holder.imageView.setImageBitmap(bitmaps.get(position));
+//            holder.imageView.setImageBitmap(bitmaps.get(position));
+            holder.imageView.setImageResource(R.drawable.nofoto);
             holder.nameUserView.setText(lessonSummary.getNameUser());
             holder.dateLesson.setText(lessonSummary.getDateLesson());
-            holder.stringPrimerovTasks.setText(lessonSummary.getDateLesson());
-            holder.stringMDSA.setText(lessonSummary.getDateLesson());
-            holder.stringMultiplyNumbers.setText(lessonSummary.getDateLesson());
+            holder.stringPrimerovTasks.setText(lessonSummary.getStringPrimerovTasks());
+            holder.stringMDSA.setText(lessonSummary.getStringMDSA());
+            holder.countPoints.setText(String.valueOf(lessonSummary.getCountPoints()));
+            holder.stringMultiplyNumbers.setText(lessonSummary.getStringMultiplyNumbers());
         }
 
         @Override
@@ -70,15 +73,16 @@ import java.util.List;
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             final ImageView imageView;
-            final TextView nameUserView, dateLesson,stringPrimerovTasks,stringMDSA,stringMultiplyNumbers;
+            final TextView nameUserView, dateLesson,stringPrimerovTasks,stringMDSA,stringMultiplyNumbers,countPoints;
             ViewHolder(View view){
                 super(view);
-                imageView = (ImageView)view.findViewById(R.id.imageName);
-                nameUserView = (TextView) view.findViewById(R.id.nameUser);
-                dateLesson = (TextView) view.findViewById(R.id.dateLesson);
-                stringPrimerovTasks = (TextView) view.findViewById(R.id.stringPrimerovTasks);
-                stringMDSA = (TextView) view.findViewById(R.id.stringMDSA);
-                stringMultiplyNumbers = (TextView) view.findViewById(R.id.stringMultiplyNumbers);
+                imageView = (ImageView)view.findViewById(R.id.listItemImageName);
+                nameUserView = (TextView) view.findViewById(R.id.listItemNameUser);
+                dateLesson = (TextView) view.findViewById(R.id.listItemDateLesson);
+                countPoints = (TextView) view.findViewById(R.id.listItemCountPoints);
+                stringPrimerovTasks = (TextView) view.findViewById(R.id.listItemStringPrimerovTasks);
+                stringMDSA = (TextView) view.findViewById(R.id.listItemStringMDSA);
+                stringMultiplyNumbers = (TextView) view.findViewById(R.id.listItemStringMultiplyNumbers);
             }
         }
 }

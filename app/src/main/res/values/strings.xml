@@ -32,6 +32,7 @@
     <string name="textViewAnswerShowBasic"> </string>
     <string name="settingsLoad">Loaded</string>
     <string name="settingsSave">Saved</string>
+    <string name="textViewPoints"> 0 </string>
     <string name="todo">TODO</string>
 
     <string-array name="entries">
@@ -122,7 +123,8 @@
     <string name="finishTextPrimerovTasks">Count (all tasks, right task, wrong task):</string>
     <string name="finishTextViewMDSA">Actions: </string>
     <string name="finishTextViewMultiplyNumbers">Multiply Numbers: </string>
-
+    <string name="finishTextViewPoints">Count points</string>
+    <string name="finishStringViewPoints">000</string>
     <string name="finishStringUserName">Noname</string>
     <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
     <string name="finishStringActions">Multiply, Divide, Add, Substrac</string>
@@ -131,6 +133,10 @@
     <string name="finishButtonTakeFotoTitle">Make foto</string>
     <string name="finishButtonSaveTitle">Save result</string>
 
+    <string name="finishLeassonActivityNotUserName">"Enter your name !"</string>
+
+    <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>
+    <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>
 
 
 </resources>

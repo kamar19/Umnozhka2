@@ -24,10 +24,19 @@ public class StartActivity extends Activity implements OnClickListener {
     private static SharedPreferences sharedPreferences;
     public static MySettings mySettings;
     public static MyLesson myLesson;
+    public static LessonSummary startLessonSummary;
 
     final String LOG_TAG = "StartActivityLogs";
 //    public static Locale locale;
 //    public static Configuration configuration;
+
+    public static LessonSummary getStartLessonSummary() {
+        return startLessonSummary;
+    }
+
+    public static void setStartLessonSummary(LessonSummary startLessonSummary) {
+        StartActivity.startLessonSummary = startLessonSummary;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

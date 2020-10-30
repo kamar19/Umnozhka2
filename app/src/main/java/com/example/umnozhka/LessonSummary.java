@@ -8,30 +8,39 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 // возможно этот класс не нужен, так как буду сохранять в БД
 // но временно,для проверки как работает recycleview сделаю через этот класс
 public class LessonSummary {
-    private String dateLesson;// без привязки ко времени
     private String nameUser;
-//    private String imageFileName;
-    String imageFileName;
-
-    private int idResultLesson;//номер занятия, должен быть для все уникалным. берется из БД.
+    private String imageFileName;
+    private int countPoints;
+    private String dateLesson;// без привязки ко времени
     private String stringPrimerovTasks; // countAllPrimerov+countRightTask+countWrongTask
     private String stringMDSA;//Multiply + Divide + Substrac + Add
     private String stringMultiplyNumbers; //MultiplyNumber1+...MultiplyNumber10
 
-    public LessonSummary(String nameUser, String imageFileName, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
-        this.dateLesson = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
+
+    public int getCountPoints() {
+        return countPoints;
+    }
+
+    public void setCountPoints(int countPoints) {
+        this.countPoints = countPoints;
+    }
+
+
+    public LessonSummary(String nameUser, String imageFileName, int countPoints, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
         this.nameUser = nameUser;
+        this.imageFileName = imageFileName;
+        this.countPoints = countPoints;
+        this.dateLesson = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
         this.stringPrimerovTasks = stringPrimerovTasks;
         this.stringMDSA = stringMDSA;
         this.stringMultiplyNumbers = stringMultiplyNumbers;
-        this.imageFileName = imageFileName;
     }
-
 
     public String getDateLesson() {
         return dateLesson;
@@ -57,17 +66,11 @@ public class LessonSummary {
         return stringMultiplyNumbers;
     }
 
-    public void saveLessonToDB(SQLiteDatabase db) {
-//        ContentValues contentValues = new ContentValues();
-//        SQLiteDatabase db = openOrCreateDatabase("lessons.db", Context.MODE_PRIVATE, null);
-
-        db.execSQL("CREATE TABLE IF NOT EXISTS lessons ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
-                "nameUser TEXT, dateLesson TEXT, image INTEGER,idResultLesson INTEGER, " +
-                " stringPrimerovTasks TEXT, stringMDSA TEXT, stringMultiplyNumbers TEXT )");
-        db.execSQL("INSERT INTO lessons VALUES ('" + this.nameUser + "' , '" + this.dateLesson + "' , " + this.imageFileName
-                + ", '" + this.stringPrimerovTasks + "', '" + this.stringMDSA + "', '" + this.stringMultiplyNumbers + "')");
-//        нужно ли в БД первую запись делать с ноунем и ноуфото?
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
+
+
 
 //    private File createImageFile() throws IOException {
 //        // Create an image file name
