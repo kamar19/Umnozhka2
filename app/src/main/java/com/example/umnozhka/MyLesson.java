@@ -197,7 +197,7 @@ public class MyLesson {
         countWrongTask = 0;
         countCurrentRightTask = 0;
         countCurrentWrongTask = 0;
-        progressBarTime = 300;//300
+        progressBarTime = 10;//300
         progressBarCount = 1;
         countPrimerov = 1;
         progressBarSpeed = 1;

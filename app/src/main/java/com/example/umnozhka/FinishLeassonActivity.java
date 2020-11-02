@@ -2,6 +2,7 @@ package com.example.umnozhka;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class FinishLeassonActivity extends AppCompatActivity implements View.OnClickListener {
+public class FinishLeassonActivity extends Activity implements View.OnClickListener {
     Button finishButtonSave, finishButtonTakeFoto;
     EditText finishStringUserName;
     TextView finishStringPrimerovTasks, finishStringActions, finishStringMultiplyNumbers, finishTextValueViewPoints, finishTextViewPoints;

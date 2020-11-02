@@ -1,5 +1,5 @@
 <resources>
-    <string name="appName">Umnozhka</string>
+    <string name="appName">Умножка</string>
     <string name="act">*</string>
     <string name="numberOne">5</string>
     <string name="numberTwo">5</string>
@@ -107,26 +107,26 @@
     <string name="alertDialogPositiveButtonText">Продолжить урок</string>
     <string name="alertDialogNeutralButtonText">Отмена</string>
 
-    <string name="finishTextViewResultTitle">The result of the lessons</string>
+    <string name="finishTextViewResultTitle">Результат урока!</string>
 
-    <string name="finishTextNameUser">Name user: </string>
-    <string name="finishTextPrimerovTasks">Count (all tasks, right task, wrong task):</string>
-    <string name="finishTextViewMDSA">Actions: </string>
-    <string name="finishTextViewMultiplyNumbers">Multiply Numbers: </string>
-    <string name="finishTextViewPoints">Count points</string>
+    <string name="finishTextNameUser">Твое имя: </string>
+    <string name="finishTextPrimerovTasks">Решено (всего задач, правильных ответов, неправильных ответов):</string>
+    <string name="finishTextViewMDSA">Действия: Умножение/Деление/Сложение/Вычитание: </string>
+    <string name="finishTextViewMultiplyNumbers">Умножения на : </string>
+    <string name="finishTextViewPoints">Заработано очков</string>
     <string name="finishStringViewPoints">000</string>
 
     <string name="finishStringUserName">Noname</string>
     <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
-    <string name="finishStringActions">Multiply, Divide, Add, Substrac</string>
+    <string name="finishStringActions">Умножение, Деление, Сложение, Вычитание</string>
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
-    <string name="finishButtonTakeFotoTitle">Make foto</string>
-    <string name="finishButtonSaveTitle">Save result</string>
+    <string name="finishButtonTakeFotoTitle">Сделать фото</string>
+    <string name="finishButtonSaveTitle">Записать результат</string>
 
-    <string name="finishLeassonActivityNotUserName">"Введите имя !"</string>
-    <string name="makeFotoActivityButtonTakeFoto">"Снимок"</string>
-    <string name="makeFotoActivityButtonOpenCamera">"Открыть Камеру"</string>
+    <string name="finishLeassonActivityNotUserName">Введите имя !</string>
+    <string name="makeFotoActivityButtonTakeFoto">Снимок</string>
+    <string name="makeFotoActivityButtonOpenCamera">Открыть Камеру</string>
 
 
 </resources>
