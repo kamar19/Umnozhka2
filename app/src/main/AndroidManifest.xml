@@ -30,7 +30,6 @@
 <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
 <!--                android:resource="@xml/file_paths"></meta-data>-->
 <!--        </provider>-->
-        <activity android:name=".MakeFotoActivity" />
         <activity android:name=".FinishLeassonActivity" />
         <activity android:name=".GradebookActivity" />
         <activity android:name=".StartActivity">

@@ -90,7 +90,7 @@
 
                 <TextView
                     android:id="@+id/finishStringPrimerovTasks"
-                    android:layout_width="78dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:gravity="start"
@@ -113,7 +113,7 @@
 
                 <TextView
                     android:id="@+id/finishStringActions"
-                    android:layout_width="222dp"
+                    android:layout_width="312dp"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
@@ -153,40 +153,7 @@
                 android:layout_weight="1">
 
             </Space>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
-
-                <ImageView
-                    android:id="@+id/finishImageView"
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center_horizontal"
-
-                    android:gravity="center">
-
-                </ImageView>
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    />
-                <Button
-                    android:id="@+id/finishButtonTakeFoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:gravity="center"
-
-                    android:text="@string/finishButtonTakeFotoTitle">
-
-                </Button>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

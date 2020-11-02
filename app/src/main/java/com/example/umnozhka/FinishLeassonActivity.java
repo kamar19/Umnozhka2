@@ -16,15 +16,16 @@ import android.widget.Toast;
 import java.util.List;
 
 public class FinishLeassonActivity extends Activity implements View.OnClickListener {
-    Button finishButtonSave, finishButtonTakeFoto;
+    Button finishButtonSave;
+//            finishButtonTakeFoto;
     EditText finishStringUserName;
     TextView finishStringPrimerovTasks, finishStringActions, finishStringMultiplyNumbers, finishTextValueViewPoints, finishTextViewPoints;
     private SQLiteDatabase db;
     //    MyLesson myLesson;
     LessonSummary lessonSummary; // на Основе myLesson и MySettings
     //    SurfaceView surfaceView;
-    public static ImageView finishImageView;
-    private List<Bitmap> bitmaps;
+//    public static ImageView finishImageView;
+//    private List<Bitmap> bitmaps;
     private List<LessonSummary> lessonSummaries;
 
 
@@ -35,34 +36,27 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
         lessonSummary = StartActivity.getStartLessonSummary();
 
         finishButtonSave = findViewById(R.id.finishButtonSave);
-        finishButtonTakeFoto = findViewById(R.id.finishButtonTakeFoto);
+//        finishButtonTakeFoto = findViewById(R.id.finishButtonTakeFoto);
         finishStringUserName = findViewById(R.id.finishStringUserName);
         finishStringPrimerovTasks = findViewById(R.id.finishStringPrimerovTasks);
         finishStringActions = findViewById(R.id.finishStringActions);
         finishStringMultiplyNumbers = findViewById(R.id.finishStringMultiplyNumbers);
         finishTextValueViewPoints = findViewById(R.id.finishTextValueViewPoints);
         finishTextViewPoints = findViewById(R.id.finishTextViewPoints);
-        finishImageView = findViewById(R.id.finishImageView);
-        finishImageView.setImageResource(R.drawable.nofoto);
         finishStringUserName.setText(lessonSummary.getNameUser());
         finishStringPrimerovTasks.setText(lessonSummary.getStringPrimerovTasks());
         finishStringActions.setText(lessonSummary.getStringMDSA());
         finishStringMultiplyNumbers.setText(lessonSummary.getStringMultiplyNumbers());
-
         finishButtonSave.setOnClickListener(this);
-        finishButtonTakeFoto.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.finishButtonTakeFoto:
+//            case R.id.finishButtonTakeFoto:
 //                    Intent intent = new Intent(this, MakeFotoActivity.class );
 //                    startActivity(intent);
-
-
-                break;
+//                break;
             case R.id.finishButtonSave:
                 if (finishStringUserName.getText().length() > 0) {
                     lessonSummary.setNameUser(finishStringUserName.getText().toString());
