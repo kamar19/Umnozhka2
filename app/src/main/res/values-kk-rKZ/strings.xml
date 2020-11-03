@@ -110,14 +110,14 @@
 
     <string name="finishTextNameUser">Сенің есімің: </string>
     <string name="finishTextPrimerovTasks">Шешілді (жалпы тапсырмалар, дұрыс жауаптар, қате жауаптар):</string>
-    <string name="finishTextViewMDSA">Әрекеттер: көбейту / бөлу / қосу / азайту: </string>
+    <string name="finishTextViewMDSA">Әрекеттер:  *  /  +  -  </string>
     <string name="finishTextViewMultiplyNumbers">Сандарға көбейту: </string>
     <string name="finishTextViewPoints">Жиналған ұпайлар</string>
     <string name="finishStringViewPoints">000</string>
 
     <string name="finishStringUserName">Noname</string>
     <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
-    <string name="finishStringActions">Көбейту, Бөлу, Қосу, Азайту</string>
+    <string name="finishStringActions"> *  /  +  - </string>
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
     <string name="finishButtonTakeFotoTitle">Фотосурет жасау</string>
@@ -126,6 +126,12 @@
     <string name="finishLeassonActivityNotUserName">Атыңызды енгізіңіз !"</string>
     <string name="makeFotoActivityButtonTakeFoto">Сурет</string>
     <string name="makeFotoActivityButtonOpenCamera">Камераны ашу</string>
+
+    <string name="gradeBookActivityNameUser">Есімің, </string>
+    <string name="gradeBookActivityDateLesson">Күн, </string>
+    <string name="gradeBookActivityTextViewMDSA">Әрекеттер, </string>
+    <string name="gradeBookActivityMultiplyNumbers">Сандарға, </string>
+    <string name="gradeBookActivityViewPoints">Ұпайлар</string>
 
 
 

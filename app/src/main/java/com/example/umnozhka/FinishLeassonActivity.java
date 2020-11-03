@@ -3,6 +3,7 @@ package com.example.umnozhka;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,11 +16,12 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class FinishLeassonActivity extends Activity implements View.OnClickListener {
+public class FinishLeassonActivity extends AppCompatActivity implements View.OnClickListener {
     Button finishButtonSave;
-//            finishButtonTakeFoto;
+    //            finishButtonTakeFoto;
     EditText finishStringUserName;
-    TextView finishStringPrimerovTasks, finishStringActions, finishStringMultiplyNumbers, finishTextValueViewPoints, finishTextViewPoints;
+    TextView finishStringPrimerovTasks, finishStringActions, finishStringMultiplyNumbers,
+            finishTextViewPoints, finishTextValueViewPoints;
     private SQLiteDatabase db;
     //    MyLesson myLesson;
     LessonSummary lessonSummary; // на Основе myLesson и MySettings
@@ -41,12 +43,19 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
         finishStringPrimerovTasks = findViewById(R.id.finishStringPrimerovTasks);
         finishStringActions = findViewById(R.id.finishStringActions);
         finishStringMultiplyNumbers = findViewById(R.id.finishStringMultiplyNumbers);
-        finishTextValueViewPoints = findViewById(R.id.finishTextValueViewPoints);
         finishTextViewPoints = findViewById(R.id.finishTextViewPoints);
+        finishTextValueViewPoints = findViewById(R.id.finishTextValueViewPoints);
+
         finishStringUserName.setText(lessonSummary.getNameUser());
-        finishStringPrimerovTasks.setText(lessonSummary.getStringPrimerovTasks());
+        String string = MainActivity.STRING_COUNT_ALL_PRIMEROV;
+        Bundle arguments = getIntent().getExtras();
+        String string2 = arguments.get(string).toString();
+        finishStringPrimerovTasks.setText(string2);
+//нет даты
         finishStringActions.setText(lessonSummary.getStringMDSA());
         finishStringMultiplyNumbers.setText(lessonSummary.getStringMultiplyNumbers());
+        finishTextValueViewPoints.setText(String.valueOf(lessonSummary.getCountPoints()));
+
         finishButtonSave.setOnClickListener(this);
     }
 
@@ -73,6 +82,7 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
                 break;
         }
     }
+
     public void saveLessonSummaryToDB(SQLiteDatabase db) {
 //        ContentValues contentValues = new ContentValues();
 //        SQLiteDatabase db = openOrCreateDatabase("lessons.db", Context.MODE_PRIVATE, null);
@@ -82,14 +92,18 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
 //      db.delete("lessons", null, null);
 //        if (db.isOpen()) db.close();
 
-        String string = "CREATE TABLE IF NOT EXISTS lessons ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
-                "'nameUser' TEXT, 'countPoints' INTEGER, 'dateLesson' TEXT, 'imageFileName' TEXT, " +
-                " 'stringPrimerovTasks' TEXT, 'stringMDSA' TEXT, 'stringMultiplyNumbers' TEXT )";
+        String string = "CREATE TABLE IF NOT EXISTS lessons3 ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
+                "'nameUser' TEXT, 'dateLesson' TEXT, 'countPoints' INTEGER," +
+//                "'imageFileName' TEXT, " +
+//                " 'stringPrimerovTasks' TEXT, " +
+                "'stringMDSA' TEXT, 'stringMultiplyNumbers' TEXT )";
         db.execSQL(string);
-        String string2 ="INSERT INTO lessons VALUES ( 'id'=?, '" + lessonSummary.getNameUser() + "', " + lessonSummary.getCountPoints() +", '" + lessonSummary.getDateLesson() + "' , '" + lessonSummary.getImage()
-                + "', '" + lessonSummary.getStringPrimerovTasks() + "', '" + lessonSummary.getStringMDSA() + "', '" + lessonSummary.getStringMultiplyNumbers() + "')";
+        String string2 = "INSERT INTO lessons3 VALUES ( 'id'=?, '" + lessonSummary.getNameUser() + "', '" + lessonSummary.getDateLesson() + "' , '" + lessonSummary.getCountPoints() + "' , '" +
+//                lessonSummary.getImage()
+//                + "', '" + lessonSummary.getStringPrimerovTasks() + "', '" +
+                lessonSummary.getStringMDSA() + "', '" + lessonSummary.getStringMultiplyNumbers() + "')";
         db.execSQL(string2);
-//        нужно ли в БД первую запись делать с ноунем и ноуфото?
+        //нужно ли в БД первую запись делать с ноунем и ноуфото?
         db.close();
 
 //        String string = "CREATE TABLE IF NOT EXISTS lessons ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +

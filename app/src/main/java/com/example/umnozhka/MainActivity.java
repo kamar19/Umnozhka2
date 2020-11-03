@@ -32,6 +32,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
     // не сохраняемые
+    public static final String STRING_COUNT_ALL_PRIMEROV = "StringCountAllPrimerov";
     Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
             buttonDigit0, buttonEnter, buttonBackSpace;
     private static SharedPreferences sharedPreferences;
@@ -219,18 +220,16 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            StartActivity.setStartLessonSummary(new LessonSummary(myLesson.getUserNameDefault(), filename ,myLesson.getCountPoints() ,myLesson.getStringCountAllPrimerov(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers()));
+                            String tempStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+                            StartActivity.startLessonSummary = new LessonSummary(myLesson.getUserNameDefault(), tempStr ,myLesson.getCountPoints() ,mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
                             // попробую работать c new LessonSummary сразу в FinishLeassonActivity
                             // не получилось, так как тогда нужно пердавать и mySettings
 
                             Intent intent = new Intent(this, FinishLeassonActivity.class);
+                            intent.putExtra(STRING_COUNT_ALL_PRIMEROV,myLesson.getStringCountAllPrimerov());
                             startActivity(intent);
                             finish();
                             //сохранение результатов и загрузка GradebookActivity
-//                            GradebookActivity
-//                            DBHelper  dbHelper = new DBHelper(this);
-//                            SQLiteDatabase db = dbHelper.getWritableDatabase();
-
 
                         }
                     break;

@@ -3,14 +3,18 @@ package com.example.umnozhka;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class GradebookActivity extends AppCompatActivity {
+public class GradebookActivity extends Activity {
     List<LessonSummary> lessonSummaryList = new ArrayList<>();
     private SQLiteDatabase db;
     Cursor cursor;
@@ -33,7 +37,7 @@ public class GradebookActivity extends AppCompatActivity {
         db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
 
 
-        cursor = db.rawQuery("SELECT * FROM lessons ", null);
+        cursor = db.rawQuery("SELECT * FROM lessons3 ", null);
         cursor.moveToFirst();
         while (cursor.moveToNext()) {
             //  ( 'id'=?, '" + lessonSummary.getNameUser() + "', " + lessonSummary.getCountPoints() +", '" + lessonSummary.getDateLesson() + "' , '" + lessonSummary.getImage()
@@ -42,12 +46,10 @@ public class GradebookActivity extends AppCompatActivity {
 //    public LessonSummary(String nameUser, String imageFileName, int countPoints, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
 //                    cursor.getInt(1),//ID
                     cursor.getString(1),//getNameUser()
-                    cursor.getString(2),//getCountPoints
-                    cursor.getInt(3),//getDateLesson
-                    cursor.getString(4),//getImage
-                    cursor.getString(5),//getStringPrimerovTasks
-                    cursor.getString(6));//getStringMDSA
-                    cursor.getString(7);//getStringMultiplyNumbers
+                    cursor.getString(2),//getDateLesson
+                    cursor.getInt(3), //countPoints
+                    cursor.getString(4),//getStringMDSA
+                    cursor.getString(5));//getStringMultiplyNumbers
             lessonSummaryList.add(tempLessonSummary);
         }
         cursor.close();
@@ -55,7 +57,21 @@ public class GradebookActivity extends AppCompatActivity {
 
     }
 
-    public void OpenDBtoLessonSummary(SQLiteDatabase db) {
+//    private String DateLessonToNewFormat(String dataLesson) {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date;
+//        String returnDateString="";
+//        try {
+//             date = format.parse(dataLesson);
+//            returnDateString = format.format(date);
+//        } catch (ParseException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+//        }
+//
+//            return returnDateString;
+//        }
+//
+
+//    public void OpenDBtoLessonSummary(SQLiteDatabase db) {
 //        ContentValues contentValues = new ContentValues();
 //        SQLiteDatabase db = openOrCreateDatabase("lessons.db", Context.MODE_PRIVATE, null);
 //        SQLiteDatabase db = new SQLiteDatabase();
@@ -83,5 +99,5 @@ public class GradebookActivity extends AppCompatActivity {
 //                db.execSQL(string2);
 ////        нужно ли в БД первую запись делать с ноунем и ноуфото?
 //        db.close ();
+//    }
     }
-}

@@ -15,29 +15,18 @@ import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 // но временно,для проверки как работает recycleview сделаю через этот класс
 public class LessonSummary {
     private String nameUser;
-    private String imageFileName;
     private int countPoints;
     private String dateLesson;// без привязки ко времени
-    private String stringPrimerovTasks; // countAllPrimerov+countRightTask+countWrongTask
     private String stringMDSA;//Multiply + Divide + Substrac + Add
     private String stringMultiplyNumbers; //MultiplyNumber1+...MultiplyNumber10
 
+    //    public LessonSummary(String nameUser, String imageFileName, int countPoints, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
 
-    public int getCountPoints() {
-        return countPoints;
-    }
-
-    public void setCountPoints(int countPoints) {
-        this.countPoints = countPoints;
-    }
-
-
-    public LessonSummary(String nameUser, String imageFileName, int countPoints, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
+    public LessonSummary(String nameUser, String dateLesson, int countPoints, String stringMDSA, String stringMultiplyNumbers) {
         this.nameUser = nameUser;
-        this.imageFileName = imageFileName;
         this.countPoints = countPoints;
-        this.dateLesson = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
-        this.stringPrimerovTasks = stringPrimerovTasks;
+
+        this.dateLesson = dateLesson;
         this.stringMDSA = stringMDSA;
         this.stringMultiplyNumbers = stringMultiplyNumbers;
     }
@@ -50,13 +39,21 @@ public class LessonSummary {
         return nameUser;
     }
 
-    public String getImage() {
-        return imageFileName;
+//    public String getImage() {
+//        return imageFileName;
+//    }
+
+    public int getCountPoints() {
+        return countPoints;
     }
 
-    public String getStringPrimerovTasks() {
-        return stringPrimerovTasks;
+    public void setCountPoints(int countPoints) {
+        this.countPoints = countPoints;
     }
+
+//    public String getStringPrimerovTasks() {
+//        return stringPrimerovTasks;
+//    }
 
     public String getStringMDSA() {
         return stringMDSA;
@@ -69,7 +66,6 @@ public class LessonSummary {
     public void setNameUser(String nameUser) {
         this.nameUser = nameUser;
     }
-
 
 
 //    private File createImageFile() throws IOException {

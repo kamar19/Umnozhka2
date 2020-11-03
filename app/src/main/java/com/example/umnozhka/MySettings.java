@@ -50,9 +50,9 @@ public class MySettings {
         //    private String stringMDSA;//Multiply + Divide + Substrac + Add
         //    private String stringMultiplyNumbers; //MultiplyNumber1+...MultiplyNumber10
         String string="";
-        if (isSettingsMultiply()) string="*, ";
-        if (isSettingsDivide()) string=string+ "/, ";
-        if (isSettingsSubstrac()) string=string+ "+, ";
+        if (isSettingsMultiply()) string=" * ";
+        if (isSettingsDivide()) string=string+ "/ ";
+        if (isSettingsSubstrac()) string=string+ "+ ";
         if (isSettingsDivide()) string=string+ "- ";
         return string;
 

@@ -111,7 +111,7 @@ public class MyLesson {
     }
 
     public String getStringCountAllPrimerov() {
-        return String.valueOf(countAllPrimerov) + String.valueOf(countRightTask) + String.valueOf(countWrongTask);
+        return String.valueOf(countAllPrimerov) + ", " + String.valueOf(countRightTask) + ", " + String.valueOf(countWrongTask);
     }
 
     public void setCountPrimerov(int countPrimerov) {

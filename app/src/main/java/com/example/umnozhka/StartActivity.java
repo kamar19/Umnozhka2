@@ -34,10 +34,6 @@ public class StartActivity extends Activity implements OnClickListener {
         return startLessonSummary;
     }
 
-    public static void setStartLessonSummary(LessonSummary startLessonSummary) {
-        StartActivity.startLessonSummary = startLessonSummary;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

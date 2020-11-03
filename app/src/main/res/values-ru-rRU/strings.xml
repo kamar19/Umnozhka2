@@ -111,7 +111,7 @@
 
     <string name="finishTextNameUser">Твое имя: </string>
     <string name="finishTextPrimerovTasks">Решено (всего задач, правильных ответов, неправильных ответов):</string>
-    <string name="finishTextViewMDSA">Действия: Умножение/Деление/Сложение/Вычитание: </string>
+    <string name="finishTextViewMDSA">Действия: *  /  +  - </string>
     <string name="finishTextViewMultiplyNumbers">Умножения на : </string>
     <string name="finishTextViewPoints">Заработано очков</string>
     <string name="finishStringViewPoints">000</string>
@@ -127,6 +127,15 @@
     <string name="finishLeassonActivityNotUserName">Введите имя !</string>
     <string name="makeFotoActivityButtonTakeFoto">Снимок</string>
     <string name="makeFotoActivityButtonOpenCamera">Открыть Камеру</string>
+
+    <!--    <string name="gradeBookActivityMainString">Имя, Дата, Действия, Числа, Очков</string>-->
+    <!--    <string name="gradeBookActivityPrimerovTasks">Всего, Верно, Ошибок</string>-->
+    <string name="gradeBookActivityNameUser">Имя, </string>
+    <string name="gradeBookActivityDateLesson">Дата, </string>
+    <string name="gradeBookActivityTextViewMDSA">Действия, </string>
+    <string name="gradeBookActivityMultiplyNumbers">Числа, </string>
+    <string name="gradeBookActivityViewPoints">Очков</string>
+
 
 
 </resources>

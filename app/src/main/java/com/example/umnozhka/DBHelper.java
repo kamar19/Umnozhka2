@@ -16,8 +16,8 @@ public class DBHelper extends SQLiteOpenHelper {
 //            Log.d(LOG_TAG, "--- onCreate database ---");
             // создаем таблицу с полями
             db.execSQL("CREATE TABLE IF NOT EXISTS lessons ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
-                    "nameUser TEXT, dateLesson TEXT, image INTEGER,idResultLesson INTEGER, " +
-                    " stringPrimerovTasks TEXT, stringMDSA TEXT, stringMultiplyNumbers TEXT )");
+//                    "nameUser TEXT, dateLesson TEXT, image INTEGER,idResultLesson INTEGER, " +
+                    "nameUser TEXT, dateLesson TEXT, " + " stringPrimerovTasks TEXT, stringMDSA TEXT, stringMultiplyNumbers TEXT )");
         }
 
         @Override
