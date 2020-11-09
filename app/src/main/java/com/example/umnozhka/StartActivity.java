@@ -20,7 +20,12 @@ import java.util.Locale;
 
 public class StartActivity extends Activity implements OnClickListener {
     Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
-    DialogFragment dialogFragment;
+
+    public static SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
+    //    DialogFragment dialogFragment;
     private static SharedPreferences sharedPreferences;
     public static MySettings mySettings;
     public static MyLesson myLesson;
@@ -144,7 +149,7 @@ public class StartActivity extends Activity implements OnClickListener {
                 this.finish();
                 break;
         }
-        Log.d(LOG_TAG, "end of onClick");
+//        Log.d(LOG_TAG, "end of onClick");
     }
 
     @Override

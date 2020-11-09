@@ -22,36 +22,8 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
         builder.setTitle(R.string.alertDialogTitle);
         builder.setMessage(R.string.alertDialogMessage)
                 .setPositiveButton(R.string.alertDialogPositiveButtonText, this)
-//                .setPositiveButton(R.string.alertDialogPositiveButtonText, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // Продолжить
-//                        resultDialog = 1;
-//                        Log.d(LOG_TAG, "onClick: PositiveButton");
-//
-////                        dialog.dismiss();
-//                    }
-//                })
                 .setNegativeButton(R.string.alertDialogNegativeButtonText, this)
-//                        new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // Начать новый
-//                        resultDialog = 2;
-//                        Log.d(LOG_TAG, "onClick: NegativeButton");
-//
-//                        //                        dialog.dismiss();
-//                    }
-//                })
                 .setNeutralButton(R.string.alertDialogNeutralButtonText, this);
-//                        new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog,
-//                                        int which) {
-//                        // Отмена
-//                        Log.d(LOG_TAG, "onClick: NeutralButton");
-//                        resultDialog = 3;
-////                        dialog.dismiss();
-//                    }
-//                });
-
 //        AlertDialog ad = builder.create();
 //        ad.show();
         return builder.create();

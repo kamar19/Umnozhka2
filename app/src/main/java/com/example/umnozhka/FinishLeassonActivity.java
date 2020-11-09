@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class FinishLeassonActivity extends AppCompatActivity implements View.OnClickListener {
+public class FinishLeassonActivity extends Activity implements View.OnClickListener {
     Button finishButtonSave;
     //            finishButtonTakeFoto;
     EditText finishStringUserName;
@@ -47,6 +49,8 @@ public class FinishLeassonActivity extends AppCompatActivity implements View.OnC
         finishTextValueViewPoints = findViewById(R.id.finishTextValueViewPoints);
 
         finishStringUserName.setText(lessonSummary.getNameUser());
+
+
         String string = MainActivity.STRING_COUNT_ALL_PRIMEROV;
         Bundle arguments = getIntent().getExtras();
         String string2 = arguments.get(string).toString();
@@ -71,6 +75,9 @@ public class FinishLeassonActivity extends AppCompatActivity implements View.OnC
                     lessonSummary.setNameUser(finishStringUserName.getText().toString());
                     SQLiteDatabase db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
                     saveLessonSummaryToDB(db);
+                    // сохраняем имя пользователя
+                    saveUsername();
+
                     // закрываем текущую активность
                     // закрываем mainActivity
                     // и переходим startActivity
@@ -83,6 +90,14 @@ public class FinishLeassonActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    private void saveUsername() {
+        SharedPreferences.Editor editorSharedPreferences = StartActivity.getSharedPreferences().edit();
+        editorSharedPreferences.putString("valueUserNameDefault", finishStringUserName.getText().toString());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editorSharedPreferences.apply();
+        } else editorSharedPreferences.commit();
+    }
+
     public void saveLessonSummaryToDB(SQLiteDatabase db) {
 //        ContentValues contentValues = new ContentValues();
 //        SQLiteDatabase db = openOrCreateDatabase("lessons.db", Context.MODE_PRIVATE, null);
@@ -91,6 +106,8 @@ public class FinishLeassonActivity extends AppCompatActivity implements View.OnC
         // Удалю таблицу, через создание новой БД?
 //      db.delete("lessons", null, null);
 //        if (db.isOpen()) db.close();
+        //проверка наличия БД на устройстве
+
 
         String string = "CREATE TABLE IF NOT EXISTS lessons3 ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
                 "'nameUser' TEXT, 'dateLesson' TEXT, 'countPoints' INTEGER," +

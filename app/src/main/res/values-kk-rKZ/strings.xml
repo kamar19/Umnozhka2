@@ -13,8 +13,8 @@
     <string name="buttonDigit8">8</string>
     <string name="buttonDigit9">9</string>
     <string name="buttonDigit0">0</string>
-    <string name="buttonEnter">Enter</string>
-    <string name="buttonBackSpace">Back Space</string>
+    <string name="buttonEnter">Енгізу</string>
+    <string name="buttonBackSpace">Артқа</string>
     <string name="textViewAnswerShow1">1*6=6</string>
     <string name="textViewAnswerShow2">2*6=12</string>
     <string name="textViewAnswerShow3">3*6=6</string>
@@ -30,8 +30,8 @@
     <string name="textViewAnswerCount">1</string>
     <string name="textViewQuestion"> 12 * 6 = </string>
     <string name="textViewAnswerShowBasic"> </string>
-    <string name="settingsLoad">Loaded</string>
-    <string name="settingsSave">Saved</string>
+    <string name="settingsLoad">Жүктелді</string>
+    <string name="settingsSave">Сақталды</string>
     <string name="todo">TODO</string>
     <string name="textViewPoints"> </string>
 
@@ -132,6 +132,8 @@
     <string name="gradeBookActivityTextViewMDSA">Әрекеттер, </string>
     <string name="gradeBookActivityMultiplyNumbers">Сандарға, </string>
     <string name="gradeBookActivityViewPoints">Ұпайлар</string>
+    <string name="loadSoundToastText">Файл жүктелмейді</string>
+
 
 
 

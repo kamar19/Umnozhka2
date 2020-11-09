@@ -30,6 +30,7 @@ public class MyLesson {
     private String stringCurrentAct = "*";
     private boolean endGame = false;
     private boolean lastGame = false; // используется толдько в main.activity?
+    private String userNameDefault = "noname";
 
     public String getUserNameDefault() {
         return userNameDefault;
@@ -39,7 +40,6 @@ public class MyLesson {
         this.userNameDefault = userNameDefault;
     }
 
-    private String userNameDefault = "noname";
 
     public boolean isLastGame() {
         return lastGame;
@@ -186,8 +186,9 @@ public class MyLesson {
         stringCurrentAct = sharedPreferences.getString("valueStringCurrentAct", "*");
         endGame = sharedPreferences.getBoolean("valueEndGame", false);
         lastGame = sharedPreferences.getBoolean("valueLastGame", false);
-        userNameDefault = sharedPreferences.getString("vvalueUserNameDefault", "noname");
+        userNameDefault = sharedPreferences.getString("valueUserNameDefault", "noname");
         countPoints = Integer.valueOf(sharedPreferences.getString("valueCountPoints", "0"));
+
     }
 
     public void startNewLesson() {
@@ -197,7 +198,7 @@ public class MyLesson {
         countWrongTask = 0;
         countCurrentRightTask = 0;
         countCurrentWrongTask = 0;
-        progressBarTime = 10;//300
+        progressBarTime = 100;//300
         progressBarCount = 1;
         countPrimerov = 1;
         progressBarSpeed = 1;

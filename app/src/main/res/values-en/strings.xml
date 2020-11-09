@@ -135,5 +135,7 @@
     <string name="gradeBookActivityMultiplyNumbers">Numbers, </string>
     <string name="gradeBookActivityViewPoints">Points</string>
 
+    <string name="loadSoundToastText">Can\'t upload file</string>
+
 
 </resources>

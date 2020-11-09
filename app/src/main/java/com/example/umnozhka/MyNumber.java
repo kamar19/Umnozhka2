@@ -53,4 +53,12 @@ public abstract class MyNumber {
         this.maxValue = maxValue;
     }
 
+    public abstract int getCountBool() ;
+        // Посчитаем количество разрешенных операций, если все закрыты, назначаем одну - умножение
+//        int countBool = 0;
+//        for (boolean b : SETTINGS_MULTIPLYS)
+//            if (b) countBool++;
+//        return countBool;
+//    }
+
 }

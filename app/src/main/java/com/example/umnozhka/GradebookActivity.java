@@ -33,13 +33,12 @@ public class GradebookActivity extends Activity {
     }
 
     private void setInitialData() {
-
         db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
-
-
         cursor = db.rawQuery("SELECT * FROM lessons3 ", null);
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
+        while (!cursor.isAfterLast()) {
+//        }
+//        while (cursor.moveToNext()) {
             //  ( 'id'=?, '" + lessonSummary.getNameUser() + "', " + lessonSummary.getCountPoints() +", '" + lessonSummary.getDateLesson() + "' , '" + lessonSummary.getImage()
             //                + "', '" + lessonSummary.getStringPrimerovTasks() + "', '" + lessonSummary.getStringMDSA() + "', '" + lessonSummary.getStringMultiplyNumbers() + "')";
             LessonSummary tempLessonSummary = new LessonSummary(
@@ -51,10 +50,9 @@ public class GradebookActivity extends Activity {
                     cursor.getString(4),//getStringMDSA
                     cursor.getString(5));//getStringMultiplyNumbers
             lessonSummaryList.add(tempLessonSummary);
+            cursor.moveToNext();
         }
         cursor.close();
-
-
     }
 
 //    private String DateLessonToNewFormat(String dataLesson) {
@@ -76,7 +74,7 @@ public class GradebookActivity extends Activity {
 //        SQLiteDatabase db = openOrCreateDatabase("lessons.db", Context.MODE_PRIVATE, null);
 //        SQLiteDatabase db = new SQLiteDatabase();
 //        String string0=""
-        // Удалю таблицу, через создание новой БД?
+    // Удалю таблицу, через создание новой БД?
 //      db.delete("lessons", null, null);
 //        if (db.isOpen()) db.close();
 
@@ -100,4 +98,4 @@ public class GradebookActivity extends Activity {
 ////        нужно ли в БД первую запись делать с ноунем и ноуфото?
 //        db.close ();
 //    }
-    }
+}

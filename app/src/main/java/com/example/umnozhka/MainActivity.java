@@ -45,7 +45,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private final int MAX_STREAMS = 5;
     private AssetManager assetManager;
     private final String LOG_TAG = "myLogs";
-    private int soundIdExplosion, soundIdExplosion2;
+    private int soundIdExplosionYes,soundIdExplosionRemoveLive, soundIdExplosionAddLive;
+//    private int  soundIdExplosion[]= new int  [10];
 
     private MyLesson myLesson;
     private MySettings mySettings;
@@ -119,7 +120,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewQuestion = findViewById(R.id.textViewQuestion);
-        textViewPoints =  findViewById(R.id.textViewPoints);
+        textViewPoints = findViewById(R.id.textViewPoints);
         progressBar = findViewById(R.id.progressBar);
         mySettings = StartActivity.mySettings;
 //        countHeartLive = 0;
@@ -149,15 +150,27 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     }
 
     public void act_to_currentTask() {
-        MyAct currentAct = new MyAct(mySettings.isSettingsMultiply(), mySettings.isSettingsDivide(), mySettings.isSettingsAdd(), mySettings.isSettingsSubstrac());
         //временный currentAct, созданый что бы получить значение действия - getMyAct()
-        // а потом уже изходя из действия создать currentTask
+        // а потом уже изходя и0з действия создать currentTask
+        MyAct currentAct = new MyAct(mySettings.isSettingsMultiply(), mySettings.isSettingsDivide(), mySettings.isSettingsAdd(), mySettings.isSettingsSubstrac());
+        // сохраняем значения currentTask, для проверки на схожесть значений цифр и действий
+        MyTask tempCurrentTask = currentTask;
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
             // Если Сложение или Вычитание
             this.currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), currentAct, mySettings.getSettingsMultiplys());
         else
             // Если Умножение или деление
             this.currentTask = new MyTask(mySettings.getMinValue_SETTINGS_MULTIPLY(), mySettings.getMaxValue_SETTINGS_MULTIPLY(), currentAct, mySettings.getSettingsMultiplys());
+        // проверить количество разрешенных цифр>2
+        // два числа currentOneUnit и currentTwoUnit имеют один тип данных, и getCountBool() будет одинаковый
+        if (currentTask.getCurrentTwoUnit().getCountBool() > 2)
+            if (tempCurrentTask != null)
+                if (currentTask.getCurrentAct() == tempCurrentTask.getCurrentAct() && currentTask.getCurrentOneUnit() == tempCurrentTask.getCurrentOneUnit() && currentTask.getCurrentTwoUnit() == tempCurrentTask.getCurrentTwoUnit()) {
+                    // вызываем рекурсию, генерируем другие значения
+                    act_to_currentTask();
+
+                }
+
     }
 
     @Override
@@ -204,30 +217,38 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                     //выполняется проверка Ответа на математический Вопрос
                     showAnswer();
                     //refrishDate();
+                    // получаем новые значения для currentTask
                     act_to_currentTask();
+                    // выводим вопрос в текстовое поле
                     textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
+
                     if (myLesson.isLastGame())
                         if (myLesson.getCountHeartLive() > 0) {
                             myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
                             myLesson.setCountCurrentWrongTask(0);
                             refrishIconLive();
                         } else {
+                            // Если урок закончен
+                            // передаем инфу в FinishLeassonActivity
+                            // открываем новую активиту, закрываем текущую.
                             myLesson.setEndGame(true);
-                            String filename = null;
-                            try {
-                                filename = createImageNameFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+//                          для присвоения имени картинки убрал после версии без камеры
+//                            String filename = null;
+//                            try {
+//                                filename = createImageNameFile();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
                             String tempStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-                            StartActivity.startLessonSummary = new LessonSummary(myLesson.getUserNameDefault(), tempStr ,myLesson.getCountPoints() ,mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
+                            StartActivity.startLessonSummary = new LessonSummary(myLesson.getUserNameDefault(), tempStr, myLesson.getCountPoints(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
                             // попробую работать c new LessonSummary сразу в FinishLeassonActivity
                             // не получилось, так как тогда нужно пердавать и mySettings
 
                             Intent intent = new Intent(this, FinishLeassonActivity.class);
-                            intent.putExtra(STRING_COUNT_ALL_PRIMEROV,myLesson.getStringCountAllPrimerov());
+                            intent.putExtra(STRING_COUNT_ALL_PRIMEROV, myLesson.getStringCountAllPrimerov());
                             startActivity(intent);
+                            // закрытие окна MainActivity
                             finish();
                             //сохранение результатов и загрузка GradebookActivity
 
@@ -241,17 +262,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         // Если правельных ответов в подряд 5, то дается одна жизнь.
         myLesson.setCountRightTask(myLesson.getCountRightTask() + 1);
         myLesson.setCountCurrentRightTask(myLesson.getCountCurrentRightTask() + 1);
-        myLesson.setCountPoints(myLesson.getCountPoints()+countPoints);
+        myLesson.setCountPoints(myLesson.getCountPoints() + countPoints);
 
-        if (soundPool != null) {
-            soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
-        }
 
         if (myLesson.getCountCurrentRightTask() > 4) {
             if (myLesson.getCountHeartLive() < 5) {
                 myLesson.setCountHeartLive(myLesson.getCountHeartLive() + 1);
                 if (soundPool != null) {
-                    soundPool.play(soundIdExplosion2, 1, 1, 1, 0, 1);
+                    soundPool.play(soundIdExplosionAddLive, 1, 1, 1, 0, 1);
                 }
                 //                sp.play(soundIdExplosion, 1, 1, 0, 0, 1);
                 myLesson.setCountCurrentRightTask(0);
@@ -259,7 +277,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                 refrishIconLive();
             }
             myLesson.setProgressBarSpeed(myLesson.getProgressBarSpeed() * 2);
+        } else if (soundPool != null) {
+//            soundPool.play(soundIdExplosion[(int) (Math.random() * 9)], 1, 1, 1, 0, 1);
+            soundPool.play(soundIdExplosionYes, 1, 1, 1, 0, 1);
         }
+
         return getString(R.string.textRightTask);
     }
 
@@ -274,6 +296,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                 myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
                 myLesson.setCountCurrentWrongTask(0);
                 refrishIconLive();
+                soundPool.play(soundIdExplosionRemoveLive, 1, 1, 1, 0, 1);
+
             }
             if (myLesson.getCountCurrentWrongTask() > 5) {
                 if (myLesson.getProgressBarSpeed() > 2)
@@ -695,8 +719,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         } else {
             // Для новых устройств
             createNewSoundPool();
-            soundIdExplosion = loadSound("shot.ogg");
-            soundIdExplosion2 = loadSound("explosion.ogg");
+//            soundIdExplosion[0] = loadSound("shot.ogg");
+//            soundIdExplosion[1] = loadSound("Blip_Select16.wav");
+//            soundIdExplosion[2] = loadSound("Blip_Select74.wav");
+//            soundIdExplosion[3] = loadSound("Blip_Select75.wav");
+//            soundIdExplosion[4] = loadSound("Blip_Select76.wav");
+//            soundIdExplosion[5] = loadSound("Blip_Select78.wav");
+//            soundIdExplosion[6] = loadSound("Blip_Select80.wav");
+//            soundIdExplosion[7] = loadSound("Blip_Select82.wav");
+//            soundIdExplosion[8] = loadSound("Blip_Select83.wav");
+//            soundIdExplosion[9] = loadSound("Blip_Select84.wav");
+            soundIdExplosionYes = loadSound("shot.ogg");
+            soundIdExplosionAddLive = loadSound("Sound_11086.wav");
+            soundIdExplosionRemoveLive = loadSound("Sound_11050.wav");
+
         }
     }
 
@@ -727,20 +763,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         return myLesson;
     }
 
-    private String createImageNameFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "foto_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-//        this.imageFileName = image.getAbsolutePath();
-        return image.getAbsolutePath();
-    }
+//    private String createImageNameFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "foto_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+////        this.imageFileName = image.getAbsolutePath();
+//        return image.getAbsolutePath();
+//    }
 
 }
