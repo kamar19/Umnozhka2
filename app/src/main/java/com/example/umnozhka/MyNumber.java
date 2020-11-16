@@ -18,6 +18,7 @@ public abstract class MyNumber {
 
     }
 
+
 //    private int getRandomValue(){
 //        // Что бы не только при создании объекта можно было генерировать новое значение
 //        // Может этого и не нужно

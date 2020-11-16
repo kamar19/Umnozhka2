@@ -28,7 +28,7 @@
     <string name="textViewAnswerShow11">11*6=6</string>
     <string name="textViewAnswerShow12">12*6=62</string>
     <string name="textViewAnswerCount">1</string>
-    <string name="textViewQuestion"> 12 * 6 = </string>
+    <string name="textViewQuestion">12*6=</string>
     <string name="textViewAnswerShowBasic"> </string>
     <string name="textViewPoints"> </string>
 

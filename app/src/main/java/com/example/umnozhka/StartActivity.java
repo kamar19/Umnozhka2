@@ -16,14 +16,19 @@ import android.app.DialogFragment;
 
 //import androidx.fragment.app.DialogFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class StartActivity extends Activity implements OnClickListener {
     Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
+    boolean isSharedPreferences;
 
     public static SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
+
+    public static final String STRING_COUNT_ALL_PRIMEROV = "StringCountAllPrimerov";
 
     //    DialogFragment dialogFragment;
     private static SharedPreferences sharedPreferences;
@@ -44,12 +49,12 @@ public class StartActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
 //        sharedPreferences =  getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mySettings = new MySettings();
+        mySettings = new MySettings(sharedPreferences);
         myLesson = new MyLesson();
 
         if (sharedPreferences != null) {
             // по умолчанию, если настроеки есть загружаются, иначе создаются
-            mySettings.loadValuesMySettings(sharedPreferences);
+//            mySettings.loadValuesMySettings(sharedPreferences);
             changeDisplayLanguage(mySettings.getSettingsLanguage());
 //            getResources().getConfiguration().locale.getDisplayLanguage().toString().
 //            textView.setText(getResources().getConfiguration().locale.getDisplayLanguage().toString());
@@ -112,67 +117,82 @@ public class StartActivity extends Activity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.buttonSettings:
-                // вызов настроек
+                // вызов настроек для исключения лишних сохранений  SharedPreferences
+                if (!mySettings.isSharedPreferences()) {
+                    // если в первый раз
+                    mySettings.setSharedPreferences(true);
+                    mySettings.savePreferences(sharedPreferences);
+                }
                 Intent intent = new Intent(this, PrefActivity.class);
                 startActivity(intent);
                 break;
             case R.id.buttonGame:
-                // Если игра не завершена
-                // продолжить игру? начать новую?
-                //getExternalFilesDir()
                 myLesson.loadValuesMyLesson(sharedPreferences);
-                if (myLesson.isEndGame()==false) {
-                    //Если урок не закончен
-//                    myDialog = new MyDialog();
-                    DialogFragment dialogFragment = new MyDialog();
+//                if (myLesson.isEndGame() == false) {
+                if (myLesson.isBeginGame() == true) {
+                    // Три состояния,
+                    // 1) сеанс начат, но не завершен,isEndGame==false,
+                    // то предлагается диалог либо продолжаем либо новый урок
+                    MyDialog dialogFragment = new MyDialog();
                     dialogFragment.show(getFragmentManager(), "tt");
+//                        Log.d(LOG_TAG, "dialogFragment.show");
                 } else
-                //Если урок закончен, нужно начинать сначала
-
-                {
-                    //нужно передать обьект myLesson c начальными параметрами;
-                    myLesson.startNewLesson();
-                    myLesson.saveValuesMyLesson(sharedPreferences);
-
-                    Intent intent2 = new Intent(this, MainActivity.class);
-                    startActivity(intent2);
-                }
-                break;
-            case R.id.buttonGrades:
-                // журнал оценок
+                    if (myLesson.isBeginFinishLeassonActivity()) {
+                        // 2) Если сеанс закончен isEndGame=true, была вызвана FinishLeassonActivity
+                        // Если была вызвана FinishLeassonActivity и при этом не сохранены результаты занятия
+                        String stringDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+                        startLessonSummary = new LessonSummary(myLesson.getUserNameDefault(), stringDate, myLesson.getCountPoints(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
+//                        myLesson.setEndGame(true);
+                        Intent intent3 = new Intent(this, FinishLeassonActivity.class);
+                        intent3.putExtra(STRING_COUNT_ALL_PRIMEROV, myLesson.getStringCountAllPrimerov());
+                        startActivity(intent3);
+//                        Log.d(LOG_TAG, "startActivity(FinishLeassonActivity)");
+                    } else {
+                        // 3) сеан был сохранен, Новое занятие
+                        // нужно передать обьект myLesson c начальными параметрами;
+                        myLesson.startNewLesson();//тут beginGame = true
+                        myLesson.saveValuesMyLesson(sharedPreferences);
+                        Intent intent2 = new Intent(this, MainActivity.class);
+                        startActivity(intent2);
+//                    Log.d(LOG_TAG, "startActivity(MainActivity) если ");
+                    }
+                    break;
+                    case R.id.buttonGrades:
+                        // журнал оценок
 //                    setContentView(R.layout.activity_start);
-                Intent intent3 = new Intent(this, GradebookActivity.class);
-                startActivity(intent3);
+                        Intent intent3 = new Intent(this, GradebookActivity.class);
+                        startActivity(intent3);
 
-                break;
-            case R.id.buttonEnd:
-                this.finish();
-                break;
-        }
+                        break;
+                    case R.id.buttonEnd:
+                        this.finish();
+                        break;
+                }
 //        Log.d(LOG_TAG, "end of onClick");
-    }
+        }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mySettings.loadValuesMySettings(sharedPreferences);
-        changeDisplayLanguage(mySettings.getSettingsLanguage());
-    }
 
-    @Override
-    public void onPause() {
-        //       savePreferences();
-        super.onPause();
-    }
+        @Override
+        public void onResume () {
+            super.onResume();
+            mySettings.loadValuesMySettings(sharedPreferences);
+            changeDisplayLanguage(mySettings.getSettingsLanguage());
+        }
 
-    @Override
-    public void onDestroy() {
-        mySettings.savePreferences(sharedPreferences);
-        super.onDestroy();
-    }
+        @Override
+        public void onPause () {
+            //       savePreferences();
+            super.onPause();
+        }
 
-    public MySettings getMySettings() {
-        return mySettings;
-    }
+        @Override
+        public void onDestroy () {
+            mySettings.savePreferences(sharedPreferences);
+            super.onDestroy();
+        }
 
-}
+        public MySettings getMySettings () {
+            return mySettings;
+        }
+
+    }

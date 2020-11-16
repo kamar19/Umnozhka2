@@ -23,6 +23,12 @@ public class MyNumberOneTen extends MyNumber {
             if (b) countBool++;
         return countBool;
     }
+    public MyNumberOneTen(int minValue, int maxValue, int value) {
+        super(minValue, maxValue);
+        // этот конструктор нужен для готовых значений, из сохраненного Siring вопроса типа 3*5
+        setValue(value);
+    }
+
 
     public MyNumberOneTen(int minValue, int maxValue, boolean SETTINGS_MULTIPLYS[]) {
         super(minValue, maxValue);

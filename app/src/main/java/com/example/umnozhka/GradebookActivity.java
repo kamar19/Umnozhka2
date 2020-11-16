@@ -34,25 +34,38 @@ public class GradebookActivity extends Activity {
 
     private void setInitialData() {
         db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
-        cursor = db.rawQuery("SELECT * FROM lessons3 ", null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+//        db.e
+//        if (db.isOpen()) {
+        try {
+            cursor = db.rawQuery("SELECT * FROM lessons3 ", null);
+        } catch (Exception e )
+        {
+            // таблица не создана
+
+        }
+        if (cursor!=null)
+            if ((cursor.getCount() > 0)) {
+                cursor.moveToFirst();
+
+                while (!cursor.isAfterLast()) {
 //        }
 //        while (cursor.moveToNext()) {
-            //  ( 'id'=?, '" + lessonSummary.getNameUser() + "', " + lessonSummary.getCountPoints() +", '" + lessonSummary.getDateLesson() + "' , '" + lessonSummary.getImage()
-            //                + "', '" + lessonSummary.getStringPrimerovTasks() + "', '" + lessonSummary.getStringMDSA() + "', '" + lessonSummary.getStringMultiplyNumbers() + "')";
-            LessonSummary tempLessonSummary = new LessonSummary(
+                    //  ( 'id'=?, '" + lessonSummary.getNameUser() + "', " + lessonSummary.getCountPoints() +", '" + lessonSummary.getDateLesson() + "' , '" + lessonSummary.getImage()
+                    //                + "', '" + lessonSummary.getStringPrimerovTasks() + "', '" + lessonSummary.getStringMDSA() + "', '" + lessonSummary.getStringMultiplyNumbers() + "')";
+                    LessonSummary tempLessonSummary = new LessonSummary(
 //    public LessonSummary(String nameUser, String imageFileName, int countPoints, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
 //                    cursor.getInt(1),//ID
-                    cursor.getString(1),//getNameUser()
-                    cursor.getString(2),//getDateLesson
-                    cursor.getInt(3), //countPoints
-                    cursor.getString(4),//getStringMDSA
-                    cursor.getString(5));//getStringMultiplyNumbers
-            lessonSummaryList.add(tempLessonSummary);
-            cursor.moveToNext();
+                            cursor.getString(1),//getNameUser()
+                            cursor.getString(2),//getDateLesson
+                            cursor.getInt(3), //countPoints
+                            cursor.getString(4),//getStringMDSA
+                            cursor.getString(5));//getStringMultiplyNumbers
+                    lessonSummaryList.add(tempLessonSummary);
+                    cursor.moveToNext();
+                }
+//            }
+            cursor.close();
         }
-        cursor.close();
     }
 
 //    private String DateLessonToNewFormat(String dataLesson) {

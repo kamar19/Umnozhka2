@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -24,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +29,6 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
     // не сохраняемые
-    public static final String STRING_COUNT_ALL_PRIMEROV = "StringCountAllPrimerov";
     Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
             buttonDigit0, buttonEnter, buttonBackSpace;
     private static SharedPreferences sharedPreferences;
@@ -45,7 +41,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private final int MAX_STREAMS = 5;
     private AssetManager assetManager;
     private final String LOG_TAG = "myLogs";
-    private int soundIdExplosionYes,soundIdExplosionRemoveLive, soundIdExplosionAddLive;
+    private int soundIdExplosionYes, soundIdExplosionRemoveLive, soundIdExplosionAddLive;
 //    private int  soundIdExplosion[]= new int  [10];
 
     private MyLesson myLesson;
@@ -120,6 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewAnswerShowBasic = findViewById(R.id.textViewAnswerShowBasic);
         textViewQuestion = findViewById(R.id.textViewQuestion);
+        String textViewQuestionString = textViewQuestion.getText().toString();
         textViewPoints = findViewById(R.id.textViewPoints);
         progressBar = findViewById(R.id.progressBar);
         mySettings = StartActivity.mySettings;
@@ -129,32 +126,126 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         myLesson = StartActivity.myLesson;
         mySettings = StartActivity.mySettings;
-        if (myLesson.getCountAllPrimerov() == 0)
-            startNewLessonMainActivity();
+        progressBar.setProgress(myLesson.getProgressBarCount());
 
+//        if (myLesson.isBeginGame()==true && myLesson.isEndGame()==false )
+//            startNewLessonMainActivity();
+
+        //нужно проверить если игры была продолжена и есть вопрос, то именно это вопрос и должен
+        // быть задан, но проверка не в textViewQuestion, так как там значения по умолчанию
+        if (myLesson.isBeginGame())
+            // текущий сеанс был не завершен и не вызван BeginFinishLeassonActivity
+            // когда myLesson.isEndGame()==true значит игра была завершена, но возможно не сохранена
+
+        {
+            loadValues();
+            // Загружаем тексты, устанавливаем видимости в textView, view
+            // mySettings.loadValuesMySettings
+            // myLesson.loadValuesMyLesson
+            // progressBar
+
+            String stringIntotextViewQuestion = textViewQuestion.getText().toString();
+//когда бывает loadValues загрузка?
+//            сохраннехы значений
+//                    не загружается textViewQuestion
+
+            MyAct myAct= getCurrentTaskIntoQuestion(stringIntotextViewQuestion);
+            currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), myAct, mySettings.getSettingsMultiplys());
+            setCurrentTaskIntoQuestion(stringIntotextViewQuestion);
+            //берем старый новый вопрос
+        } else {
+            // Если Игра не начато, т.е. новая
+            act_to_currentTask();
+            //генерируем новый вопрос
+            textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+//            if (myLesson.getCountAllPrimerov() == 0)
+                // Если игра новая, то обновляем все поля
+                startNewLessonMainActivity();
+        }
         if (mySettings.isSettingsRecord()) {
             // создается таймер, нужно ли его переносить из конструктора?
             // наверное.... Создал класс MyService туда вставил Timer
             // пример взял из https://startandroid.ru/ru/uroki/vse-uroki-spiskom/163-urok-98-service-lokalnyj-binding.html
             // убрал из класса, так как не увидел смысла в нем.
-
             progressBar.setVisibility(ProgressBar.VISIBLE);
             new Thread(myThread).start();
-
         } else {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
         }
-        act_to_currentTask();
-        textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+        myLesson.setEndGame(false);
+        myLesson.setBeginGame(true);
+        myLesson.saveValuesBeginAndEndGame(sharedPreferences);
+
         refrishIconLive();
+    }
+
+    private MyAct getCurrentTaskIntoQuestion(String stringQuestion) {
+        MyAct myActResult = null;
+        int countPosAct = getPosAct(stringQuestion, Act.MULTIPLY);
+        if (countPosAct > 0) myActResult = new MyAct(Act.MULTIPLY);
+        else {
+            countPosAct = getPosAct(stringQuestion, Act.DIVIDE);
+            if (countPosAct > 0) myActResult = new MyAct(Act.DIVIDE);
+            else {
+                countPosAct = getPosAct(stringQuestion, Act.ADD);
+                if (countPosAct > 0) myActResult = new MyAct(Act.ADD);
+                else {
+                    countPosAct = getPosAct(stringQuestion, Act.SUBTRAC);
+                    if (countPosAct > 0) myActResult = new MyAct(Act.SUBTRAC);
+                }
+            }
+        }
+        return myActResult;
+    }
+
+    private void setCurrentTaskIntoQuestion(String stringQuestion) {
+        MyAct myActResult = null;
+        int countPosAct = getPosAct(stringQuestion, Act.MULTIPLY);
+        if (countPosAct > 0) myActResult = new MyAct(Act.MULTIPLY);
+        else {
+            countPosAct = getPosAct(stringQuestion, Act.DIVIDE);
+            if (countPosAct > 0) myActResult = new MyAct(Act.DIVIDE);
+            else {
+                countPosAct = getPosAct(stringQuestion, Act.ADD);
+                if (countPosAct > 0) myActResult = new MyAct(Act.ADD);
+                else {
+                    countPosAct = getPosAct(stringQuestion, Act.SUBTRAC);
+                    if (countPosAct > 0) myActResult = new MyAct(Act.SUBTRAC);
+                }
+            }
+        }
+        // вытаскиваем значения чисел до знака "*/+-" и удаление пробелов
+        String s = stringQuestion.substring(0, countPosAct).replaceAll("\\s","");;
+        Integer oneUnit = Integer.valueOf(s);
+        // вытаскиваем значения чисел после знака "*/+-", до "=" и удаление пробелов
+        String s2 = stringQuestion.substring(countPosAct + 1, stringQuestion.indexOf("=")).replaceAll("\\s","");;
+        Integer twoUnit = Integer.valueOf(s2);
+
+        if ((myActResult.getMyAct() == Act.ADD) | (myActResult.getMyAct() == Act.SUBTRAC))
+        // Если Сложение или Вычитание
+        {
+            this.currentTask.setCurrentOneUnit(new MyNumberAddSub(1, 100, oneUnit));
+            this.currentTask.setCurrentTwoUnit(new MyNumberAddSub(1, 100, twoUnit));
+        } else {
+            this.currentTask.setCurrentOneUnit(new MyNumberOneTen(1, 100, oneUnit));
+            this.currentTask.setCurrentTwoUnit(new MyNumberOneTen(1, 100, twoUnit));
+        }
+
+    }
+
+    private int getPosAct(String stringQuestion, Act act) {
+        return stringQuestion.indexOf(act.getAct());
     }
 
     public void act_to_currentTask() {
         //временный currentAct, созданый что бы получить значение действия - getMyAct()
         // а потом уже изходя и0з действия создать currentTask
+
         MyAct currentAct = new MyAct(mySettings.isSettingsMultiply(), mySettings.isSettingsDivide(), mySettings.isSettingsAdd(), mySettings.isSettingsSubstrac());
         // сохраняем значения currentTask, для проверки на схожесть значений цифр и действий
         MyTask tempCurrentTask = currentTask;
+
+
         if ((currentAct.getMyAct() == Act.ADD) | (currentAct.getMyAct() == Act.SUBTRAC))
             // Если Сложение или Вычитание
             this.currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), currentAct, mySettings.getSettingsMultiplys());
@@ -168,14 +259,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                 if (currentTask.getCurrentAct() == tempCurrentTask.getCurrentAct() && currentTask.getCurrentOneUnit() == tempCurrentTask.getCurrentOneUnit() && currentTask.getCurrentTwoUnit() == tempCurrentTask.getCurrentTwoUnit()) {
                     // вызываем рекурсию, генерируем другие значения
                     act_to_currentTask();
-
                 }
-
     }
 
     @Override
     public void onClick(View v) {
+//        if (!myLesson.isEndGame()||myLesson.isBeginGame()) {
+
+        if (progressBar.getProgress() >= myLesson.getProgressBarTime())
+            myLesson.setLastGame(true);
+
         if (!myLesson.isEndGame()) {
+            // кнопочки должны нажиматься,но засчитыватьсяс значения не должны?
+            // или сделать что бы при завершенном занятии сразу переход был на финишАктивити
+            // endGame = false
             String tempQuestion = textViewAnswerShowBasic.getText().toString();
             switch (v.getId()) {
                 case R.id.buttonDigit1:
@@ -223,36 +320,32 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                     textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
                     textViewAnswerShowBasic.setText("");
 
-                    if (myLesson.isLastGame())
+                    if (myLesson.isLastGame()) {
+                        // завершился progressBar LastGame=true
                         if (myLesson.getCountHeartLive() > 0) {
+                            // Если есть жизни, то уменьшаем жизнь и ...
                             myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
                             myLesson.setCountCurrentWrongTask(0);
+                            //продолжаем сеанс
+                            myLesson.setLastGame(false);
+                            // progressBar LastGame=true
+
                             refrishIconLive();
                         } else {
                             // Если урок закончен
-                            // передаем инфу в FinishLeassonActivity
-                            // открываем новую активиту, закрываем текущую.
+                            String stringDate = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+                            StartActivity.startLessonSummary = new LessonSummary(myLesson.getUserNameDefault(), stringDate, myLesson.getCountPoints(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
                             myLesson.setEndGame(true);
-//                          для присвоения имени картинки убрал после версии без камеры
-//                            String filename = null;
-//                            try {
-//                                filename = createImageNameFile();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-                            String tempStr = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-                            StartActivity.startLessonSummary = new LessonSummary(myLesson.getUserNameDefault(), tempStr, myLesson.getCountPoints(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
-                            // попробую работать c new LessonSummary сразу в FinishLeassonActivity
-                            // не получилось, так как тогда нужно пердавать и mySettings
-
+                            // Останавливаем игру
+                            saveValues();
+                            // сохранение результатов и загрузка FinishLeassonActivity
                             Intent intent = new Intent(this, FinishLeassonActivity.class);
-                            intent.putExtra(STRING_COUNT_ALL_PRIMEROV, myLesson.getStringCountAllPrimerov());
+                            intent.putExtra(StartActivity.STRING_COUNT_ALL_PRIMEROV, myLesson.getStringCountAllPrimerov());
                             startActivity(intent);
                             // закрытие окна MainActivity
                             finish();
-                            //сохранение результатов и загрузка GradebookActivity
-
                         }
+                    }
                     break;
             }
         }
@@ -294,9 +387,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         if (myLesson.getCountCurrentWrongTask() > 2) {
             if (myLesson.getCountHeartLive() > 0) {
                 myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
+                if (soundPool != null)
+                    soundPool.play(soundIdExplosionRemoveLive, 1, 1, 1, 0, 1);
                 myLesson.setCountCurrentWrongTask(0);
                 refrishIconLive();
-                soundPool.play(soundIdExplosionRemoveLive, 1, 1, 1, 0, 1);
 
             }
             if (myLesson.getCountCurrentWrongTask() > 5) {
@@ -309,55 +403,57 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 
 
     private void showAnswer() {
-        int intAnswer;
-        String answer = "";
-        try {
-            intAnswer = Integer.parseInt(textViewAnswerShowBasic.getText().toString());
-        } catch (NumberFormatException nfe) {
-            intAnswer = 0;
-        }
-        ;
-        if (intAnswer != 0) {
-            switch (currentTask.getCurrentAct().getMyAct()) {
-                case MULTIPLY: {
-                    if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer)
-                        answer = setRightTask(intAnswer);
-                    else answer = setWrongTask();
-                    break;
-                }
-                case DIVIDE: {
-                    if (currentTask.getCurrentOneUnit().getValue() / currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
-                        answer = setRightTask(currentTask.getCurrentOneUnit().getValue());
-                    else
-                        answer = setWrongTask();
-                    break;
-                }
-                case ADD: {
-                    if (currentTask.getCurrentOneUnit().getValue() + currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
-                        answer = setRightTask(intAnswer);
-                    else
-                        answer = setWrongTask();
-                    break;
-                }
-                case SUBTRAC: {
-                    if (currentTask.getCurrentOneUnit().getValue() - currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
-                        answer = setRightTask(currentTask.getCurrentOneUnit().getValue());
-                    else
-                        answer = setWrongTask();
-                    break;
-                }
+        if (!myLesson.isEndGame()) {
+            // если занятие не завершено
+            int intAnswer;
+            String answer = "";
+            try {
+                intAnswer = Integer.parseInt(textViewAnswerShowBasic.getText().toString());
+            } catch (NumberFormatException nfe) {
+                intAnswer = 0;
             }
-        } else
-            answer = setWrongTask();
-        showViewAnswerShow(answer, intAnswer);
-        myLesson.setCountPrimerov(myLesson.getCountPrimerov() + 1);
-        myLesson.setCountAllPrimerov(myLesson.getCountAllPrimerov() + 1);
-        textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
-                + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
-        textViewPoints.setText(String.valueOf(myLesson.getCountPoints()));
+            ;
+            if (intAnswer != 0) {
+                switch (currentTask.getCurrentAct().getMyAct()) {
+                    case MULTIPLY: {
+                        if (currentTask.getCurrentOneUnit().getValue() * currentTask.getCurrentTwoUnit().getValue() == intAnswer)
+                            answer = setRightTask(intAnswer);
+                        else answer = setWrongTask();
+                        break;
+                    }
+                    case DIVIDE: {
+                        if (currentTask.getCurrentOneUnit().getValue() / currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
+                            answer = setRightTask(currentTask.getCurrentOneUnit().getValue());
+                        else
+                            answer = setWrongTask();
+                        break;
+                    }
+                    case ADD: {
+                        if (currentTask.getCurrentOneUnit().getValue() + currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
+                            answer = setRightTask(intAnswer);
+                        else
+                            answer = setWrongTask();
+                        break;
+                    }
+                    case SUBTRAC: {
+                        if (currentTask.getCurrentOneUnit().getValue() - currentTask.getCurrentTwoUnit().getValue() == intAnswer)                 // размещаем ответ
+                            answer = setRightTask(currentTask.getCurrentOneUnit().getValue());
+                        else
+                            answer = setWrongTask();
+                        break;
+                    }
+                }
+            } else
+                answer = setWrongTask();
+            showViewAnswerShow(answer, intAnswer);
+            myLesson.setCountPrimerov(myLesson.getCountPrimerov() + 1);
+            myLesson.setCountAllPrimerov(myLesson.getCountAllPrimerov() + 1);
+            textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
+                    + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
+            textViewPoints.setText(String.valueOf(myLesson.getCountPoints()));
 
 //            progressBar.setProgress(countPrimerov);
-
+        }
     }
 
     private void invisibleTextViewAnswer() {
@@ -516,20 +612,24 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         public void run() {
 //            while (!myLesson.isLastGame()||myLesson.isEndGame()) {
             while (!myLesson.isLastGame()) {
+                // пока myLesson.isLastGame()=false
                 try {
                     myHandler.sendMessage(myHandler.obtainMessage());
                     Thread.sleep(1000);
                     //секундный интервал, что бы был тайминг
                     if (progressBar.getProgress() >= myLesson.getProgressBarTime()) {
-//                        // Сюда нужно встаивть вызов окна завершения игры
+//                      // когда progressBar завершается LastGame = true
                         myLesson.setLastGame(true);
+
                     }
                 } catch (Throwable t) {
                 }
             }
+//            if (myLesson.isLastGame())
+
         }
 
-        Handler myHandler = new Handler() {
+        final Handler myHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 myLesson.upInterval(myLesson.getProgressBarSpeed());
@@ -576,8 +676,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow12.setText(sharedPreferences.getString("valueTextViewAnswerShow12", ""));
         textViewAnswerCount.setText(sharedPreferences.getString("valueTextViewAnswerCount", ""));
         textViewAnswerShowBasic.setText(sharedPreferences.getString("valueTextViewAnswerShowBasic", ""));
+        textViewQuestion.setText(sharedPreferences.getString("valueTextViewQuestion", ""));
         textViewPoints.setText(sharedPreferences.getString("valueTextViewPoints", ""));
-//        textViewQuestion.setText(sharedPreferences.getString("valueTextViewQuestion", ""));
         textViewAnswerShow1.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow1", "0")));
         textViewAnswerShow2.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow2", "0")));
         textViewAnswerShow3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleTextViewAnswerShow3", "0")));
@@ -676,6 +776,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewPoints.setText("");
         textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
                 + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
+//        textViewAnswerShowBasic.getText().toString());
+//        textViewQuestion.getText().toString());
+
+
         textViewAnswerShow1.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow2.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow3.setVisibility(TextView.INVISIBLE);
@@ -719,19 +823,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         } else {
             // Для новых устройств
             createNewSoundPool();
-//            soundIdExplosion[0] = loadSound("shot.ogg");
-//            soundIdExplosion[1] = loadSound("Blip_Select16.wav");
-//            soundIdExplosion[2] = loadSound("Blip_Select74.wav");
-//            soundIdExplosion[3] = loadSound("Blip_Select75.wav");
-//            soundIdExplosion[4] = loadSound("Blip_Select76.wav");
-//            soundIdExplosion[5] = loadSound("Blip_Select78.wav");
-//            soundIdExplosion[6] = loadSound("Blip_Select80.wav");
-//            soundIdExplosion[7] = loadSound("Blip_Select82.wav");
-//            soundIdExplosion[8] = loadSound("Blip_Select83.wav");
-//            soundIdExplosion[9] = loadSound("Blip_Select84.wav");
+//            soundIdExplosionYes = loadSound("shot.ogg");
             soundIdExplosionYes = loadSound("shot.ogg");
+
             soundIdExplosionAddLive = loadSound("Sound_11086.wav");
-            soundIdExplosionRemoveLive = loadSound("Sound_11050.wav");
+            soundIdExplosionRemoveLive = loadSound("Sound_11500.wav");
 
         }
     }

@@ -4,12 +4,27 @@ import android.content.SharedPreferences;
 import android.os.Build;
 
 public class MySettings {
+    public MySettings(SharedPreferences sharedPreferences) {
+        loadValuesMySettings(sharedPreferences);
+    }
+
+    // нет назначенного конструктора, сделаю с загрузкой из преференс
+    private boolean isSharedPreferences;
     private String settingsLanguage;
     private boolean[] settingsMultiplys = {false, false, false, false, false, false, false, false, false, false};
-    private boolean settingsSubstrac;    // Сложение
-    private boolean settingsAdd;        // Вычитание
     private boolean settingsMultiply;   // Умножение
     private boolean settingsDivide;     // Деление
+    private boolean settingsSubstrac;    // Вычитание
+    private boolean settingsAdd;        // Сложение
+
+    public boolean isSharedPreferences() {
+        return isSharedPreferences;
+    }
+
+    public void setSharedPreferences(boolean sharedPreferences) {
+        isSharedPreferences = sharedPreferences;
+    }
+
     private int settingsAddRangeMin;  // Начало диапозона сложения
     private int settingsAddRangeMax;  // Конец диапозона сложения
     private boolean settingsRecord;            // На выживание (на рекорд)
@@ -52,8 +67,8 @@ public class MySettings {
         String string="";
         if (isSettingsMultiply()) string=" * ";
         if (isSettingsDivide()) string=string+ "/ ";
-        if (isSettingsSubstrac()) string=string+ "+ ";
-        if (isSettingsDivide()) string=string+ "- ";
+        if (isSettingsAdd()) string=string+ "+ ";
+        if (isSettingsSubstrac()) string=string+ "- ";
         return string;
 
     }
@@ -61,7 +76,7 @@ public class MySettings {
     public String getStringMultiplyNumbers() {
         String string="";
         for (int i = 0; i <settingsMultiplys.length-1 ; i++) {
-            if (settingsMultiplys[i]) string=string+i+" ,";
+            if (settingsMultiplys[i]) string=string+(i+1)+" ,";
         }
            return string; //MultiplyNumber1+...MultiplyNumber10
     }
@@ -108,6 +123,7 @@ public class MySettings {
     public void loadValuesMySettings(SharedPreferences sharedPreferences) {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
+        isSharedPreferences = sharedPreferences.getBoolean("isSharedPreferences", false);
         settingsLanguage = sharedPreferences.getString("settingsLanguage", "en");
         settingsSound = sharedPreferences.getBoolean("settingsSound", true);
         settingsMultiply = sharedPreferences.getBoolean("settingsMultiply", true);
@@ -136,6 +152,7 @@ public class MySettings {
 
     public void savePreferences(SharedPreferences sharedPreferences) {
         SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
+        editorSharedPreferences.putBoolean("isSharedPreferences", isSharedPreferences);
         editorSharedPreferences.putString("settingsLanguage", String.valueOf(settingsLanguage));
         editorSharedPreferences.putBoolean("settingsSound", settingsSound);
         editorSharedPreferences.putBoolean("settingsMultiply", settingsMultiply);

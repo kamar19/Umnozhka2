@@ -4,6 +4,14 @@ public class MyTask {
     private MyNumber currentOneUnit, currentTwoUnit;
     private MyAct currentAct;
 
+    public void setCurrentOneUnit(MyNumber currentOneUnit) {
+        this.currentOneUnit = currentOneUnit;
+    }
+
+    public void setCurrentTwoUnit(MyNumber currentTwoUnit) {
+        this.currentTwoUnit = currentTwoUnit;
+    }
+
     public void setCurrentAct(MyAct currentAct) {
         this.currentAct = currentAct;
     }
@@ -19,6 +27,32 @@ public class MyTask {
     public MyAct getCurrentAct() {
         return currentAct;
     }
+
+//    public MyTask (int currentOneUnit, int currentTwoUnit, MyAct currentAct)
+//        {
+//            setCurrentAct(currentAct);
+////     MULTIPLY("*"), DIVIDE("/"), SUBTRAC("-"),ADD("+");
+//            switch (currentAct.getMyAct()){
+//                case MULTIPLY: {
+//                    this.currentOneUnit= new McurrentOneUnit;
+//                    private int value;
+//                    private int minValue, maxValue;
+//                    this.currentOneUnit = new MyNumberOneTen(currentOneUnitMin, currentOneUnitMax, SETTINGS_MULTIPLYS);//Значения чисел 0..9, 10..50 = 10-0, 50-10=40
+//
+//
+//                break;
+//            }
+//            case DIVIDE: {
+//                break;
+//            }
+//
+//            case ADD: {
+//                break;
+//            }
+//                case SUBTRAC: {
+//
+//                }
+//        };
 
     public MyTask(int currentOneUnitMin, int currentOneUnitMax, MyAct currentAct, boolean SETTINGS_MULTIPLYS[]) {
         // В конструктор получем currentAct

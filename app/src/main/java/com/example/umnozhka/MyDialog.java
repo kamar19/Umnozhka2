@@ -12,7 +12,7 @@ import android.util.Log;
 //public class MyDialog extends DialogFragment {
 public class MyDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
-    private static int resultDialog = 0;
+    private int resultDialog = 0;
     final String LOG_TAG = "myDialogLogs";
 
     @Override
@@ -46,9 +46,11 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
                 // начать занова
 //                Log.d(LOG_TAG, "onClick: NegativeButton");
                 StartActivity.myLesson.startNewLesson();
-                StartActivity.myLesson.setEndGame(true);
+//                StartActivity.myLesson.setEndGame(true);
                 Intent intent3 = new Intent( getActivity(), MainActivity.class);
                 startActivity(intent3);
+//
+
                 dismiss();
                 break;
             case Dialog.BUTTON_NEUTRAL:

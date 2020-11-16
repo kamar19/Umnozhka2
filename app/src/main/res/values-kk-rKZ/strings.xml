@@ -1,5 +1,5 @@
 <resources>
-    <string name="appName">Umnozhka</string>
+    <string name="appName">Мұны көбейтіңіз</string>
     <string name="act">*</string>
     <string name="numberOne">5</string>
     <string name="numberTwo">5</string>
@@ -28,7 +28,7 @@
     <string name="textViewAnswerShow11">11*6=6</string>
     <string name="textViewAnswerShow12">12*6=62</string>
     <string name="textViewAnswerCount">1</string>
-    <string name="textViewQuestion"> 12 * 6 = </string>
+    <string name="textViewQuestion">12*6=</string>
     <string name="textViewAnswerShowBasic"> </string>
     <string name="settingsLoad">Жүктелді</string>
     <string name="settingsSave">Сақталды</string>

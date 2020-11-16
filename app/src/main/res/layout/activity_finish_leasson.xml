@@ -44,6 +44,7 @@
                     android:autofillHints="@string/finishStringUserName"
                     android:gravity="start"
                     android:inputType="text"
+                    android:maxLength="10"
                     android:text="@string/finishStringUserName"
                     android:textSize="14dp"
                     tools:ignore="LabelFor" />

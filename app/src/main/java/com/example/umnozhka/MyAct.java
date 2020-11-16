@@ -21,6 +21,11 @@ public class MyAct {
         this.myAct=generateAct(SETTINGS_MULTIPLY, SETTINGS_DIVIDE, SETTINGS_ADD, SETTINGS_SUBTRAC);
     }
 
+    public MyAct(Act myAct) {
+        this.myAct=myAct;
+    }
+
+
 
     public Act generateAct(boolean SETTINGS_MULTIPLY, boolean SETTINGS_DIVIDE, boolean SETTINGS_ADD, boolean SETTINGS_SUBTRAC) {
 //int a = 0; // Начальное значение диапазона - "от"

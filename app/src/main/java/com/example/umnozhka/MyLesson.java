@@ -1,15 +1,36 @@
 package com.example.umnozhka;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.SoundPool;
 import android.os.Build;
-import android.preference.PreferenceManager;
 
 public class MyLesson {
     private int countHeartLive = 0;
     private int countRightTask = 0, countWrongTask = 0;
     private int countCurrentRightTask = 0, countCurrentWrongTask = 0;
+    private int countPoints = 0;
+    private int progressBarTime = 300;
+    private int progressBarCount = 1;
+    private int countAllPrimerov = 0;
+    private int countPrimerov = 1; // количество примеров в текущей отображаемой сессии, до 12, потом с 1
+    private int progressBarSpeed = 1;
+    private String stringCurrentAct = "*";
+    private boolean endGame = false;
+    private boolean lastGame = false; // используется толдько в main.activity?
+    private boolean beginGame = false;
+
+    private boolean beginFinishLeassonActivity = false;
+    private String userNameDefault = "noname";
+
+
+    public boolean isBeginGame() {        return beginGame;    }
+
+    public void setBeginGame(boolean beginGame) {        this.beginGame = beginGame;    }
+
+    public String getUserNameDefault() {
+        return userNameDefault;
+    }
+
+    public void setUserNameDefault(String userNameDefault) {    this.userNameDefault = userNameDefault;    }
 
     public int getCountPoints() {
         return countPoints;
@@ -18,28 +39,6 @@ public class MyLesson {
     public void setCountPoints(int countPoints) {
         this.countPoints = countPoints;
     }
-
-    private int countPoints = 0;
-    private int progressBarTime = 300;
-    private int progressBarCount = 1;
-
-
-    private int countAllPrimerov = 0;
-    private int countPrimerov = 1; // количество примеров в текущей отображаемой сессии, до 12, потом с 1
-    private int progressBarSpeed = 1;
-    private String stringCurrentAct = "*";
-    private boolean endGame = false;
-    private boolean lastGame = false; // используется толдько в main.activity?
-    private String userNameDefault = "noname";
-
-    public String getUserNameDefault() {
-        return userNameDefault;
-    }
-
-    public void setUserNameDefault(String userNameDefault) {
-        this.userNameDefault = userNameDefault;
-    }
-
 
     public boolean isLastGame() {
         return lastGame;
@@ -64,6 +63,14 @@ public class MyLesson {
     public void setCountHeartLive(int countHeartLive) {
         this.countHeartLive = countHeartLive;
 
+    }
+
+    public boolean isBeginFinishLeassonActivity() {
+        return beginFinishLeassonActivity;
+    }
+
+    public void setBeginFinishLeassonActivity(boolean beginFinishLeassonActivity) {
+        this.beginFinishLeassonActivity = beginFinishLeassonActivity;
     }
 
     public int getCountAllPrimerov() {
@@ -150,9 +157,26 @@ public class MyLesson {
         return progressBarCount;
     }
 
+    public void saveValuesFinishLeassonActivity(String finishStringUserName) {
+        SharedPreferences.Editor editorSharedPreferences = StartActivity.getSharedPreferences().edit();
+        editorSharedPreferences.putString("valueUserNameDefault", finishStringUserName);
+        editorSharedPreferences.putBoolean("valueBeginFinishLeassonActivity", this.isBeginFinishLeassonActivity());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editorSharedPreferences.apply();
+        } else editorSharedPreferences.commit();
+    }
+
+    public void saveValuesBeginAndEndGame(SharedPreferences sharedPreferences) {
+        SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
+        editorSharedPreferences.putBoolean("valueEndGame", endGame);
+        editorSharedPreferences.putBoolean("valueBeginGame", beginGame);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editorSharedPreferences.apply();
+        } else editorSharedPreferences.commit();
+    }
+
     public void saveValuesMyLesson(SharedPreferences sharedPreferences) {
         SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
-
         editorSharedPreferences.putString("valueCountHeartLive", String.valueOf(countHeartLive));
         editorSharedPreferences.putString("valueCountAllPrimerov", String.valueOf(countAllPrimerov));
         editorSharedPreferences.putString("valueCountRightTask", String.valueOf(countRightTask));
@@ -167,11 +191,22 @@ public class MyLesson {
         editorSharedPreferences.putString("valueStringCurrentAct", String.valueOf(stringCurrentAct));
         editorSharedPreferences.putBoolean("valueEndGame", endGame);
         editorSharedPreferences.putBoolean("valueLastGame", lastGame);
+        editorSharedPreferences.putBoolean("valueBeginGame", beginGame);
+        editorSharedPreferences.putBoolean("valueBeginFinishLeassonActivity", beginFinishLeassonActivity);
         editorSharedPreferences.putString("valueUserNameDefault", String.valueOf(userNameDefault));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             editorSharedPreferences.apply();
         } else editorSharedPreferences.commit();
     }
+
+//    public void saveFinishLeassonActivity(SharedPreferences sharedPreferences) {
+//        SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
+//        editorSharedPreferences.putBoolean("valueBeginGame", beginFinishLeassonActivity);
+////        editorSharedPreferences.putBoolean("valueEndGame", endGame);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+//            editorSharedPreferences.apply();
+//        } else editorSharedPreferences.commit();
+//    }
 
     public void loadValuesMyLesson(SharedPreferences sharedPreferences) {
         countHeartLive = Integer.valueOf(sharedPreferences.getString("valueCountHeartLive", "0"));
@@ -185,11 +220,14 @@ public class MyLesson {
         countPrimerov = Integer.valueOf(sharedPreferences.getString("valueCountPrimerov", "1"));
         stringCurrentAct = sharedPreferences.getString("valueStringCurrentAct", "*");
         endGame = sharedPreferences.getBoolean("valueEndGame", false);
+        beginGame = sharedPreferences.getBoolean("valueBeginGame", false);
         lastGame = sharedPreferences.getBoolean("valueLastGame", false);
+        beginFinishLeassonActivity = sharedPreferences.getBoolean("valueBeginFinishLeassonActivity", false);
         userNameDefault = sharedPreferences.getString("valueUserNameDefault", "noname");
         countPoints = Integer.valueOf(sharedPreferences.getString("valueCountPoints", "0"));
 
     }
+
 
     public void startNewLesson() {
         countHeartLive = 0;
@@ -198,13 +236,15 @@ public class MyLesson {
         countWrongTask = 0;
         countCurrentRightTask = 0;
         countCurrentWrongTask = 0;
-        progressBarTime = 100;//300
+        progressBarTime = 30;//300
         progressBarCount = 1;
         countPrimerov = 1;
         progressBarSpeed = 1;
         stringCurrentAct = "*";
         endGame = false;
         lastGame = false;
-        countPoints=0;
+        beginFinishLeassonActivity = false;
+        countPoints = 0;
+        beginGame = false;
     }
 }
