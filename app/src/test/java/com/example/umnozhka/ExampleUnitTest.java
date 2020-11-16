@@ -1,5 +1,11 @@
 package com.example.umnozhka;
 
+import com.kaidamar.umnozhka.MyAct;
+import com.kaidamar.umnozhka.MyNumber;
+import com.kaidamar.umnozhka.MyNumberAddSub;
+import com.kaidamar.umnozhka.MyNumberOneTen;
+import com.kaidamar.umnozhka.MyTask;
+
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

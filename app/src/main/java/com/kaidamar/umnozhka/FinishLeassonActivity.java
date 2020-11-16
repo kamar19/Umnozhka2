@@ -1,20 +1,15 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import com.example.umnozhka.R;
 
 public class FinishLeassonActivity extends Activity implements View.OnClickListener {
     Button finishButtonSave;

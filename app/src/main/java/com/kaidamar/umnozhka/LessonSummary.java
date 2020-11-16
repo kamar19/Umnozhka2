@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;

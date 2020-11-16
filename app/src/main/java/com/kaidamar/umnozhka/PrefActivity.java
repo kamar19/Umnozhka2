@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.widget.Button;
+
+import com.example.umnozhka.R;
 
 import static android.app.PendingIntent.getActivity;
 

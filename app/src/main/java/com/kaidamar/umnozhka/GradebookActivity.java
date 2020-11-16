@@ -1,6 +1,5 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -10,10 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.example.umnozhka.R;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class GradebookActivity extends Activity implements View.OnClickListener {

@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 import android.content.SharedPreferences;
 import android.os.Build;

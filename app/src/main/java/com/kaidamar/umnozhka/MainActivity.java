@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.umnozhka.R;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

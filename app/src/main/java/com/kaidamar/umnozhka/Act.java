@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 public enum Act {
         MULTIPLY("*"), DIVIDE("/"), SUBTRAC("-"),ADD("+");

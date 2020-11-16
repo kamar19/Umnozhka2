@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.kaidamar.umnozhka;
 
 public class MyNumberAddSub extends MyNumber {
 
