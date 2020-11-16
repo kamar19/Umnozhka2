@@ -98,6 +98,16 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), R.string.finishLeassonActivityNotUserName,
                             Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.finishButtonCancel:
+                StartActivity.myLesson.setBeginFinishLeassonActivity(false);
+                // переходим на startActivity, без её вызова, так как ее окно активно
+                StartActivity.myLesson.saveValuesFinishLeassonActivity(finishStringUserName.getText().toString());
+                // сохраняем имя пользователя для имени по умолчанию
+                // и состояние закрытой корректно FinishLeassonActivity
+                finish();
+                // закрываем текущую активность
+                break;
+
         }
     }
 

@@ -326,10 +326,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             // Если есть жизни, то уменьшаем жизнь и ...
                             myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
                             myLesson.setCountCurrentWrongTask(0);
-                            //продолжаем сеанс
                             myLesson.setLastGame(false);
-                            // progressBar LastGame=true
-
+                            // продолжаем сеанс
+                            myLesson.setProgressBarCount((int) myLesson.getProgressBarTime() / 3);
+                            progressBar.setProgress(myLesson.getProgressBarCount());
                             refrishIconLive();
                         } else {
                             // Если урок закончен
@@ -451,9 +451,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             textViewAnswerCount.setText(getString(R.string.titleAllTask) + " " + myLesson.getCountAllPrimerov() + getString(R.string.titleRightTask) + " "
                     + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
             textViewPoints.setText(String.valueOf(myLesson.getCountPoints()));
-
-//            progressBar.setProgress(countPrimerov);
         }
+
     }
 
     private void invisibleTextViewAnswer() {
@@ -636,7 +635,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                 if (myLesson.getProgressBarCount() >= myLesson.getProgressBarTime()) {
                     if (myLesson.getCountHeartLive() > 0) {
                         myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
-                        myLesson.setProgressBarCount((int) myLesson.getProgressBarTime() / 6);
+                        myLesson.setProgressBarCount((int) myLesson.getProgressBarTime() / 3);
                         refrishIconLive();
                     }
                 }

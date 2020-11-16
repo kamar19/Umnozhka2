@@ -121,8 +121,9 @@
     <string name="finishStringActions">Умножение, Деление, Сложение, Вычитание</string>
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
-    <string name="finishButtonTakeFotoTitle">Сделать фото</string>
     <string name="finishButtonSaveTitle">Записать результат</string>
+    <string name="finishButtonCancelTitle">Не сохранять</string>
+
 
     <string name="finishLeassonActivityNotUserName">Введите имя !</string>
     <string name="makeFotoActivityButtonTakeFoto">Снимок</string>
@@ -135,6 +136,8 @@
     <string name="gradeBookActivityTextViewMDSA">Действия, </string>
     <string name="gradeBookActivityMultiplyNumbers">Числа, </string>
     <string name="gradeBookActivityViewPoints">Очков</string>
+    <string name="gradeBookActivityButtonClear">Удалить результаты</string>
+
     <string name="loadSoundToastText">Не могу загрузить файл</string>
 
 

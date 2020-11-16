@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,167 +15,174 @@
         android:gravity="center"
         android:text="@string/finishTextViewResultTitle" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/finishTextNameUser"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishTextNameUser" />
 
-                <TextView
-                    android:id="@+id/finishTextNameUser"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishTextNameUser" />
+            <EditText
+                android:id="@+id/finishStringUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:autofillHints="@string/finishStringUserName"
+                android:gravity="start"
+                android:inputType="text"
+                android:maxLength="10"
+                android:text="@string/finishStringUserName"
+                android:textSize="14sp"
+                tools:ignore="LabelFor" />
+        </LinearLayout>
 
-                <EditText
-                    android:id="@+id/finishStringUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:autofillHints="@string/finishStringUserName"
-                    android:gravity="start"
-                    android:inputType="text"
-                    android:maxLength="10"
-                    android:text="@string/finishStringUserName"
-                    android:textSize="14dp"
-                    tools:ignore="LabelFor" />
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/finishTextViewPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishTextViewPoints" />
 
-                <TextView
-                    android:id="@+id/finishTextViewPoints"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishTextViewPoints" />
-
-                <TextView
-                    android:id="@+id/finishTextValueViewPoints"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishStringViewPoints" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/finishTextValueViewPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishStringViewPoints" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/finishTextPrimerovTasks"
-                    android:layout_width="263dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:gravity="start"
-                    android:text="@string/finishTextPrimerovTasks" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/finishStringPrimerovTasks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:gravity="start"
-                    android:text="@string/finishStringPrimerovTasks" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/finishTextPrimerovTasks"
+                android:layout_width="263dp"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:gravity="start"
+                android:text="@string/finishTextPrimerovTasks" />
 
-                <TextView
-                    android:id="@+id/finishTextViewMDSA"
-                    android:layout_width="380dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishTextViewMDSA" />
-
-                <TextView
-                    android:id="@+id/finishStringActions"
-                    android:layout_width="312dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishStringActions" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/finishStringPrimerovTasks"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:gravity="start"
+                android:text="@string/finishStringPrimerovTasks" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/finishTextViewMultiplyNumbers"
-                    android:layout_width="83dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishTextViewMultiplyNumbers" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/finishStringMultiplyNumbers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:gravity="start"
-                    android:text="@string/finishStringMultiplyNumbers" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/finishTextViewMDSA"
+                android:layout_width="380dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishTextViewMDSA" />
+
+            <TextView
+                android:id="@+id/finishStringActions"
+                android:layout_width="312dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishStringActions" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/finishTextViewMultiplyNumbers"
+                android:layout_width="83dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishTextViewMultiplyNumbers" />
+
+            <TextView
+                android:id="@+id/finishStringMultiplyNumbers"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/finishStringMultiplyNumbers" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </Space>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-            </Space>
+            <Button
+                android:id="@+id/finishButtonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/finishButtonSaveTitle"
+                android:textAllCaps="false">
+            </Button>
 
+            <Button
+                android:id="@+id/finishButtonCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:text="@string/finishButtonCancelTitle"
+                android:textAllCaps="false" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-
-                    />
-                <Button
-                    android:id="@+id/finishButtonSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="@string/finishButtonSaveTitle">
-
-                </Button>
-
-            </LinearLayout>
+        </LinearLayout>
 
 
     </LinearLayout>

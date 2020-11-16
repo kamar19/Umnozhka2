@@ -120,8 +120,9 @@
     <string name="finishStringActions"> *  /  +  - </string>
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
-    <string name="finishButtonTakeFotoTitle">Фотосурет жасау</string>
     <string name="finishButtonSaveTitle">Нәтижені жазыңыз</string>
+    <string name="finishButtonCancelTitle">Сақтама</string>
+
 
     <string name="finishLeassonActivityNotUserName">Атыңызды енгізіңіз !"</string>
     <string name="makeFotoActivityButtonTakeFoto">Сурет</string>
@@ -132,6 +133,8 @@
     <string name="gradeBookActivityTextViewMDSA">Әрекеттер, </string>
     <string name="gradeBookActivityMultiplyNumbers">Сандарға, </string>
     <string name="gradeBookActivityViewPoints">Ұпайлар</string>
+    <string name="gradeBookActivityButtonClear">Нәтижелерді жою</string>
+
     <string name="loadSoundToastText">Файл жүктелмейді</string>
 
 

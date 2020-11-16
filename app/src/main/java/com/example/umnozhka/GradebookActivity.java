@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,10 +16,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GradebookActivity extends Activity {
+public class GradebookActivity extends Activity implements View.OnClickListener {
     List<LessonSummary> lessonSummaryList = new ArrayList<>();
     private SQLiteDatabase db;
     Cursor cursor;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,9 @@ public class GradebookActivity extends Activity {
         DataAdapter adapter = new DataAdapter(this, lessonSummaryList);
         // устанавливаем для списка адаптер
         recyclerView.setAdapter(adapter);
+        button = findViewById(R.id.gradeBookActivityButtonClear);
+        button.setOnClickListener(this);
+
     }
 
     private void setInitialData() {
@@ -38,12 +44,11 @@ public class GradebookActivity extends Activity {
 //        if (db.isOpen()) {
         try {
             cursor = db.rawQuery("SELECT * FROM lessons3 ", null);
-        } catch (Exception e )
-        {
+        } catch (Exception e) {
             // таблица не создана
 
         }
-        if (cursor!=null)
+        if (cursor != null)
             if ((cursor.getCount() > 0)) {
                 cursor.moveToFirst();
 
@@ -64,9 +69,29 @@ public class GradebookActivity extends Activity {
                     cursor.moveToNext();
                 }
 //            }
-            cursor.close();
+                cursor.close();
+            }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.gradeBookActivityButtonClear: {
+                db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
+                try {
+//                    cursor = db.rawQuery("DELETE FROM lessons3 ", null);
+                    db.delete("lessons3",null, null);
+
+                } catch (Exception e) {
+                    // таблица не создана
+                }
+                db.close();
+                finish();
+            break;
         }
     }
+
+}
 
 //    private String DateLessonToNewFormat(String dataLesson) {
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,7 +112,7 @@ public class GradebookActivity extends Activity {
 //        SQLiteDatabase db = openOrCreateDatabase("lessons.db", Context.MODE_PRIVATE, null);
 //        SQLiteDatabase db = new SQLiteDatabase();
 //        String string0=""
-    // Удалю таблицу, через создание новой БД?
+// Удалю таблицу, через создание новой БД?
 //      db.delete("lessons", null, null);
 //        if (db.isOpen()) db.close();
 
