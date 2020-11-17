@@ -136,7 +136,7 @@
     <string name="gradeBookActivityTextViewMDSA">Действия, </string>
     <string name="gradeBookActivityMultiplyNumbers">Числа, </string>
     <string name="gradeBookActivityViewPoints">Очков</string>
-    <string name="gradeBookActivityButtonClear">Удалить результаты</string>
+<!--    <string name="gradeBookActivityButtonClear">Удалить результаты</string>-->
 
     <string name="loadSoundToastText">Не могу загрузить файл</string>
 

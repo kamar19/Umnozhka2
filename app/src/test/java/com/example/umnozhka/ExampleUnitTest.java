@@ -1,10 +1,10 @@
 package com.example.umnozhka;
 
-import com.kaidamar.umnozhka.MyAct;
-import com.kaidamar.umnozhka.MyNumber;
-import com.kaidamar.umnozhka.MyNumberAddSub;
-import com.kaidamar.umnozhka.MyNumberOneTen;
-import com.kaidamar.umnozhka.MyTask;
+import com.firstSet.MultiplayIt.MyAct;
+import com.firstSet.MultiplayIt.MyNumber;
+import com.firstSet.MultiplayIt.MyNumberAddSub;
+import com.firstSet.MultiplayIt.MyNumberOneTen;
+import com.firstSet.MultiplayIt.MyTask;
 
 import org.junit.Test;
 

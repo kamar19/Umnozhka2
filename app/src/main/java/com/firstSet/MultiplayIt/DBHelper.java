@@ -1,4 +1,4 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,4 +1,4 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

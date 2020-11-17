@@ -1,4 +1,4 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
 public class MyNumberOneTen extends MyNumber {
 

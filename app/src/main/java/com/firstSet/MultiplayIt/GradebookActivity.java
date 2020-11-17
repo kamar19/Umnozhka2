@@ -1,4 +1,4 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
 import androidx.recyclerview.widget.RecyclerView;
 

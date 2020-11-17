@@ -16,13 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.kaidamar.umnozhka.FinishLeassonActivity"
+            android:name="com.firstSet.MultiplayIt.FinishLeassonActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.kaidamar.umnozhka.GradebookActivity"
+            android:name="com.firstSet.MultiplayIt.GradebookActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.kaidamar.umnozhka.StartActivity"
+            android:name="com.firstSet.MultiplayIt.StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kaidamar.umnozhka.PrefActivity"
+            android:name="com.firstSet.MultiplayIt.PrefActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.kaidamar.umnozhka.MainActivity"
+            android:name="com.firstSet.MultiplayIt.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

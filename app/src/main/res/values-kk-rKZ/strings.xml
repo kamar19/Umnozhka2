@@ -133,7 +133,7 @@
     <string name="gradeBookActivityTextViewMDSA">Әрекеттер, </string>
     <string name="gradeBookActivityMultiplyNumbers">Сандарға, </string>
     <string name="gradeBookActivityViewPoints">Ұпайлар</string>
-    <string name="gradeBookActivityButtonClear">Нәтижелерді жою</string>
+<!--    <string name="gradeBookActivityButtonClear">Нәтижелерді жою</string>-->
 
     <string name="loadSoundToastText">Файл жүктелмейді</string>
 

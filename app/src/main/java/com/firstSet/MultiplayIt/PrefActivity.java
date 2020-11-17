@@ -1,19 +1,7 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceManager;
-import android.preference.SwitchPreference;
-import android.widget.Button;
 
 import com.example.umnozhka.R;
 

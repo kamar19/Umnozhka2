@@ -1,4 +1,4 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
 public enum Act {
         MULTIPLY("*"), DIVIDE("/"), SUBTRAC("-"),ADD("+");

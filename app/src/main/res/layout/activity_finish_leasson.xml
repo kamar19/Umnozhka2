@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.kaidamar.umnozhka.FinishLeassonActivity">
+    tools:context="com.firstSet.MultiplayIt.FinishLeassonActivity">
 
     <TextView
         android:id="@+id/finishTextEditResult"
@@ -172,15 +172,14 @@
                 android:text="@string/finishButtonSaveTitle"
                 android:textAllCaps="false">
             </Button>
-
-            <Button
-                android:id="@+id/finishButtonCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:text="@string/finishButtonCancelTitle"
-                android:textAllCaps="false" />
+<!--            <Button-->
+<!--                android:id="@+id/finishButtonCancel"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="20dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/finishButtonCancelTitle"-->
+<!--                android:textAllCaps="false" />-->
 
         </LinearLayout>
 

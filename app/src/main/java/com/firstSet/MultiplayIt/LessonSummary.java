@@ -1,14 +1,5 @@
-package com.kaidamar.umnozhka;
+package com.firstSet.MultiplayIt;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static android.content.Context.MODE_PRIVATE;
 import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 // возможно этот класс не нужен, так как буду сохранять в БД

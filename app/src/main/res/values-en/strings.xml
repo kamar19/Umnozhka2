@@ -134,7 +134,6 @@
     <string name="gradeBookActivityTextViewMDSA">Actions, </string>
     <string name="gradeBookActivityMultiplyNumbers">Numbers, </string>
     <string name="gradeBookActivityViewPoints">Points</string>
-    <string name="gradeBookActivityButtonClear">Delete results</string>
 
     <string name="loadSoundToastText">Can\'t upload file</string>
 
