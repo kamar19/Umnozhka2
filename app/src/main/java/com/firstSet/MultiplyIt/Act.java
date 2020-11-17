@@ -1,8 +1,8 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 public enum Act {
         MULTIPLY("*"), DIVIDE("/"), SUBTRAC("-"),ADD("+");
-        private String act;
+        private final String act;
 
     @Override
     public String toString() {

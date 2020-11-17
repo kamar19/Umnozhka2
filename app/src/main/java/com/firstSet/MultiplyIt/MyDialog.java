@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

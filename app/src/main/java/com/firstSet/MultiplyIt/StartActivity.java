@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -49,7 +49,9 @@ public class StartActivity extends Activity implements OnClickListener {
 //        sharedPreferences =  getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mySettings = new MySettings(sharedPreferences);
-        myLesson = new MyLesson();
+        myLesson = new MyLesson(sharedPreferences);
+//        myLesson.loadValuesMyLesson(sharedPreferences);
+
 
         if (sharedPreferences != null) {
             // по умолчанию, если настроеки есть загружаются, иначе создаются
@@ -126,7 +128,6 @@ public class StartActivity extends Activity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.buttonGame:
-                myLesson.loadValuesMyLesson(sharedPreferences);
 //                if (myLesson.isEndGame() == false) {
                 if (myLesson.isBeginGame() == true) {
                     // Три состояния,
@@ -150,6 +151,7 @@ public class StartActivity extends Activity implements OnClickListener {
                         // 3) сеан был сохранен, Новое занятие
                         // нужно передать обьект myLesson c начальными параметрами;
                         myLesson.startNewLesson();//тут beginGame = true
+                        // все значения кроме имени пользователя берутся для нового урока.
                         myLesson.saveValuesMyLesson(sharedPreferences);
                         Intent intent2 = new Intent(this, MainActivity.class);
                         startActivity(intent2);

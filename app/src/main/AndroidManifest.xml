@@ -16,13 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.firstSet.MultiplayIt.FinishLeassonActivity"
+            android:name="com.firstSet.MultiplyIt.FinishLeassonActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.firstSet.MultiplayIt.GradebookActivity"
+            android:name="com.firstSet.MultiplyIt.GradebookActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.firstSet.MultiplayIt.StartActivity"
+            android:name="com.firstSet.MultiplyIt.StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,10 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.firstSet.MultiplayIt.PrefActivity"
+            android:name="com.firstSet.MultiplyIt.PrefActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.firstSet.MultiplayIt.MainActivity"
+            android:name="com.firstSet.MultiplyIt.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

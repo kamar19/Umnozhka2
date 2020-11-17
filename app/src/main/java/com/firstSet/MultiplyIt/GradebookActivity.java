@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +26,7 @@ public class GradebookActivity extends Activity implements View.OnClickListener 
         setContentView(R.layout.activity_gradebook);
         setInitialData();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list);
+        RecyclerView recyclerView = this.<RecyclerView>findViewById(R.id.list);
         // создаем адаптер
         DataAdapter adapter = new DataAdapter(this, lessonSummaryList);
         // устанавливаем для списка адаптер
@@ -73,21 +73,20 @@ public class GradebookActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.gradeBookActivityButtonClear: {
-                db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
-                try {
+        if (v.getId() == R.id.gradeBookActivityButtonClear) {
+            db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
+            try {
 //                    cursor = db.rawQuery("DELETE FROM lessons3 ", null);
-                    db.delete("lessons3",null, null);
+                db.delete("lessons3", null, null);
 
-                } catch (Exception e) {
-                    // таблица не создана
-                }
-                db.close();
-                finish();
-            break;
+            } catch (Exception e) {
+                // таблица не создана
+            }
+            db.close();
+            finish();
+        } else {
+            throw new IllegalStateException("Unexpected value: " + v.getId());
         }
-    }
 
 }
 

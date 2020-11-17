@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 import android.content.SharedPreferences;
 import android.os.Build;

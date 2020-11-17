@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,13 +11,15 @@ import android.widget.Toast;
 
 import com.example.umnozhka.R;
 
+import java.util.Objects;
+
 public class FinishLeassonActivity extends Activity implements View.OnClickListener {
     Button finishButtonSave;
     //            finishButtonTakeFoto;
     EditText finishStringUserName;
     TextView finishStringPrimerovTasks, finishStringActions, finishStringMultiplyNumbers,
             finishTextViewPoints, finishTextValueViewPoints;
-    private SQLiteDatabase db;
+//    private SQLiteDatabase db;
     LessonSummary lessonSummary; // на Основе myLesson и MySettings
 //    private List<LessonSummary> lessonSummaries;
 
@@ -41,7 +43,11 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
 
         String stringCountAllPrimerov = StartActivity.STRING_COUNT_ALL_PRIMEROV;
         Bundle arguments = getIntent().getExtras();
-        String string2 = arguments.get(stringCountAllPrimerov).toString();
+        assert arguments != null;
+        String string2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            string2 = Objects.requireNonNull(arguments.get(stringCountAllPrimerov)).toString();
+        }
         // Передача этой строки только одля проверки механизма передачи данных с Intent
         StartActivity.myLesson.setBeginFinishLeassonActivity(true);
         StartActivity.myLesson.setBeginGame(false);
@@ -74,26 +80,23 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.finishButtonSave:
-                // завершена текущая игра
-                if (finishStringUserName.getText().length() > 0) {
-                    lessonSummary.setNameUser(finishStringUserName.getText().toString());
-                    SQLiteDatabase db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
-                    saveLessonSummaryToDB(db);
-                    // сохраняем результаты в БД
-                    StartActivity.myLesson.setBeginFinishLeassonActivity(false);
-                    // переходим на startActivity, без её вызова, так как ее окно активно
-                    StartActivity.myLesson.saveValuesFinishLeassonActivity(finishStringUserName.getText().toString());
-                    // сохраняем имя пользователя для имени по умолчанию
-                    // и состояние закрытой корректно FinishLeassonActivity
-                    finish();
-                    // закрываем текущую активность
-                } else
-                    Toast.makeText(getApplicationContext(), R.string.finishLeassonActivityNotUserName,
-                            Toast.LENGTH_SHORT).show();
-                break;
-//            case R.id.finishButtonCancel:
+        if (v.getId() == R.id.finishButtonSave) {// завершена текущая игра
+            if (finishStringUserName.getText().length() > 0) {
+                lessonSummary.setNameUser(finishStringUserName.getText().toString());
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("lessonSummary.db", MODE_PRIVATE, null);
+                saveLessonSummaryToDB(db);
+                // сохраняем результаты в БД
+                StartActivity.myLesson.setBeginFinishLeassonActivity(false);
+                // переходим на startActivity, без её вызова, так как ее окно активно
+                StartActivity.myLesson.saveValuesFinishLeassonActivity(finishStringUserName.getText().toString());
+                // сохраняем имя пользователя для имени по умолчанию
+                // и состояние закрытой корректно FinishLeassonActivity
+                finish();
+                // закрываем текущую активность
+            } else
+                Toast.makeText(getApplicationContext(), R.string.finishLeassonActivityNotUserName,
+                        Toast.LENGTH_SHORT).show();
+            //            case R.id.finishButtonCancel:
 //                StartActivity.myLesson.setBeginFinishLeassonActivity(false);
 //                // переходим на startActivity, без её вызова, так как ее окно активно
 //                StartActivity.myLesson.saveValuesFinishLeassonActivity(finishStringUserName.getText().toString());
@@ -103,6 +106,8 @@ public class FinishLeassonActivity extends Activity implements View.OnClickListe
 //                // закрываем текущую активность
 //                break;
 //
+        } else {
+            throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 

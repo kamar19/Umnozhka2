@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 

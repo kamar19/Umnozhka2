@@ -70,7 +70,7 @@
 
     <string name="settingsDivideSummaryOff">Өшірілген</string>
     <string name="settingsDivideSummaryOn">Енгізілген</string>
-    <string name="operationsOn">Әрекеттер ...</string>
+    <string name="operationsOn">Әрекеттер </string>
 
     <string name="settingsAddTitle">Қосу</string>
     <string name="settingsAddSummaryOff">Өшірілген</string>
@@ -93,7 +93,7 @@
 
     <string name="buttonSettingsTitle">Баптаулар</string>
     <string name="buttonGameTitle">Ойнату</string>
-    <string name="buttonGradesTitle">Бағалау</string>
+    <string name="buttonGradesTitle">Нәтижелер</string>
     <string name="buttonEndTitle">Шығу</string>
 
     <string name="settingsSoundTitle">Дыбыстық эффекттер</string>
@@ -121,23 +121,21 @@
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
     <string name="finishButtonSaveTitle">Нәтижені жазыңыз</string>
-    <string name="finishButtonCancelTitle">Сақтама</string>
+<!--    <string name="finishButtonCancelTitle">Сақтама</string>-->
 
 
     <string name="finishLeassonActivityNotUserName">Атыңызды енгізіңіз !"</string>
-    <string name="makeFotoActivityButtonTakeFoto">Сурет</string>
-    <string name="makeFotoActivityButtonOpenCamera">Камераны ашу</string>
+<!--    <string name="makeFotoActivityButtonTakeFoto">Сурет</string>-->
+<!--    <string name="makeFotoActivityButtonOpenCamera">Камераны ашу</string>-->
 
     <string name="gradeBookActivityNameUser">Есімің, </string>
     <string name="gradeBookActivityDateLesson">Күн, </string>
     <string name="gradeBookActivityTextViewMDSA">Әрекеттер, </string>
     <string name="gradeBookActivityMultiplyNumbers">Сандарға, </string>
     <string name="gradeBookActivityViewPoints">Ұпайлар</string>
-<!--    <string name="gradeBookActivityButtonClear">Нәтижелерді жою</string>-->
+    <string name="gradeBookActivityButtonClear">Нәтижелерді жою</string>
 
     <string name="loadSoundToastText">Файл жүктелмейді</string>
-
-
 
 
 </resources>

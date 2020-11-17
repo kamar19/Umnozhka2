@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.firstSet.MultiplayIt.FinishLeassonActivity">
+    tools:context="com.firstSet.MultiplyIt.FinishLeassonActivity">
 
     <TextView
         android:id="@+id/finishTextEditResult"

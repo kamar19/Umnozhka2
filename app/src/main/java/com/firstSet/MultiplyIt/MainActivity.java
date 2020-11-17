@@ -1,5 +1,6 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -61,6 +62,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             textViewAnswerShow7, textViewAnswerShow8, textViewAnswerShow9, textViewAnswerShow10, textViewAnswerShow11, textViewAnswerShow12,
             textViewQuestion, textViewAnswerShowBasic, textViewAnswerCount, textViewPoints;
 
+    @SuppressLint("SetTextI18n")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -128,7 +130,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         myLesson = StartActivity.myLesson;
         mySettings = StartActivity.mySettings;
-        progressBar.setProgress(myLesson.getProgressBarCount());
 
 //        if (myLesson.isBeginGame()==true && myLesson.isEndGame()==false )
 //            startNewLessonMainActivity();
@@ -136,22 +137,21 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         //нужно проверить если игры была продолжена и есть вопрос, то именно это вопрос и должен
         // быть задан, но проверка не в textViewQuestion, так как там значения по умолчанию
         if (myLesson.isBeginGame())
-            // текущий сеанс был не завершен и не вызван BeginFinishLeassonActivity
-            // когда myLesson.isEndGame()==true значит игра была завершена, но возможно не сохранена
+        // текущий сеанс был не завершен и не вызван BeginFinishLeassonActivity
+        // когда myLesson.isEndGame()==true значит игра была завершена, но возможно не сохранена
 
         {
             loadValues();
             // Загружаем тексты, устанавливаем видимости в textView, view
-            // mySettings.loadValuesMySettings
-            // myLesson.loadValuesMyLesson
-            // progressBar
+            // myLesson.loadValuesMyLesson грузим в loadValues()
+            // progressBar обновляем в конце конце onCreate();
 
             String stringIntotextViewQuestion = textViewQuestion.getText().toString();
 //когда бывает loadValues загрузка?
 //            сохраннехы значений
 //                    не загружается textViewQuestion
 
-            MyAct myAct= getCurrentTaskIntoQuestion(stringIntotextViewQuestion);
+            MyAct myAct = getCurrentTaskIntoQuestion(stringIntotextViewQuestion);
             currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), myAct, mySettings.getSettingsMultiplys());
             setCurrentTaskIntoQuestion(stringIntotextViewQuestion);
             //берем старый новый вопрос
@@ -161,15 +161,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             //генерируем новый вопрос
             textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
 //            if (myLesson.getCountAllPrimerov() == 0)
-                // Если игра новая, то обновляем все поля
-                startNewLessonMainActivity();
+            // Если игра новая, то обновляем все поля
+            startNewLessonMainActivity();
         }
+        progressBar.setProgress(myLesson.getProgressBarCount());
+
         if (mySettings.isSettingsRecord()) {
             // создается таймер, нужно ли его переносить из конструктора?
             // наверное.... Создал класс MyService туда вставил Timer
             // пример взял из https://startandroid.ru/ru/uroki/vse-uroki-spiskom/163-urok-98-service-lokalnyj-binding.html
             // убрал из класса, так как не увидел смысла в нем.
             progressBar.setVisibility(ProgressBar.VISIBLE);
+            isMyThreadRun = true;
             new Thread(myThread).start();
         } else {
             progressBar.setVisibility(ProgressBar.INVISIBLE);
@@ -217,12 +220,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
             }
         }
         // вытаскиваем значения чисел до знака "*/+-" и удаление пробелов
-        String s = stringQuestion.substring(0, countPosAct).replaceAll("\\s","");;
-        Integer oneUnit = Integer.valueOf(s);
+        String s = stringQuestion.substring(0, countPosAct).replaceAll("\\s", "");
+        ;
+        int oneUnit = Integer.parseInt(s);
         // вытаскиваем значения чисел после знака "*/+-", до "=" и удаление пробелов
-        String s2 = stringQuestion.substring(countPosAct + 1, stringQuestion.indexOf("=")).replaceAll("\\s","");;
-        Integer twoUnit = Integer.valueOf(s2);
+        String s2 = stringQuestion.substring(countPosAct + 1, stringQuestion.indexOf("=")).replaceAll("\\s", "");
+        ;
+        int twoUnit = Integer.parseInt(s2);
 
+        assert myActResult != null;
         if ((myActResult.getMyAct() == Act.ADD) | (myActResult.getMyAct() == Act.SUBTRAC))
         // Если Сложение или Вычитание
         {
@@ -264,6 +270,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                 }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
 //        if (!myLesson.isEndGame()||myLesson.isBeginGame()) {
@@ -316,11 +323,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                     //выполняется проверка Ответа на математический Вопрос
                     showAnswer();
                     //refrishDate();
-                    // получаем новые значения для currentTask
-                    act_to_currentTask();
-                    // выводим вопрос в текстовое поле
-                    textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
-                    textViewAnswerShowBasic.setText("");
 
                     if (myLesson.isLastGame()) {
                         // завершился progressBar LastGame=true
@@ -344,10 +346,17 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             Intent intent = new Intent(this, FinishLeassonActivity.class);
                             intent.putExtra(StartActivity.STRING_COUNT_ALL_PRIMEROV, myLesson.getStringCountAllPrimerov());
                             startActivity(intent);
+                            isMyThreadRun = false;
                             // закрытие окна MainActivity
                             finish();
                         }
                     }
+                    act_to_currentTask();
+                    // получаем новые значения для currentTask
+                    // выводим вопрос в текстовое поле
+                    textViewQuestion.setText(currentTask.getCurrentOneUnit().toString() + currentTask.getCurrentAct().toString() + currentTask.getCurrentTwoUnit().toString() + " = ");
+                    textViewAnswerShowBasic.setText("");
+
                     break;
             }
         }
@@ -608,11 +617,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         }
     }
 
+    private boolean isMyThreadRun = false;
+
     private Runnable myThread = new Runnable() {
         @Override
         public void run() {
 //            while (!myLesson.isLastGame()||myLesson.isEndGame()) {
-            while (!myLesson.isLastGame()) {
+
+            while (!myLesson.isLastGame() && isMyThreadRun) {
                 // пока myLesson.isLastGame()=false
                 try {
                     myHandler.sendMessage(myHandler.obtainMessage());
@@ -639,6 +651,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                         myLesson.setCountHeartLive(myLesson.getCountHeartLive() - 1);
                         myLesson.setProgressBarCount((int) myLesson.getProgressBarTime() / 3);
                         refrishIconLive();
+                        if (soundPool != null)
+                            soundPool.play(soundIdExplosionRemoveLive, 1, 1, 1, 0, 1);
+
                     }
                 }
                 progressBar.setProgress(myLesson.getProgressBarCount());
@@ -746,18 +761,29 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     protected void onResume() {
         super.onResume();
         loadValues();
+        isMyThreadRun = true;
     }
 
     @Override
     protected void onDestroy() {
         saveValues();
         super.onDestroy();
+        isMyThreadRun = false;
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveValues();
+        isMyThreadRun = false;
     }
 
     @Override
     protected void onPause() {
         saveValues();
         super.onPause();
+        isMyThreadRun = false;
     }
 
     private void startNewLessonMainActivity() {
@@ -779,8 +805,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                 + myLesson.getCountRightTask() + getString(R.string.titleWrongTask) + " " + myLesson.getCountWrongTask() + "    ");
 //        textViewAnswerShowBasic.getText().toString());
 //        textViewQuestion.getText().toString());
-
-
         textViewAnswerShow1.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow2.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow3.setVisibility(TextView.INVISIBLE);
@@ -793,12 +817,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewAnswerShow10.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow11.setVisibility(TextView.INVISIBLE);
         textViewAnswerShow12.setVisibility(TextView.INVISIBLE);
-
         view1.setVisibility(View.INVISIBLE);
         view2.setVisibility(View.INVISIBLE);
         view3.setVisibility(View.INVISIBLE);
         view4.setVisibility(View.INVISIBLE);
         view5.setVisibility(View.INVISIBLE);
+
         saveValues();
         refrishIconLive();
     }

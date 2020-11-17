@@ -67,7 +67,7 @@
 
     <string name="settingsDivideSummaryOff">выключено</string>
     <string name="settingsDivideSummaryOn">включено</string>
-    <string name="operationsOn">Действия на ...</string>
+    <string name="operationsOn">Действия на </string>
 
     <string name="settingsAddTitle">Сложение</string>
     <string name="settingsAddSummaryOff">выключено</string>
@@ -94,7 +94,7 @@
 
     <string name="buttonSettingsTitle">Настройки</string>
     <string name="buttonGameTitle">Заниматься</string>
-    <string name="buttonGradesTitle">Оценки</string>
+    <string name="buttonGradesTitle">Результаты</string>
     <string name="buttonEndTitle">Выход</string>
 
     <string name="settingsSoundTitle">Звуковые эффекты</string>
@@ -122,12 +122,12 @@
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
     <string name="finishButtonSaveTitle">Записать результат</string>
-    <string name="finishButtonCancelTitle">Не сохранять</string>
+<!--    <string name="finishButtonCancelTitle">Не сохранять</string>-->
 
 
     <string name="finishLeassonActivityNotUserName">Введите имя !</string>
-    <string name="makeFotoActivityButtonTakeFoto">Снимок</string>
-    <string name="makeFotoActivityButtonOpenCamera">Открыть Камеру</string>
+<!--    <string name="makeFotoActivityButtonTakeFoto">Снимок</string>-->
+<!--    <string name="makeFotoActivityButtonOpenCamera">Открыть Камеру</string>-->
 
     <!--    <string name="gradeBookActivityMainString">Имя, Дата, Действия, Числа, Очков</string>-->
     <!--    <string name="gradeBookActivityPrimerovTasks">Всего, Верно, Ошибок</string>-->
@@ -136,10 +136,9 @@
     <string name="gradeBookActivityTextViewMDSA">Действия, </string>
     <string name="gradeBookActivityMultiplyNumbers">Числа, </string>
     <string name="gradeBookActivityViewPoints">Очков</string>
-<!--    <string name="gradeBookActivityButtonClear">Удалить результаты</string>-->
+    <string name="gradeBookActivityButtonClear">Удалить результаты</string>
 
     <string name="loadSoundToastText">Не могу загрузить файл</string>
-
 
 
 </resources>

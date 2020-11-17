@@ -1,10 +1,10 @@
 package com.example.umnozhka;
 
-import com.firstSet.MultiplayIt.MyAct;
-import com.firstSet.MultiplayIt.MyNumber;
-import com.firstSet.MultiplayIt.MyNumberAddSub;
-import com.firstSet.MultiplayIt.MyNumberOneTen;
-import com.firstSet.MultiplayIt.MyTask;
+import com.firstSet.MultiplyIt.MyAct;
+import com.firstSet.MultiplyIt.MyNumber;
+import com.firstSet.MultiplyIt.MyNumberAddSub;
+import com.firstSet.MultiplyIt.MyNumberOneTen;
+import com.firstSet.MultiplyIt.MyTask;
 
 import org.junit.Test;
 

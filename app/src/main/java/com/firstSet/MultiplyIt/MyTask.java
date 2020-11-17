@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 
 public class MyTask {
     private MyNumber currentOneUnit, currentTwoUnit;

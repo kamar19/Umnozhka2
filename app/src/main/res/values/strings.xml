@@ -66,7 +66,7 @@
     <string name="settingsMultiplyTitle">Multiply</string>
     <string name="settingsDivideTitle">Divide</string>
 
-    <string name="settingsMultiplyPreferenceScreen">Actions on...</string>
+    <string name="settingsMultiplyPreferenceScreen">Actions on</string>
 
     <string name="settingsMultiplyNumber1">on 1</string>
     <string name="settingsMultiplyNumber2">on 2</string>
@@ -81,7 +81,7 @@
 
     <string name="settingsDivideSummaryOff">Off</string>
     <string name="settingsDivideSummaryOn">On</string>
-    <string name="operationsOn">Actions on ...</string>
+    <string name="operationsOn">Actions on </string>
 
     <string name="settingsAddTitle">ADD</string>
     <string name="settingsAddSummaryOff">Off</string>
@@ -104,7 +104,7 @@
 
     <string name="buttonSettingsTitle">Preferences</string>
     <string name="buttonGameTitle">Game</string>
-    <string name="buttonGradesTitle">Grades</string>
+    <string name="buttonGradesTitle">Results</string>
     <string name="buttonEndTitle">End</string>
 
     <string name="settingsSoundTitle">Sound effects</string>
@@ -131,20 +131,20 @@
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
 
     <string name="finishButtonSaveTitle">Save result</string>
-    <string name="finishButtonCancelTitle">Do not save</string>
+<!--    <string name="finishButtonCancelTitle">Do not save</string>-->
 
 
     <string name="finishLeassonActivityNotUserName">"Enter your name !"</string>
 
-    <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>
-    <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>
+<!--    <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>-->
+<!--    <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>-->
 
     <string name="gradeBookActivityNameUser">Name, </string>
     <string name="gradeBookActivityDateLesson">Date, </string>
     <string name="gradeBookActivityTextViewMDSA">Actions, </string>
     <string name="gradeBookActivityMultiplyNumbers">Numbers, </string>
     <string name="gradeBookActivityViewPoints">Points</string>
-<!--    <string name="gradeBookActivityButtonClear">Delete results</string>-->
+    <string name="gradeBookActivityButtonClear">Delete results</string>
     <string name="loadSoundToastText">Can\'t upload file</string>
 
 </resources>

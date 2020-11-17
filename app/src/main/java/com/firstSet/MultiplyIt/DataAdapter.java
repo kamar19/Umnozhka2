@@ -1,4 +1,4 @@
-package com.firstSet.MultiplayIt;
+package com.firstSet.MultiplyIt;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,13 +71,11 @@ import java.util.List;
             final TextView nameUserView, dateLesson,stringMDSA,stringMultiplyNumbers,countPoints;
             ViewHolder(View view){
                 super(view);
-//                imageView = (ImageView)view.findViewById(R.id.listItemImageName);
-                nameUserView = (TextView) view.findViewById(R.id.listItemNameUser);
-                dateLesson = (TextView) view.findViewById(R.id.listItemDateLesson);
-                countPoints = (TextView) view.findViewById(R.id.listItemCountPoints);
-//                stringPrimerovTasks = (TextView) view.findViewById(R.id.listItemStringPrimerovTasks);
-                stringMDSA = (TextView) view.findViewById(R.id.listItemStringMDSA);
-                stringMultiplyNumbers = (TextView) view.findViewById(R.id.listItemStringMultiplyNumbers);
+                nameUserView = view.findViewById(R.id.listItemNameUser);
+                dateLesson = view.findViewById(R.id.listItemDateLesson);
+                countPoints = view.findViewById(R.id.listItemCountPoints);
+                stringMDSA =  view.findViewById(R.id.listItemStringMDSA);
+                stringMultiplyNumbers = view.findViewById(R.id.listItemStringMultiplyNumbers);
             }
         }
 }
