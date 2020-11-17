@@ -1,3 +1,5 @@
+                                                                 Privacy policy 
+ 
 1.    About the privacy policy
 This privacy policy contains information about the information collected by Developer (Kaidma) in the games (hereafter simply «The Game») about users playing it (hereafter «Players»).
 This policy only applies to The Game and does not apply to any of the other games that are on Google Play or other resources and may have their own privacy policy or not.
