@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.app.DialogFragment;
 import android.util.Log;
 
-import com.example.umnozhka.R;
+import com.firstSet.umnozhka.R;
 //import androidx.fragment.app.DialogFragment;
 
 //public class MyDialog extends DialogFragment {

@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 import com.firstSet.MultiplyIt.MyAct;
 import com.firstSet.MultiplyIt.MyNumber;

@@ -3,7 +3,7 @@ package com.firstSet.MultiplyIt;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.example.umnozhka.R;
+import com.firstSet.umnozhka.R;
 
 import static android.app.PendingIntent.getActivity;
 

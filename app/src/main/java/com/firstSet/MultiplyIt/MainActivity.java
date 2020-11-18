@@ -23,7 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.umnozhka.R;
+import com.firstSet.umnozhka.R;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

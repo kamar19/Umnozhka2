@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 
 import android.view.View;
@@ -6,10 +6,12 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.firstSet.umnozhka.R;
 import com.firstSet.MultiplyIt.MainActivity;
 
 import org.hamcrest.Description;
@@ -38,7 +40,7 @@ public class MainActivityTest {
     @Test
     public void mainActivityTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.buttonEnter), withText("Enter"),
+                allOf(ViewMatchers.withId(R.id.buttonEnter), withText("Enter"),
                         childAtPosition(
                                 allOf(withId(R.id.gridLayout2),
                                         childAtPosition(

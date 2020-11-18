@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.umnozhka.R;
+import com.firstSet.umnozhka.R;
 
 import java.util.List;
 
