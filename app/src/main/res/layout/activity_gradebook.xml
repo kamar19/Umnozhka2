@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
-
             android:gravity="center"
+            android:textStyle="bold"
             android:text="@string/finishTextViewResultTitle" />
 
 
@@ -41,7 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:text="@string/gradeBookActivityNameUser" />
+                android:text="@string/gradeBookActivityNameUser"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/gradeBookActivityDateLesson"
@@ -49,6 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="start"
+                android:textStyle="bold"
                 android:text="@string/gradeBookActivityDateLesson" />
 
             <TextView
@@ -57,6 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="start"
+                android:textStyle="bold"
                 android:text="@string/gradeBookActivityTextViewMDSA" />
 
             <TextView
@@ -65,6 +68,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 android:gravity="start"
+                android:textStyle="bold"
                 android:text="@string/gradeBookActivityMultiplyNumbers" />
 
             <TextView
@@ -73,7 +77,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
                 android:gravity="start"
-
+                android:textStyle="bold"
                 android:text="@string/gradeBookActivityViewPoints" />
 
         </LinearLayout>

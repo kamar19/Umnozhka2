@@ -131,7 +131,7 @@
 
     <!--    <string name="gradeBookActivityMainString">Имя, Дата, Действия, Числа, Очков</string>-->
     <!--    <string name="gradeBookActivityPrimerovTasks">Всего, Верно, Ошибок</string>-->
-    <string name="gradeBookActivityNameUser">Имя, </string>
+    <string name="gradeBookActivityNameUser"> Имя, </string>
     <string name="gradeBookActivityDateLesson">Дата, </string>
     <string name="gradeBookActivityTextViewMDSA">Действия, </string>
     <string name="gradeBookActivityMultiplyNumbers">Числа, </string>

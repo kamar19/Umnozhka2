@@ -139,7 +139,7 @@
 <!--    <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>-->
 <!--    <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>-->
 
-    <string name="gradeBookActivityNameUser">Name, </string>
+    <string name="gradeBookActivityNameUser"> Name, </string>
     <string name="gradeBookActivityDateLesson">Date, </string>
     <string name="gradeBookActivityTextViewMDSA">Actions, </string>
     <string name="gradeBookActivityMultiplyNumbers">Numbers, </string>

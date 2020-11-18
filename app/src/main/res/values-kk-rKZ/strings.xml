@@ -128,7 +128,7 @@
 <!--    <string name="makeFotoActivityButtonTakeFoto">Сурет</string>-->
 <!--    <string name="makeFotoActivityButtonOpenCamera">Камераны ашу</string>-->
 
-    <string name="gradeBookActivityNameUser">Есімің, </string>
+    <string name="gradeBookActivityNameUser"> Есімің, </string>
     <string name="gradeBookActivityDateLesson">Күн, </string>
     <string name="gradeBookActivityTextViewMDSA">Әрекеттер, </string>
     <string name="gradeBookActivityMultiplyNumbers">Сандарға, </string>
