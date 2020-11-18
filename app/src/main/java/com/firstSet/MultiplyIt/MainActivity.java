@@ -41,7 +41,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private MyTask currentTask;
 
     private SoundPool soundPool;
-    private final int MAX_STREAMS = 5;
+//    private final int MAX_STREAMS = 5;
     private AssetManager assetManager;
     private final String LOG_TAG = "myLogs";
     private int soundIdExplosionYes, soundIdExplosionRemoveLive, soundIdExplosionAddLive;
@@ -152,7 +152,16 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
 //                    не загружается textViewQuestion
 
             MyAct myAct = getCurrentTaskIntoQuestion(stringIntotextViewQuestion);
-            currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), myAct, mySettings.getSettingsMultiplys());
+            switch (myAct.getMyAct()){
+                case MULTIPLY:
+                case DIVIDE:
+                    currentTask = new MyTask(mySettings.getMinValue_SETTINGS_MULTIPLY(), mySettings.getMaxValue_SETTINGS_MULTIPLY(), myAct, mySettings.getSettingsMultiplys());
+                    break;
+                case ADD:
+                case SUBTRAC:
+                    currentTask = new MyTask(mySettings.getSettingsAddRangeMin(), mySettings.getSettingsAddRangeMax(), myAct, mySettings.getSettingsMultiplys());
+                    break;
+            }
             setCurrentTaskIntoQuestion(stringIntotextViewQuestion);
             //берем старый новый вопрос
         } else {
@@ -316,6 +325,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                     break;
                 case R.id.buttonBackSpace:
 //                String tempSatring = ;
+                    if (tempQuestion.length()>0)
                     textViewAnswerShowBasic.setText(tempQuestion.substring(0, tempQuestion.length() - 1));
 //                android:background="@drawable/baselinebackspaceblack18dp"
                     break;
@@ -489,7 +499,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         // String prav - текстовая оценка результата, ошибка или верно.
         // int intAnswer - числое значение результата
         Act deist = currentTask.getCurrentAct().getMyAct();
-        String tempText = currentTask.getCurrentOneUnit().toString() + deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer) + " " + prav;
+        String tempText = currentTask.getCurrentOneUnit().toString() + deist.getAct() + currentTask.getCurrentTwoUnit().toString() + '=' + String.valueOf(intAnswer);
+        if (tempText.length()<9)
+            tempText = tempText+ " " + prav;
+        else tempText = tempText+ " " + prav.substring(0,2);
+
         switch (myLesson.getCountPrimerov()) {
             // можно попробовать убрать громоздкую конгструкцию из 12 textViewAnswerShow1
             // и сделать массив из textViewAnswerShow, но это усложнит их наименование через string.xml

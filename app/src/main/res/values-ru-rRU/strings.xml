@@ -35,7 +35,7 @@
     <string name="strEnter">Введи ответ.</string>
     <string name="titleAllTask">Задач: </string>
     <string name="titleWrongTask">, ошибок - </string>
-    <string name="titleRightTask">, правильно - </string>
+    <string name="titleRightTask">, верно - </string>
     <string name="textRightTask">верно </string>
     <string name="textWrongTask">ошибка </string>
 

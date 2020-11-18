@@ -5,9 +5,18 @@ public class MyNumberAddSub extends MyNumber {
     public MyNumberAddSub(int minValue, int maxValue) {
         super(minValue, maxValue);
         // оставляем только генерацию
-        if (maxValue>100) setMaxValue(100);
+        if (maxValue<minValue) {
+            int tempInt=minValue;
+            minValue=maxValue;
+            maxValue=tempInt;
+        }
 
-        setValue(getMinValue() + (int) (Math.random() * getMaxValue()));//0..9, 10..50 = 10-0, 50-10=40
+        if (minValue>99)  setMinValue(99);
+        if (maxValue>100) setMaxValue(100);
+        if (minValue<1) setMinValue(1);
+        if (maxValue<2) setMaxValue(2);
+
+        setValue(getMinValue() + (int) (Math.random() * (getMaxValue()-getMinValue())));//0..9, 10..50 = 10-0, 50-10=40
 
     }
     public MyNumberAddSub(int minValue, int maxValue, int value) {
