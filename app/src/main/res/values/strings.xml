@@ -129,16 +129,8 @@
     <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
     <string name="finishStringActions"> *  /  +  - </string>
     <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
-
     <string name="finishButtonSaveTitle">Save result</string>
-<!--    <string name="finishButtonCancelTitle">Do not save</string>-->
-
-
     <string name="finishLeassonActivityNotUserName">"Enter your name !"</string>
-
-<!--    <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>-->
-<!--    <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>-->
-
     <string name="gradeBookActivityNameUser"> Name, </string>
     <string name="gradeBookActivityDateLesson">Date, </string>
     <string name="gradeBookActivityTextViewMDSA">Actions, </string>

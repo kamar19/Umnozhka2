@@ -33,26 +33,23 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-
         switch (which) {
             case Dialog.BUTTON_POSITIVE:
                 // продолжить игру
                 resultDialog = 1;
 //                Log.d(LOG_TAG, "onClick: PositiveButton");
-                Intent intent2 = new Intent( getActivity(), MainActivity.class);
+                Intent intent2 = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent2);
-            dismiss();
-            break;
+                dismiss();
+                break;
             case Dialog.BUTTON_NEGATIVE:
                 resultDialog = 2;
                 // начать занова
 //                Log.d(LOG_TAG, "onClick: NegativeButton");
                 StartActivity.myLesson.startNewLesson();
 //                StartActivity.myLesson.setEndGame(true);
-                Intent intent3 = new Intent( getActivity(), MainActivity.class);
+                Intent intent3 = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent3);
-//
-
                 dismiss();
                 break;
             case Dialog.BUTTON_NEUTRAL:
@@ -62,10 +59,9 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
         }
     }
 
-    public int getResultDialog() {
-        return this.resultDialog;
-    }
-
+//    public int getResultDialog() {
+//        return this.resultDialog;
+//    }
 
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
@@ -76,8 +72,6 @@ public class MyDialog extends DialogFragment implements DialogInterface.OnClickL
         super.onCancel(dialog);
 //        Log.d(LOG_TAG, "Dialog 2: onCancel");
     }
-
-
 }
 
 
