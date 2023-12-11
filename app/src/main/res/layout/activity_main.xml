@@ -5,9 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_height="match_parent"
+            android:layout_width="20dp"/>
+
+        <TextView
+            android:id="@+id/textViewPoints"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:layout_width="80dp"
+            android:text="@string/textViewPoints"
+            android:textSize="28sp" />
+        <Space
+            android:layout_height="match_parent"
+            android:layout_width="20dp"     />
+
+        <TextView
+            android:id="@+id/textViewAnswerCount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:text="@string/titleAllTask" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -15,8 +40,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="false"
-        android:max="100"
-        android:progress="10" />
+        android:max="30"
+        android:progress="0" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -25,15 +51,19 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="35dp"
             android:orientation="horizontal">
+
+            <Space
+                android:layout_width="152dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0" />
 
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:contentDescription="@string/todo"
                 tools:srcCompat="@drawable/heart" />
 
             <ImageView
@@ -68,6 +98,7 @@
                 android:contentDescription="@string/todo"
                 tools:srcCompat="@drawable/heart" />
         </LinearLayout>
+
         <GridLayout
             android:id="@+id/gridLayout1"
             android:layout_width="match_parent"
@@ -87,8 +118,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow1"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow2"
@@ -98,8 +129,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow2"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow3"
@@ -109,19 +140,20 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow3"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow4"
+                android:layout_height="wrap_content"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow4"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow5"
@@ -142,8 +174,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow6"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow7"
@@ -153,8 +185,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow7"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow8"
@@ -164,8 +196,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow8"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow9"
@@ -175,8 +207,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow9"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow10"
@@ -185,9 +217,9 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
-                android:visibility="invisible"
                 android:text="@string/textViewAnswerShow10"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow11"
@@ -197,8 +229,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow11"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/textViewAnswerShow12"
@@ -208,8 +240,8 @@
                 android:layout_columnWeight="1"
                 android:layout_gravity="center"
                 android:text="@string/textViewAnswerShow12"
-                android:visibility="invisible"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="invisible" />
         </GridLayout>
 
         <LinearLayout
@@ -239,8 +271,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="3"
-                android:text="@string/textViewAnswerShowBasic"
                 android:maxLength="4"
+                android:text="@string/textViewAnswerShowBasic"
                 android:textSize="34sp" />
 
         </LinearLayout>
@@ -285,7 +317,8 @@
                     android:layout_column="1"
                     android:layout_columnWeight="1"
                     android:layout_gravity="center"
-                    android:text="@string/buttonDigit2" />
+                    android:text="@string/buttonDigit2"
+                    android:textColorHint="#FFFFFF" />
 
                 <Button
                     android:id="@+id/buttonDigit3"
@@ -359,9 +392,9 @@
                     android:layout_column="0"
                     android:layout_columnWeight="1"
                     android:layout_gravity="center"
-                    android:textSize="10sp"
+                    android:text="@string/buttonBackSpace"
 
-                    android:text="@string/buttonBackSpace" />
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/buttonDigit0"

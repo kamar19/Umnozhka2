@@ -30,22 +30,9 @@
     <string name="textViewAnswerCount">1</string>
     <string name="textViewQuestion"> 12 * 6 = </string>
     <string name="textViewAnswerShowBasic"> </string>
-    <string name="settingsLoad">Loaded</string>
-    <string name="settingsSave">Saved</string>
-    <string name="textViewPoints"> 0 </string>
-    <string name="todo">TODO</string>
+    <string name="textViewPoints"> </string>
 
-    <string-array name="entries">
-        <item>English</item>
-        <item>Қазақ</item>
-        <item>Русский</item>
-    </string-array>
-    <string-array name="entry_values">
-        <item>en</item>
-        <item>kk</item>
-        <item>ru</item>
 
-    </string-array>
     <string name="strEnter">Enter your answer.</string>
     <string name="titleAllTask">Tasks: </string>
     <string name="titleWrongTask">, wrong - </string>
@@ -83,11 +70,11 @@
     <string name="settingsDivideSummaryOn">On</string>
     <string name="operationsOn">Actions on ...</string>
 
-    <string name="settingsAddTitle">ADD</string>
+    <string name="settingsAddTitle">Add</string>
     <string name="settingsAddSummaryOff">Off</string>
     <string name="settingsAddSummaryOn">On</string>
 
-    <string name="settingsSubstracTitle">SUBTRAC</string>
+    <string name="settingsSubstracTitle">Substract</string>
     <string name="settingsSubstracSummaryOff">Off</string>
     <string name="settingsSubstracSummaryOn">On</string>
 
@@ -101,6 +88,10 @@
     <string name="settingsRecordSummaryOff">no time limit?</string>
     <string name="settingsRecordSwitchTextOff">Off</string>
     <string name="settingsRecordSwitchTextOn">On</string>
+
+    <string name="settingsLoad">Loaded</string>
+    <string name="settingsSave">Saved</string>
+    <string name="todo">TODO</string>
 
     <string name="buttonSettingsTitle">Preferences</string>
     <string name="buttonGameTitle">Game</string>
@@ -125,6 +116,7 @@
     <string name="finishTextViewMultiplyNumbers">Multiply Numbers: </string>
     <string name="finishTextViewPoints">Count points</string>
     <string name="finishStringViewPoints">000</string>
+
     <string name="finishStringUserName">Noname</string>
     <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
     <string name="finishStringActions">Multiply, Divide, Add, Substrac</string>
@@ -132,11 +124,9 @@
 
     <string name="finishButtonTakeFotoTitle">Make foto</string>
     <string name="finishButtonSaveTitle">Save result</string>
-
     <string name="finishLeassonActivityNotUserName">"Enter your name !"</string>
 
-    <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>
     <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>
-
+    <string name="makeFotoActivityButtonTakeFoto">"Take foto !"</string>
 
 </resources>

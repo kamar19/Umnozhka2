@@ -1,85 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/entries"
+        android:entryValues="@array/entry_values"
+        android:key="settingsLanguage"
+        android:title="@string/settingsLanguageTitle" />
+    <CheckBoxPreference
+        android:key="settingsSound"
+        android:summaryOn="@string/settingsSoundOn"
+        android:summaryOff="@string/settingsSoundOff"
+        android:title="@string/settingsSoundTitle"/>
 
-        <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY"
-            android:summaryOn="@string/SettingsMultiplySummaryOn"
-            android:summaryOff="@string/SettingsMultiplySummaryOff"
-            android:title="@string/SettingsMultiplyTitle"/>
-        <CheckBoxPreference
-            android:key="SETTINGS_DIVIDE"
-            android:summaryOff="@string/SettingsDivideSummaryOff"
-            android:summaryOn="@string/SettingsDivideSummaryOn"
-            android:title="@string/SettingsDivideTitle"/>
+
+    <CheckBoxPreference
+        android:key="settingsMultiply"
+        android:summaryOn="@string/settingsMultiplySummaryOn"
+        android:summaryOff="@string/settingsMultiplySummaryOff"
+        android:title="@string/settingsMultiplyTitle"/>
+    <CheckBoxPreference
+        android:key="settingsDivide"
+        android:summaryOff="@string/settingsDivideSummaryOff"
+        android:summaryOn="@string/settingsDivideSummaryOn"
+        android:title="@string/settingsDivideTitle"/>
 
     <PreferenceScreen
-        android:dependency="SETTINGS_MULTIPLY"
+        android:dependency="settingsMultiply"
         android:summary="@string/operationsOn"
-        android:title="Действия">
+        android:title="@string/settingsMultiplyPreferenceScreen">
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_1"
-            android:title="на 1" />
+            android:key="settingsMultiplyNumber1"
+            android:title="@string/settingsMultiplyNumber1" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_2"
-            android:title="на 2" />
+            android:key="settingsMultiplyNumber2"
+            android:title="@string/settingsMultiplyNumber2" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_3"
-            android:title="на 3" />
+            android:key="settingsMultiplyNumber3"
+            android:title="@string/settingsMultiplyNumber3" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_4"
-            android:title="на 4" />
+            android:key="settingsMultiplyNumber4"
+            android:title="@string/settingsMultiplyNumber4" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_5"
-            android:title="на 5" />
+            android:key="settingsMultiplyNumber5"
+            android:title="@string/settingsMultiplyNumber5" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_6"
-            android:title="на 6" />
+            android:key="settingsMultiplyNumber6"
+            android:title="@string/settingsMultiplyNumber6" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_7"
-            android:title="на 7" />
+            android:key="settingsMultiplyNumber7"
+            android:title="@string/settingsMultiplyNumber7" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_8"
-            android:title="на 8" />
+            android:key="settingsMultiplyNumber8"
+            android:title="@string/settingsMultiplyNumber8" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_9"
-            android:title="на 9" />
+            android:key="settingsMultiplyNumber9"
+            android:title="@string/settingsMultiplyNumber9" />
         <CheckBoxPreference
-            android:key="SETTINGS_MULTIPLY_10"
-            android:title="на 0" />
+            android:key="settingsMultiplyNumber10"
+            android:title="@string/settingsMultiplyNumber10" />
     </PreferenceScreen>
 
-        <CheckBoxPreference
-            android:key="SETTINGS_ADD"
-            android:summaryOff="выключено"
-            android:summaryOn="включено"
-            android:title="Сложение">
-        </CheckBoxPreference>
+    <CheckBoxPreference
+        android:key="settingsAdd"
+        android:summaryOff="@string/settingsAddSummaryOff"
+        android:summaryOn="@string/settingsAddSummaryOn"
+        android:title="@string/settingsAddTitle"/>
 
-        <CheckBoxPreference
-            android:key="SETTINGS_SUBTRAC"
-            android:summaryOff="выключено"
-            android:summaryOn="включено"
-            android:title="Вычитание">
-        </CheckBoxPreference>
+    <CheckBoxPreference
+        android:key="settingsSubtrac"
+        android:summaryOff="@string/settingsSubstracSummaryOff"
+        android:summaryOn="@string/settingsSubstracSummaryOn"
+        android:title="@string/settingsSubstracTitle"/>
 
     <EditTextPreference
-        android:dependency="SETTINGS_ADD"
-        android:key="SETTINGS_ADD_RANGE_MIN"
-        android:title="Начало диапозона сложения"
-        android:summary="выбери первое число"/>
-    <EditTextPreference
-        android:dependency="SETTINGS_ADD"
-        android:key="SETTINGS_ADD_RANGE_MAX"
-        android:title="Конец диапозона сложения"
-        android:summary="выбери второе число"/>
+        android:dependency="settingsAdd"
+        android:inputType="number"
+        android:key="settingsAddRangeMin"
+        android:maxLength="3"
+        android:summary="@string/settingsAddRangeMinSummary"
+        android:title="@string/settingsAddRangeMinTitle" />
 
+    <EditTextPreference
+        android:dependency="settingsAdd"
+        android:inputType="number"
+        android:key="settingsAddRangeMax"
+        android:maxLength="3"
+        android:summary="@string/settingsAddRangeMaxSummary"
+        android:title="@string/settingsAddRangeMaxTitle" />
 
     <SwitchPreference
-        android:key="SETTINGS_RECORD"
-        android:summaryOff="Игра на рекорд?"
-        android:summaryOn="ограничение количества задач и веремени?"
-        android:title="Игра на рекорд"
-
-        android:switchTextOff="Нет"
-        android:switchTextOn="Да" />
-</PreferenceScreen>
+        android:key="settingsRecord"
+        android:summaryOff="@string/settingsRecordSummaryOff"
+        android:summaryOn="@string/settingsRecordSummaryOn"
+        android:title="@string/settingsRecordTitle"
+        android:switchTextOff="@string/settingsRecordSwitchTextOff"
+        android:switchTextOn="@string/settingsRecordSwitchTextOn" />
+    </PreferenceScreen>

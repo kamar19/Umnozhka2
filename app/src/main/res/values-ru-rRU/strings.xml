@@ -1,0 +1,132 @@
+<resources>
+    <string name="appName">Umnozhka</string>
+    <string name="act">*</string>
+    <string name="numberOne">5</string>
+    <string name="numberTwo">5</string>
+    <string name="buttonDigit1">1</string>
+    <string name="buttonDigit2">2</string>
+    <string name="buttonDigit3">3</string>
+    <string name="buttonDigit4">4</string>
+    <string name="buttonDigit5">5</string>
+    <string name="buttonDigit6">6</string>
+    <string name="buttonDigit7">7</string>
+    <string name="buttonDigit8">8</string>
+    <string name="buttonDigit9">9</string>
+    <string name="buttonDigit0">0</string>
+    <string name="buttonEnter">Enter</string>
+    <string name="buttonBackSpace">Back Space</string>
+    <string name="textViewAnswerShow1">1*6=6</string>
+    <string name="textViewAnswerShow2">2*6=12</string>
+    <string name="textViewAnswerShow3">3*6=6</string>
+    <string name="textViewAnswerShow4">4*6=6</string>
+    <string name="textViewAnswerShow5">5*6=6</string>
+    <string name="textViewAnswerShow6">6*6=6</string>
+    <string name="textViewAnswerShow7">7*6=6</string>
+    <string name="textViewAnswerShow8">8*6=6</string>
+    <string name="textViewAnswerShow9">9*6=6</string>
+    <string name="textViewAnswerShow10">10*6=6</string>
+    <string name="textViewAnswerShow11">11*6=6</string>
+    <string name="textViewAnswerShow12">12*6=62</string>
+    <string name="textViewAnswerCount">1</string>
+    <string name="textViewQuestion"> 12 * 6 = </string>
+    <string name="textViewAnswerShowBasic"> </string>
+    <string name="textViewPoints"> </string>
+
+    <string name="strEnter">Введи ответ.</string>
+    <string name="titleAllTask">Задач: </string>
+    <string name="titleWrongTask">, ошибок - </string>
+    <string name="titleRightTask">, правильно - </string>
+    <string name="textRightTask">верно </string>
+    <string name="textWrongTask">ошибка </string>
+
+    <string name="titleActivityPref">Настройки</string>
+
+    <string name="menuReport">Журнал</string>
+    <string name="menuPreferences">Настройки</string>
+    <string name="menuExit">Выход</string>
+
+    <string name="settingsMultiplySummaryOn">включено</string>
+    <string name="settingsMultiplySummaryOff">выключено</string>
+
+    <string name="settingsLanguageTitle">Язык</string>
+    <string name="settingsMultiplyTitle">Умножение</string>
+    <string name="settingsDivideTitle">Деление</string>
+
+    <string name="settingsMultiplyPreferenceScreen">Действия</string>
+
+    <string name="settingsMultiplyNumber1">на 1</string>
+    <string name="settingsMultiplyNumber2">на 2</string>
+    <string name="settingsMultiplyNumber3">на 3</string>
+    <string name="settingsMultiplyNumber4">на 4</string>
+    <string name="settingsMultiplyNumber5">на 5</string>
+    <string name="settingsMultiplyNumber6">на 6</string>
+    <string name="settingsMultiplyNumber7">на 7</string>
+    <string name="settingsMultiplyNumber8">на 8</string>
+    <string name="settingsMultiplyNumber9">на 9</string>
+    <string name="settingsMultiplyNumber10">на 10</string>
+
+    <string name="settingsDivideSummaryOff">выключено</string>
+    <string name="settingsDivideSummaryOn">включено</string>
+    <string name="operationsOn">Действия на ...</string>
+
+    <string name="settingsAddTitle">Сложение</string>
+    <string name="settingsAddSummaryOff">выключено</string>
+    <string name="settingsAddSummaryOn">включено</string>
+
+    <string name="settingsSubstracTitle">Вычитание</string>
+    <string name="settingsSubstracSummaryOff">выключено</string>
+    <string name="settingsSubstracSummaryOn">включено</string>
+
+    <string name="settingsAddRangeMinTitle">Начало диапазона сложения</string>
+    <string name="settingsAddRangeMinSummary">введите первое число</string>
+    <string name="settingsAddRangeMaxTitle">Конец диапазона сложения</string>
+    <string name="settingsAddRangeMaxSummary">введите второе число</string>
+
+    <string name="settingsRecordTitle">Урок по времени</string>
+    <string name="settingsRecordSummaryOn">с ограничением по времени?</string>
+    <string name="settingsRecordSummaryOff">без ограничений по времени?</string>
+    <string name="settingsRecordSwitchTextOff">Нет?</string>
+    <string name="settingsRecordSwitchTextOn">Да?</string>
+
+    <string name="settingsLoad">Загружены</string>
+    <string name="settingsSave">Сохранены</string>
+    <string name="todo">TODO</string>
+
+    <string name="buttonSettingsTitle">Настройки</string>
+    <string name="buttonGameTitle">Заниматься</string>
+    <string name="buttonGradesTitle">Оценки</string>
+    <string name="buttonEndTitle">Выход</string>
+
+    <string name="settingsSoundTitle">Звуковые эффекты</string>
+    <string name="settingsSoundOn">включено</string>
+    <string name="settingsSoundOff">выключено</string>
+
+    <string name="alertDialogTitle">Урок не завершен!</string>
+    <string name="alertDialogMessage">Продолжить прошлый урок?</string>
+    <string name="alertDialogNegativeButtonText">Начать новый урок</string>
+    <string name="alertDialogPositiveButtonText">Продолжить урок</string>
+    <string name="alertDialogNeutralButtonText">Отмена</string>
+
+    <string name="finishTextViewResultTitle">The result of the lessons</string>
+
+    <string name="finishTextNameUser">Name user: </string>
+    <string name="finishTextPrimerovTasks">Count (all tasks, right task, wrong task):</string>
+    <string name="finishTextViewMDSA">Actions: </string>
+    <string name="finishTextViewMultiplyNumbers">Multiply Numbers: </string>
+    <string name="finishTextViewPoints">Count points</string>
+    <string name="finishStringViewPoints">000</string>
+
+    <string name="finishStringUserName">Noname</string>
+    <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
+    <string name="finishStringActions">Multiply, Divide, Add, Substrac</string>
+    <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
+
+    <string name="finishButtonTakeFotoTitle">Make foto</string>
+    <string name="finishButtonSaveTitle">Save result</string>
+
+    <string name="finishLeassonActivityNotUserName">"Введите имя !"</string>
+    <string name="makeFotoActivityButtonTakeFoto">"Снимок"</string>
+    <string name="makeFotoActivityButtonOpenCamera">"Открыть Камеру"</string>
+
+
+</resources>

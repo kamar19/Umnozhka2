@@ -1,0 +1,132 @@
+<resources>
+    <string name="appName">Umnozhka</string>
+    <string name="act">*</string>
+    <string name="numberOne">5</string>
+    <string name="numberTwo">5</string>
+    <string name="buttonDigit1">1</string>
+    <string name="buttonDigit2">2</string>
+    <string name="buttonDigit3">3</string>
+    <string name="buttonDigit4">4</string>
+    <string name="buttonDigit5">5</string>
+    <string name="buttonDigit6">6</string>
+    <string name="buttonDigit7">7</string>
+    <string name="buttonDigit8">8</string>
+    <string name="buttonDigit9">9</string>
+    <string name="buttonDigit0">0</string>
+    <string name="buttonEnter">Enter</string>
+    <string name="buttonBackSpace">Back Space</string>
+    <string name="textViewAnswerShow1">1*6=6</string>
+    <string name="textViewAnswerShow2">2*6=12</string>
+    <string name="textViewAnswerShow3">3*6=6</string>
+    <string name="textViewAnswerShow4">4*6=6</string>
+    <string name="textViewAnswerShow5">5*6=6</string>
+    <string name="textViewAnswerShow6">6*6=6</string>
+    <string name="textViewAnswerShow7">7*6=6</string>
+    <string name="textViewAnswerShow8">8*6=6</string>
+    <string name="textViewAnswerShow9">9*6=6</string>
+    <string name="textViewAnswerShow10">10*6=6</string>
+    <string name="textViewAnswerShow11">11*6=6</string>
+    <string name="textViewAnswerShow12">12*6=62</string>
+    <string name="textViewAnswerCount">1</string>
+    <string name="textViewQuestion"> 12 * 6 = </string>
+    <string name="textViewAnswerShowBasic"> </string>
+    <string name="settingsLoad">Loaded</string>
+    <string name="settingsSave">Saved</string>
+    <string name="todo">TODO</string>
+    <string name="textViewPoints"> </string>
+
+     <string name="strEnter">Жауабың енгізі.</string>
+    <string name="titleAllTask">Тапсырмалар: </string>
+    <string name="titleWrongTask">, қателер - </string>
+    <string name="titleRightTask">, дұрыс - </string>
+    <string name="textRightTask">дұрыс </string>
+    <string name="textWrongTask">қателер </string>
+
+    <string name="titleActivityPref">Баптаулар</string>
+
+    <string name="menuReport">Журнал</string>
+    <string name="menuPreferences">Баптаулар</string>
+    <string name="menuExit">Шығу</string>
+
+    <string name="settingsMultiplySummaryOn">Енгізілген</string>
+    <string name="settingsMultiplySummaryOff">Өшірілген</string>
+
+    <string name="settingsLanguageTitle">Тіл</string>
+    <string name="settingsMultiplyTitle">Көбей</string>
+    <string name="settingsDivideTitle">Бөлім</string>
+
+    <string name="settingsMultiplyPreferenceScreen">Әрекеттер</string>
+
+    <string name="settingsMultiplyNumber1"> 1</string>
+    <string name="settingsMultiplyNumber2"> 2</string>
+    <string name="settingsMultiplyNumber3"> 3</string>
+    <string name="settingsMultiplyNumber4"> 4</string>
+    <string name="settingsMultiplyNumber5"> 5</string>
+    <string name="settingsMultiplyNumber6"> 6</string>
+    <string name="settingsMultiplyNumber7"> 7</string>
+    <string name="settingsMultiplyNumber8"> 8</string>
+    <string name="settingsMultiplyNumber9"> 9</string>
+    <string name="settingsMultiplyNumber10"> 10</string>
+
+    <string name="settingsDivideSummaryOff">Өшірілген</string>
+    <string name="settingsDivideSummaryOn">Енгізілген</string>
+    <string name="operationsOn">Әрекеттер ...</string>
+
+    <string name="settingsAddTitle">Қосу</string>
+    <string name="settingsAddSummaryOff">Өшірілген</string>
+    <string name="settingsAddSummaryOn">Енгізілген</string>
+
+    <string name="settingsSubstracTitle">Азайту</string>
+    <string name="settingsSubstracSummaryOff">Өшірілген</string>
+    <string name="settingsSubstracSummaryOn">Енгізілген</string>
+
+    <string name="settingsAddRangeMinTitle">Бүктеу ауқымы басталады</string>
+    <string name="settingsAddRangeMinSummary">Бірінші нөмірді енгізіңіз</string>
+    <string name="settingsAddRangeMaxTitle">Қосу ауқымының аяқталуы</string>
+    <string name="settingsAddRangeMaxSummary">Екінші нөмірді енгізіңіз</string>
+
+    <string name="settingsRecordTitle">Уақыт сабағы</string>
+    <string name="settingsRecordSummaryOn">уақыт шектеулі?</string>
+    <string name="settingsRecordSummaryOff">Суақыт шектеусіз?</string>
+    <string name="settingsRecordSwitchTextOff">Жоқ?</string>
+    <string name="settingsRecordSwitchTextOn">Иә?</string>
+
+    <string name="buttonSettingsTitle">Баптаулар</string>
+    <string name="buttonGameTitle">Ойнату</string>
+    <string name="buttonGradesTitle">Бағалау</string>
+    <string name="buttonEndTitle">Шығу</string>
+
+    <string name="settingsSoundTitle">Дыбыстық эффекттер</string>
+    <string name="settingsSoundOn">Енгізілген</string>
+    <string name="settingsSoundOff">Өшірілген</string>
+
+    <string name="alertDialogTitle">Сабақ аяқталған жоқ!</string>
+    <string name="alertDialogMessage">Өткен сабақты жалғастыру керек пе?</string>
+    <string name="alertDialogNegativeButtonText">Жаңа сабақты бастаңыз</string>
+    <string name="alertDialogPositiveButtonText">Сабақты жалғастыру</string>
+    <string name="alertDialogNeutralButtonText">Болдырмау</string>
+
+    <string name="finishTextViewResultTitle">The result of the lessons</string>
+
+    <string name="finishTextNameUser">Name user: </string>
+    <string name="finishTextPrimerovTasks">Count (all tasks, right task, wrong task):</string>
+    <string name="finishTextViewMDSA">Actions: </string>
+    <string name="finishTextViewMultiplyNumbers">Multiply Numbers: </string>
+    <string name="finishTextViewPoints">Count points</string>
+    <string name="finishStringViewPoints">000</string>
+
+    <string name="finishStringUserName">Noname</string>
+    <string name="finishStringPrimerovTasks"> 40, 40, 0 </string>
+    <string name="finishStringActions">Multiply, Divide, Add, Substrac</string>
+    <string name="finishStringMultiplyNumbers">1, 2, 3, 4, 5, 6, 7, 8, 9, 10</string>
+
+    <string name="finishButtonTakeFotoTitle">Make foto</string>
+    <string name="finishButtonSaveTitle">Save result</string>
+
+    <string name="finishLeassonActivityNotUserName">"Атыңызды енгізіңіз !"</string>
+    <string name="makeFotoActivityButtonTakeFoto">"Take foto !"</string>
+    <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>
+
+
+
+</resources>
