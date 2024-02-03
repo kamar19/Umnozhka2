@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.DialogFragment;
 import android.util.Log;
+
+import com.firstSet.umnozhka.R;
 //import androidx.fragment.app.DialogFragment;
 
 //public class MyDialog extends DialogFragment {

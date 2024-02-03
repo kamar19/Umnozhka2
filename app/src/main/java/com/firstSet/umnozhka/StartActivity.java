@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.app.DialogFragment;
 
 //import androidx.fragment.app.DialogFragment;
+
+import com.firstSet.umnozhka.R;
 
 import java.util.Locale;
 

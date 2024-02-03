@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 public abstract class MyNumber {
     private int value;

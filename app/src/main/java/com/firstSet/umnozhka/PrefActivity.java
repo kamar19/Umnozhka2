@@ -1,21 +1,11 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceManager;
-import android.preference.SwitchPreference;
-import android.widget.Button;
 
 import static android.app.PendingIntent.getActivity;
+
+import com.firstSet.umnozhka.R;
 
 //public class PrefActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     public class PrefActivity extends PreferenceActivity {

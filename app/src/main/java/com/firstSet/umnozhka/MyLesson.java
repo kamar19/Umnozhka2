@@ -1,10 +1,7 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.SoundPool;
 import android.os.Build;
-import android.preference.PreferenceManager;
 
 public class MyLesson {
     private int countHeartLive = 0;

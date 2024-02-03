@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -32,6 +32,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.firstSet.umnozhka.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

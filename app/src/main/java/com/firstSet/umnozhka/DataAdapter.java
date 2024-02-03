@@ -1,20 +1,14 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.List;
 
     class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {

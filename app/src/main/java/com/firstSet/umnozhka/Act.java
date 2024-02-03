@@ -1,4 +1,4 @@
-package com.example.umnozhka;
+package com.firstSet.umnozhka;
 
 public enum Act {
         MULTIPLY("*"), DIVIDE("/"), SUBTRAC("-"),ADD("+");
