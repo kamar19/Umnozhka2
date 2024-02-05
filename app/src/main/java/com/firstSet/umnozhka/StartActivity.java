@@ -29,8 +29,6 @@ public class StartActivity extends Activity implements OnClickListener {
     public static LessonSummary startLessonSummary;
 
     final String LOG_TAG = "StartActivityLogs";
-//    public static Locale locale;
-//    public static Configuration configuration;
 
     public static LessonSummary getStartLessonSummary() {
         return startLessonSummary;
@@ -49,17 +47,8 @@ public class StartActivity extends Activity implements OnClickListener {
         myLesson = new MyLesson();
 
         if (sharedPreferences != null) {
-            // по умолчанию, если настроеки есть загружаются, иначе создаются
             mySettings.loadValuesMySettings(sharedPreferences);
             changeDisplayLanguage(mySettings.getSettingsLanguage());
-//            getResources().getConfiguration().locale.getDisplayLanguage().toString().
-//            textView.setText(getResources().getConfiguration().locale.getDisplayLanguage().toString());
-//            textView2.setText(SettingsLanguage);
-//            Toast toast = Toast.makeText(getApplicationContext(),
-//                    "Настройки загруженны!", Toast.LENGTH_SHORT);
-//            toast.show();
-////            textViewAnswerShow5.setVisibility(View.VISIBLE) ;
-//            textViewAnswerShow5.setText(R.string.SettingsLoad);
         } else {
             // Первая загрузка значений по умолчанию
             // нужно проверить какая локаль в системе по умолчанию
