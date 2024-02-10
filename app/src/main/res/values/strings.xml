@@ -138,5 +138,11 @@
     <string name="makeFotoActivityButtonTakeFoto">"Take foto"</string>
     <string name="makeFotoActivityButtonOpenCamera">"Open Camera"</string>
 
+    <string name="reportTitleNameUser">Name</string>
+    <string name="reportTitlePrimerovTasks">Total, right, error</string>
+    <string name="reportTitleDateLesson">Date</string>
+    <string name="reportTitleMDSA">Actions</string>
+    <string name="reportTitleMultiplyNumbers">Numbers</string>
+    <string name="reportTitlePoints">Points</string>
 
 </resources>

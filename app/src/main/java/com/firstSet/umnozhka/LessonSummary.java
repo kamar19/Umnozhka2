@@ -2,20 +2,16 @@ package com.firstSet.umnozhka;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import android.content.SharedPreferences;
+import android.os.Build;
 
-import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
-
-// возможно этот класс не нужен, так как буду сохранять в БД
-// но временно,для проверки как работает recycleview сделаю через этот класс
 public class LessonSummary {
     private String nameUser;
-    private String imageFileName;
     private int countPoints;
     private String dateLesson;// без привязки ко времени
     private String stringPrimerovTasks; // countAllPrimerov+countRightTask+countWrongTask
     private String stringMDSA;//Multiply + Divide + Substrac + Add
     private String stringMultiplyNumbers; //MultiplyNumber1+...MultiplyNumber10
-
 
     public int getCountPoints() {
         return countPoints;
@@ -25,15 +21,21 @@ public class LessonSummary {
         this.countPoints = countPoints;
     }
 
-
-    public LessonSummary(String nameUser, String imageFileName, int countPoints, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
+    public LessonSummary(String nameUser, int countPoints, String  dateLesson, String stringPrimerovTasks, String stringMDSA, String stringMultiplyNumbers) {
         this.nameUser = nameUser;
-        this.imageFileName = imageFileName;
         this.countPoints = countPoints;
-        this.dateLesson = new SimpleDateFormat("yyyymmddhhmmss").format(new Date());
+        if (dateLesson == null || dateLesson.length()<5) {
+            this.dateLesson = new SimpleDateFormat("dd.MM.yy").format(new Date());
+        } else {
+            this.dateLesson = dateLesson;
+        }
         this.stringPrimerovTasks = stringPrimerovTasks;
         this.stringMDSA = stringMDSA;
         this.stringMultiplyNumbers = stringMultiplyNumbers;
+    }
+
+    public LessonSummary(SharedPreferences sharedPreferences) {
+        loadValuesLessonSummary(sharedPreferences);
     }
 
     public String getDateLesson() {
@@ -42,10 +44,6 @@ public class LessonSummary {
 
     public String getNameUser() {
         return nameUser;
-    }
-
-    public String getImage() {
-        return imageFileName;
     }
 
     public String getStringPrimerovTasks() {
@@ -64,8 +62,29 @@ public class LessonSummary {
         this.nameUser = nameUser;
     }
 
+    public void loadValuesLessonSummary(SharedPreferences sharedPreferences){
+        this.nameUser = sharedPreferences.getString("nameUserLessonSummary", "Noname");;
+        this.countPoints = sharedPreferences.getInt("countPointsLessonSummary", 0);
+        this.dateLesson = sharedPreferences.getString("dateLessonSummary", "");;
+        this.stringPrimerovTasks = sharedPreferences.getString("primerovTasksLessonSummary", "");;
+        this.stringMDSA = sharedPreferences.getString("mDSALessonSummary", "");;
+        this.stringMultiplyNumbers = sharedPreferences.getString("multiplyNumbersLessonSummary", "");;
+    }
+
+    public void saveValuesLessonSummary(SharedPreferences sharedPreferences) {
+        SharedPreferences.Editor editorSharedPreferences = sharedPreferences.edit();
+        editorSharedPreferences.putString("nameUserLessonSummary", this.nameUser);
+        editorSharedPreferences.putInt("countPointsLessonSummary", this.countPoints);
+        editorSharedPreferences.putString("dateLessonSummary", this.dateLesson);
+        editorSharedPreferences.putString("primerovTasksLessonSummary", this.stringPrimerovTasks);
+        editorSharedPreferences.putString("mDSALessonSummary", this.stringMDSA);
+        editorSharedPreferences.putString("multiplyNumbersLessonSummary", this.stringMultiplyNumbers);
 
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editorSharedPreferences.apply();
+        } else editorSharedPreferences.commit();
+    }
 //    private File createImageFile() throws IOException {
 //        // Create an image file name
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());

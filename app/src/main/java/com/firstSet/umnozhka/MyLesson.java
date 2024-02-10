@@ -108,7 +108,7 @@ public class MyLesson {
     }
 
     public String getStringCountAllPrimerov() {
-        return String.valueOf(countAllPrimerov) + String.valueOf(countRightTask) + String.valueOf(countWrongTask);
+        return String.valueOf(countAllPrimerov) + ", " + String.valueOf(countRightTask) + ", " + String.valueOf(countWrongTask);
     }
 
     public void setCountPrimerov(int countPrimerov) {
@@ -170,7 +170,7 @@ public class MyLesson {
         } else editorSharedPreferences.commit();
     }
 
-    public void loadValuesMyLesson(SharedPreferences sharedPreferences) {
+    public void loadValuesLesson(SharedPreferences sharedPreferences) {
         countHeartLive = Integer.valueOf(sharedPreferences.getString("valueCountHeartLive", "0"));
         countAllPrimerov = Integer.valueOf(sharedPreferences.getString("valueCountAllPrimerov", "0"));
         countRightTask = Integer.valueOf(sharedPreferences.getString("valueCountRightTask", "0"));

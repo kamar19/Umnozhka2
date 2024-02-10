@@ -11,7 +11,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -22,21 +21,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.firstSet.umnozhka.R;
-
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class MainActivity extends Activity implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
-    // не сохраняемые
+
     Button buttonDigit1, buttonDigit2, buttonDigit3, buttonDigit4, buttonDigit5, buttonDigit6, buttonDigit7, buttonDigit8, buttonDigit9,
             buttonDigit0, buttonEnter, buttonBackSpace;
     private static SharedPreferences sharedPreferences;
-    //    private static final String PREFERENCES_SETTINGS_NAME = "umnozhkaMain";
     ImageView view1, view2, view3, view4, view5;
     ProgressBar progressBar;
     private MyTask currentTask;
@@ -44,18 +35,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
     private SoundPool soundPool;
     private final int MAX_STREAMS = 5;
     private AssetManager assetManager;
-    private final String LOG_TAG = "myLogs";
+    public static final String LOG_TAG = "myLogs";
     private int soundIdExplosion, soundIdExplosion2;
 
     private MyLesson myLesson;
     private MySettings mySettings;
-//    public static LessonSummary lessonSummary;
-
-//    private static int SETTINGS_TIME_BETWEEN_SESSIONS; // Время между сеансами
-//    private static int SETTINGS_COUNT_TASK;            // Задач в сеанс
-//    private static int SETTINGS_TIME_TASK;         // Время на одну задачу
-//    private static int SETTINGS_TIME_SESSION;      // Время на один сеанс, после уменьшается
-//    private static int PREFERENCES_SETTINGS_HEARTSLIVECOUNT;
 
     // параметры для данной активности, сохраняются в sharedPreferences, "umnozhkaMain"
     TextView textViewAnswerShow1, textViewAnswerShow2, textViewAnswerShow3, textViewAnswerShow4, textViewAnswerShow5, textViewAnswerShow6,
@@ -121,13 +105,14 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         textViewQuestion = findViewById(R.id.textViewQuestion);
         textViewPoints =  findViewById(R.id.textViewPoints);
         progressBar = findViewById(R.id.progressBar);
-        mySettings = StartActivity.mySettings;
 //        countHeartLive = 0;
         newSoundPools();
-//        sharedPreferences = getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        myLesson = StartActivity.myLesson;
-        mySettings = StartActivity.mySettings;
+        mySettings = new MySettings();
+        mySettings.loadValuesSettings(sharedPreferences);
+        myLesson = new MyLesson();
+        myLesson.loadValuesLesson(sharedPreferences);
+
         if (myLesson.getCountAllPrimerov() == 0)
             startNewLessonMainActivity();
 
@@ -214,13 +199,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
                             refrishIconLive();
                         } else {
                             myLesson.setEndGame(true);
-                            String filename = null;
-                            try {
-                                filename = createImageNameFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            StartActivity.setStartLessonSummary(new LessonSummary(myLesson.getUserNameDefault(), filename ,myLesson.getCountPoints() ,myLesson.getStringCountAllPrimerov(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers()));
+//                            String filename = null;
+//                            try {
+//                                filename = createImageNameFile();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+                            Log.d(LOG_TAG, "setStartLessonSummary myLesson.getCountPoints() = " + myLesson.getCountPoints());
+                            Log.d(LOG_TAG, "setStartLessonSummary myLesson.getStringCountAllPrimerov() = " + myLesson.getStringCountAllPrimerov());
+                            Log.d(LOG_TAG, "setStartLessonSummary mySettings.getStringMDSA() = " + mySettings.getStringMDSA());
+                            Log.d(LOG_TAG, "setStartLessonSummary mySettings.getStringMultiplyNumbers() = " + mySettings.getStringMultiplyNumbers());
+                            // Передача результата для последующего сохранения
+                            LessonSummary lessonSummary = new LessonSummary(myLesson.getUserNameDefault(), myLesson.getCountPoints() , "", myLesson.getStringCountAllPrimerov(), mySettings.getStringMDSA(), mySettings.getStringMultiplyNumbers());
+                            lessonSummary.saveValuesLessonSummary(sharedPreferences);
+
                             // попробую работать c new LessonSummary сразу в FinishLeassonActivity
                             // не получилось, так как тогда нужно пердавать и mySettings
 
@@ -246,14 +238,18 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         myLesson.setCountPoints(myLesson.getCountPoints()+countPoints);
 
         if (soundPool != null) {
-            soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
+            if (mySettings.isSettingsSound()) {
+                soundPool.play(soundIdExplosion, 1, 1, 1, 0, 1);
+            }
         }
 
         if (myLesson.getCountCurrentRightTask() > 4) {
             if (myLesson.getCountHeartLive() < 5) {
                 myLesson.setCountHeartLive(myLesson.getCountHeartLive() + 1);
                 if (soundPool != null) {
-                    soundPool.play(soundIdExplosion2, 1, 1, 1, 0, 1);
+                    if (mySettings.isSettingsSound()) {
+                        soundPool.play(soundIdExplosion2, 1, 1, 1, 0, 1);
+                    }
                 }
                 //                sp.play(soundIdExplosion, 1, 1, 0, 0, 1);
                 myLesson.setCountCurrentRightTask(0);
@@ -573,8 +569,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         view3.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView3", "1")));
         view4.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView4", "1")));
         view5.setVisibility(Integer.valueOf(sharedPreferences.getString("visibleView5", "1")));
-        mySettings.loadValuesMySettings(sharedPreferences);
-        myLesson.loadValuesMyLesson(sharedPreferences);
+        mySettings.loadValuesSettings(sharedPreferences);
+        myLesson.loadValuesLesson(sharedPreferences);
         progressBar.setMax(myLesson.getProgressBarTime());
     }
 
@@ -729,20 +725,20 @@ public class MainActivity extends Activity implements View.OnClickListener, Soun
         return myLesson;
     }
 
-    private String createImageNameFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "foto_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-//        this.imageFileName = image.getAbsolutePath();
-        return image.getAbsolutePath();
-    }
+//    private String createImageNameFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "foto_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+////        this.imageFileName = image.getAbsolutePath();
+//        return image.getAbsolutePath();
+//    }
 
 }

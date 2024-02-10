@@ -61,7 +61,7 @@ public class MySettings {
     public String getStringMultiplyNumbers() {
         String string="";
         for (int i = 0; i <settingsMultiplys.length-1 ; i++) {
-            if (settingsMultiplys[i]) string=string+i+" ,";
+            if (settingsMultiplys[i]) string=string+i+", ";
         }
            return string; //MultiplyNumber1+...MultiplyNumber10
     }
@@ -105,7 +105,7 @@ public class MySettings {
         settingsMultiplys[9] = true;
     }
 
-    public void loadValuesMySettings(SharedPreferences sharedPreferences) {
+    public void loadValuesSettings(SharedPreferences sharedPreferences) {
         // Думаю, что не нужно устанавливать в ручную переключатели и другие элементы в Preference Активности
         // Должны сами устанавливаться по значению констант настроек
         settingsLanguage = sharedPreferences.getString("settingsLanguage", "en");

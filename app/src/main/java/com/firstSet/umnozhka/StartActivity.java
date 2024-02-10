@@ -1,53 +1,38 @@
 package com.firstSet.umnozhka;
 
+import static com.firstSet.umnozhka.MainActivity.LOG_TAG;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
-import android.app.DialogFragment;
-
-//import androidx.fragment.app.DialogFragment;
-
-import com.firstSet.umnozhka.R;
-
 import java.util.Locale;
 
 public class StartActivity extends Activity implements OnClickListener {
     Button buttonSettings, buttonGame, buttonGrades, buttonEnd;
-    DialogFragment dialogFragment;
-    private static SharedPreferences sharedPreferences;
-    public static MySettings mySettings;
-    public static MyLesson myLesson;
-    public static LessonSummary startLessonSummary;
+    SharedPreferences sharedPreferences;
+    MySettings mySettings;
+    MyLesson myLesson;
 
-    final String LOG_TAG = "StartActivityLogs";
-
-    public static LessonSummary getStartLessonSummary() {
-        return startLessonSummary;
-    }
-
-    public static void setStartLessonSummary(LessonSummary startLessonSummary) {
-        StartActivity.startLessonSummary = startLessonSummary;
-    }
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        sharedPreferences =  getSharedPreferences(PREFERENCES_SETTINGS_NAME, MODE_PRIVATE);
+        context = this;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mySettings = new MySettings();
         myLesson = new MyLesson();
 
         if (sharedPreferences != null) {
-            mySettings.loadValuesMySettings(sharedPreferences);
+            mySettings.loadValuesSettings(sharedPreferences);
             changeDisplayLanguage(mySettings.getSettingsLanguage());
         } else {
             // Первая загрузка значений по умолчанию
@@ -109,13 +94,10 @@ public class StartActivity extends Activity implements OnClickListener {
             case R.id.buttonGame:
                 // Если игра не завершена
                 // продолжить игру? начать новую?
-                //getExternalFilesDir()
-                myLesson.loadValuesMyLesson(sharedPreferences);
+                myLesson.loadValuesLesson(sharedPreferences);
                 if (myLesson.isEndGame()==false) {
                     //Если урок не закончен
-//                    myDialog = new MyDialog();
-                    DialogFragment dialogFragment = new MyDialog();
-                    dialogFragment.show(getFragmentManager(), "tt");
+                    showDialog();
                 } else
                 //Если урок закончен, нужно начинать сначала
 
@@ -139,19 +121,46 @@ public class StartActivity extends Activity implements OnClickListener {
                 this.finish();
                 break;
         }
-        Log.d(LOG_TAG, "end of onClick");
+    }
+
+    private void showDialog() {
+        CustomDialog dialogFragment = new CustomDialog();
+        DialogInterface.OnClickListener okListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // продолжить игру
+                Intent intent = new Intent( getBaseContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        };
+        DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // начать занова
+                myLesson.startNewLesson();
+                myLesson.setEndGame(true);
+                Intent intent = new Intent( context, MainActivity.class);
+                startActivity(intent);
+            }
+        };
+        DialogInterface.OnClickListener neutralListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        };
+
+        dialogFragment.showDialog(okListener,cancelListener,neutralListener, context);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mySettings.loadValuesMySettings(sharedPreferences);
+        mySettings.loadValuesSettings(sharedPreferences);
         changeDisplayLanguage(mySettings.getSettingsLanguage());
     }
 
     @Override
     public void onPause() {
-        //       savePreferences();
         super.onPause();
     }
 
