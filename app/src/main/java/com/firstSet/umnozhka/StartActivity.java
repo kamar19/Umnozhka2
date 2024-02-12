@@ -1,6 +1,5 @@
 package com.firstSet.umnozhka;
 
-import static com.firstSet.umnozhka.MainActivity.LOG_TAG;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -139,6 +138,7 @@ public class StartActivity extends Activity implements OnClickListener {
                 // начать занова
                 myLesson.startNewLesson();
                 myLesson.setEndGame(true);
+                myLesson.saveValuesMyLesson(sharedPreferences);
                 Intent intent = new Intent( context, MainActivity.class);
                 startActivity(intent);
             }

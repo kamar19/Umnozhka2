@@ -3,7 +3,6 @@ package com.firstSet.umnozhka;
 import static com.firstSet.umnozhka.GradebookActivity.nameDb;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -48,23 +47,13 @@ public class FinishLeassonActivity extends AppCompatActivity implements View.OnC
             case R.id.finishButtonSave:
                 if (finishStringUserName.getText().length() > 0) {
                     lessonSummary.setNameUser(finishStringUserName.getText().toString());
-                    SQLiteDatabase db = getBaseContext().openOrCreateDatabase(nameDb, MODE_PRIVATE, null);
-                    saveLessonSummaryToDB(db);
+                    DBHelper db = new DBHelper(nameDb, this);
+                    db.saveLessonSummaryToDB(lessonSummary);
                     finish();
                 } else
                     Toast.makeText(getApplicationContext(), R.string.finishLeassonActivityNotUserName,
                             Toast.LENGTH_SHORT).show();
                 break;
         }
-    }
-    public void saveLessonSummaryToDB(SQLiteDatabase db) {
-        String string = "CREATE TABLE IF NOT EXISTS lessons ('id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
-                "'nameUser' TEXT, 'countPoints' INTEGER, 'dateLesson' TEXT, " +
-                " 'stringPrimerovTasks' TEXT, 'stringMDSA' TEXT, 'stringMultiplyNumbers' TEXT )";
-        db.execSQL(string);
-        String string2 ="INSERT INTO lessons VALUES ( 'id'=?, '" + lessonSummary.getNameUser() + "', " + lessonSummary.getCountPoints() +", '" + lessonSummary.getDateLesson()
-                + "', '" + lessonSummary.getStringPrimerovTasks() + "', '" + lessonSummary.getStringMDSA() + "', '" + lessonSummary.getStringMultiplyNumbers() + "')";
-        db.execSQL(string2);
-        db.close();
     }
 }

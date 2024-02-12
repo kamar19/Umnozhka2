@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,13 @@ public class GradebookActivity extends AppCompatActivity {
 
     private void setInitialData() {
         db = getBaseContext().openOrCreateDatabase(nameDb, MODE_PRIVATE, null);
-        cursor = db.rawQuery("SELECT * FROM lessons ", null);
+        try {
+            cursor = db.rawQuery("SELECT * FROM lessons ", null);
+        } catch (SQLiteException e) {
+            DBHelper dBHelper = new DBHelper(nameDb, this);
+            dBHelper.saveLessonSummaryToDB(null);
+            cursor = this.db.rawQuery("SELECT * FROM lessons ", null);
+        }
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
             do {
